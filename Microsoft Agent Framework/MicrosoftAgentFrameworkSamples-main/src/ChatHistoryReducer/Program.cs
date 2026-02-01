@@ -13,7 +13,11 @@ using ChatMessage = Microsoft.Extensions.AI.ChatMessage;
 Console.Clear();
 Secrets secrets = SecretManager.GetSecrets();
 
-AzureOpenAIClient client = new(new Uri(secrets.AzureOpenAiEndpoint), new ApiKeyCredential(secrets.AzureOpenAiKey));
+//Azure version
+//AzureOpenAIClient client = new(new Uri(secrets.AzureOpenAiEndpoint), new ApiKeyCredential(secrets.AzureOpenAiKey));
+//OpenAI version
+OpenAIClient client = new OpenAIClient(secrets.OpenAiApiKey);
+
 ChatClient chatClient = client.GetChatClient(secrets.ChatDeploymentName);
 
 IChatReducer chatReducer = new MessageCountingChatReducer(targetCount: 4);
