@@ -20,8 +20,14 @@ AIAgent remoteAgent = await agentCardResolver.GetAIAgentAsync();
 Utils.Separator();
 
 Utils.WriteLineDarkGray("Ready for questions");
-AzureOpenAIClient azureOpenAIClient = new AzureOpenAIClient(new Uri(secrets.AzureOpenAiEndpoint), new ApiKeyCredential(secrets.AzureOpenAiKey));
-ChatClientAgent agent = azureOpenAIClient
+
+//Azure AI
+//AzureOpenAIClient azureOpenAIClient = new AzureOpenAIClient(new Uri(secrets.AzureOpenAiEndpoint), new ApiKeyCredential(secrets.AzureOpenAiKey));
+
+//Open AI
+OpenAIClient client = new OpenAIClient(secrets.OpenAiApiKey);
+
+ChatClientAgent agent = client
     .GetChatClient("gpt-4.1")
     .AsAIAgent(
         name: "ClientAgent",

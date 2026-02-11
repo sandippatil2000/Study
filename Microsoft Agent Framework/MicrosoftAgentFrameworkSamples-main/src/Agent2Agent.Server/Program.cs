@@ -17,7 +17,12 @@ using OpenAI.Chat;
 //Start with Business as Usual
 Console.Clear();
 Secrets secrets = SecretManager.GetSecrets();
-AzureOpenAIClient client = new(new Uri(secrets.AzureOpenAiEndpoint), new ApiKeyCredential(secrets.AzureOpenAiKey));
+
+// Azure AI
+//AzureOpenAIClient client = new(new Uri(secrets.AzureOpenAiEndpoint), new ApiKeyCredential(secrets.AzureOpenAiKey));
+
+// Open AI
+OpenAIClient client = new OpenAIClient(secrets.OpenAiApiKey);
 
 FileSystemTools target = new();
 MethodInfo[] methods = typeof(FileSystemTools).GetMethods(BindingFlags.Public | BindingFlags.Instance);
