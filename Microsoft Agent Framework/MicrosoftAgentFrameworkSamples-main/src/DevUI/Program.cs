@@ -1,24 +1,27 @@
 //YouTube video that cover this sample: https://youtu.be/y4k200pcMRY
 
+using AgentFrameworkToolkit.Anthropic;
+using AgentFrameworkToolkit.Google;
 using Azure.AI.OpenAI;
 using Microsoft.Agents.AI;
 using Microsoft.Agents.AI.DevUI;
 using Microsoft.Agents.AI.Hosting;
 using Microsoft.Agents.AI.Workflows;
 using Microsoft.Extensions.AI;
+using OpenAI;
+using OpenAI.Chat;
 using Shared;
 using System.ClientModel;
-using AgentFrameworkToolkit.Anthropic;
-using AgentFrameworkToolkit.Google;
-using OpenAI.Chat;
 
 Secrets secrets = Shared.SecretManager.GetSecrets();
 WebApplicationBuilder builder = WebApplication.CreateBuilder(args);
-
-AzureOpenAIClient azureOpenAIClient = new AzureOpenAIClient(new Uri(secrets.AzureOpenAiEndpoint), new ApiKeyCredential(secrets.AzureOpenAiKey));
+//Azure AI
+//AzureOpenAIClient azureOpenAIClient = new AzureOpenAIClient(new Uri(secrets.AzureOpenAiEndpoint), new ApiKeyCredential(secrets.AzureOpenAiKey));
+//Open AI
+OpenAIClient client = new OpenAIClient(secrets.OpenAiApiKey);
 
 // Register Services needed to run DevUI
-builder.Services.AddChatClient(azureOpenAIClient.GetChatClient("gpt-4.1").AsIChatClient()); //You need to register a chat client for the dummy agents to use
+builder.Services.AddChatClient(client.GetChatClient("gpt-4.1").AsIChatClient()); //You need to register a chat client for the dummy agents to use
 builder.Services.AddOpenAIResponses();
 builder.Services.AddOpenAIConversations();
 
@@ -28,7 +31,7 @@ builder.AddAIAgent("Comic Book Guy", "You are comic-book guy from The Simpsons")
 
 //Build a "normal" Agent
 string realAgentName = "Real Agent";
-AIAgent myAgent = azureOpenAIClient
+AIAgent myAgent = client
     .GetChatClient("gpt-4.1")
     .AsAIAgent(name: realAgentName, instructions: "Speak like a pirate", tools: [AIFunctionFactory.Create(GetWeather)]);
 
