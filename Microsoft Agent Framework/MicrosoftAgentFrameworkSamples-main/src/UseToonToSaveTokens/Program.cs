@@ -10,8 +10,10 @@ using Shared.Extensions;
 using UseToonToSaveTokens;
 
 Secrets secrets = SecretManager.GetSecrets();
-
-AzureOpenAIClient client = new(new Uri(secrets.AzureOpenAiEndpoint), new ApiKeyCredential(secrets.AzureOpenAiKey));
+//Azure AI
+//AzureOpenAIClient client = new(new Uri(secrets.AzureOpenAiEndpoint), new ApiKeyCredential(secrets.AzureOpenAiKey));
+// Open Ai
+OpenAIClient client = new OpenAIClient(secrets.OpenAiApiKey);
 
 string json = await File.ReadAllTextAsync("famous_people.json");
 List<FamousPerson> list = JsonSerializer.Deserialize<List<FamousPerson>>(json)!;

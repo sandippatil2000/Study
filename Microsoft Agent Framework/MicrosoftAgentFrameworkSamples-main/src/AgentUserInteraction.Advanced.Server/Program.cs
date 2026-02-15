@@ -10,7 +10,10 @@ using AgentUserInteraction.Advanced.SharedModels;
 using OpenAI.Chat;
 
 Secrets secrets = SecretManager.GetSecrets();
-AzureOpenAIClient client = new(new Uri(secrets.AzureOpenAiEndpoint), new ApiKeyCredential(secrets.AzureOpenAiKey));
+//Azure AI
+//AzureOpenAIClient client = new(new Uri(secrets.AzureOpenAiEndpoint), new ApiKeyCredential(secrets.AzureOpenAiKey));
+//Open AI
+OpenAIClient client = new(secrets.OpenAiApiKey);
 
 string model = "gpt-4.1-mini";
 
