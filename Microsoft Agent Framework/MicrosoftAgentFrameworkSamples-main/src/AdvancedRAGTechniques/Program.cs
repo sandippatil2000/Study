@@ -31,7 +31,8 @@ Microsoft.Extensions.AI.IEmbeddingGenerator<string, Embedding<float>> embeddingG
 //        EmbeddingGenerator = embeddingGenerator
 //    });
 
-Microsoft.SemanticKernel.Connectors.SqlServer.SqlServerVectorStore vectorStore = new SqlServerVectorStore(
+Microsoft.SemanticKernel.Connectors.SqlServer.SqlServerVectorStore vectorStore = new Sql
+    ServerVectorStore(
     "Server=(local);Database=sample;Trusted_Connection=true;TrustServerCertificate=True", new SqlServerVectorStoreOptions
     {
         EmbeddingGenerator = embeddingGenerator
