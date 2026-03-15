@@ -18,7 +18,7 @@ import { useNavigate } from 'react-router-dom';
 import { getSessionUser } from '../common/CommonFunction';
 
 const CreatePurchaseOrderPage: React.FC = () => {
-  const { state, removeItem, updateQuantity, totalItems, totalPrice } = useUserContext();
+  const { state, removeItem, updateQuantity, totalItems, totalPrice, setPurchaseOrder } = useUserContext();
   const navigate = useNavigate();
   const user = getSessionUser();
 
@@ -27,6 +27,24 @@ const CreatePurchaseOrderPage: React.FC = () => {
       navigate('/login');
     }
   }, [user, navigate]);
+
+  const handleSubmitOrder = () => {
+    if (!user) return;
+    const order = {
+      orderId: Date.now(),
+      firstName: user.firstName,
+      lastName: user.lastName,
+      email: user.email,
+      address: user.address || '',
+      postalCode: user.postalCode || '',
+      status: 'Pending',
+      amount: totalPrice,
+      Date: new Date(),
+      Products: state.items,
+    };
+    setPurchaseOrder(order);
+    alert(`Order submitted successfully! Order ID: ${order.orderId}`);
+  };
 
   if (!user) return null;
 
@@ -136,6 +154,7 @@ const CreatePurchaseOrderPage: React.FC = () => {
               startIcon={<CheckCircleIcon fontSize="small" />}
               sx={{ py: 0.8, fontWeight: 600, fontSize: 13 }}
               disabled={state.items.length === 0}
+              onClick={handleSubmitOrder}
             >
               Submit Order
             </Button>

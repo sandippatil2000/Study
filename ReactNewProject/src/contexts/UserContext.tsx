@@ -2,6 +2,7 @@ import React, { createContext, useContext, useReducer, ReactNode } from 'react';
 
 import { IProduct as Product } from '../models/IProduct';
 import { IUser } from '../models/IUser';
+import { IPurchaseOrder } from '../models/IPurchaseOrder';
 export type { Product };
 
 export interface CartItem extends Product {
@@ -12,6 +13,8 @@ interface UserState {
   items: CartItem[];
   isCartOpen: boolean;
   user?: IUser;
+  PurchaseOrder?: IPurchaseOrder;
+
 }
 
 type UserAction =
@@ -22,7 +25,8 @@ type UserAction =
   | { type: 'TOGGLE_CART' }
   | { type: 'OPEN_CART' }
   | { type: 'CLOSE_CART' }
-  | { type: 'SET_USER'; payload: IUser | undefined };
+  | { type: 'SET_USER'; payload: IUser | undefined }
+  | { type: 'SET_PURCHASE_ORDER'; payload: IPurchaseOrder };
 
 const userReducer = (state: UserState, action: UserAction): UserState => {
   switch (action.type) {
@@ -59,6 +63,8 @@ const userReducer = (state: UserState, action: UserAction): UserState => {
       return { ...state, isCartOpen: false };
     case 'SET_USER':
       return { ...state, user: action.payload };
+    case 'SET_PURCHASE_ORDER':
+      return { ...state, PurchaseOrder: action.payload };
     default:
       return state;
   }
@@ -74,6 +80,7 @@ interface UserContextType {
   openCart: () => void;
   closeCart: () => void;
   setUser: (user: IUser | undefined) => void;
+  setPurchaseOrder: (order: IPurchaseOrder) => void;
   totalItems: number;
   totalPrice: number;
 }
@@ -92,13 +99,14 @@ export const UserProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
   const openCart = () => dispatch({ type: 'OPEN_CART' });
   const closeCart = () => dispatch({ type: 'CLOSE_CART' });
   const setUser = (user: IUser | undefined) => dispatch({ type: 'SET_USER', payload: user });
+  const setPurchaseOrder = (order: IPurchaseOrder) => dispatch({ type: 'SET_PURCHASE_ORDER', payload: order });
 
   const totalItems = state.items.reduce((sum, i) => sum + i.quantity, 0);
   const totalPrice = state.items.reduce((sum, i) => sum + i.price * i.quantity, 0);
 
   return (
     <UserContext.Provider
-      value={{ state, addItem, removeItem, updateQuantity, clearCart, toggleCart, openCart, closeCart, setUser, totalItems, totalPrice }}
+      value={{ state, addItem, removeItem, updateQuantity, clearCart, toggleCart, openCart, closeCart, setUser, setPurchaseOrder, totalItems, totalPrice }}
     >
       {children}
     </UserContext.Provider>
