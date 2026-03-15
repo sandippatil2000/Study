@@ -7,20 +7,21 @@ import {
 import SearchIcon from '@mui/icons-material/Search';
 import VisibilityIcon from '@mui/icons-material/Visibility';
 import LocalShippingIcon from '@mui/icons-material/LocalShipping';
+import { IPurchaseOrder } from '../models/IPurchaseOrder';
 
-const purchaseOrders = [
-  { id: '#10045', user: 'Alice Johnson', email: 'alice@email.com', product: 'Nike Air Max 90', amount: 120, status: 'Delivered', date: '2026-03-12', items: 1 },
-  { id: '#10044', user: 'Bob Smith', email: 'bob@email.com', product: 'Samsung Galaxy S24', amount: 999, status: 'Processing', date: '2026-03-12', items: 1 },
-  { id: '#10043', user: 'Carol White', email: 'carol@email.com', product: 'Apple Watch Series 9', amount: 399, status: 'Shipped', date: '2026-03-11', items: 1 },
-  { id: '#10042', user: 'David Lee', email: 'david@email.com', product: 'Sony WH-1000XM5', amount: 350, status: 'Delivered', date: '2026-03-11', items: 1 },
-  { id: '#10041', user: 'Eva Brown', email: 'eva@email.com', product: 'MacBook Air M3', amount: 1299, status: 'Cancelled', date: '2026-03-10', items: 1 },
-  { id: '#10040', user: 'Frank Martinez', email: 'frank@email.com', product: 'iPhone 15 Pro', amount: 1199, status: 'Delivered', date: '2026-03-10', items: 1 },
-  { id: '#10039', user: 'Grace Kim', email: 'grace@email.com', product: 'Adidas Ultraboost', amount: 180, status: 'Processing', date: '2026-03-09', items: 2 },
-  { id: '#10038', user: 'Henry Wilson', email: 'henry@email.com', product: 'iPad Pro', amount: 1099, status: 'Shipped', date: '2026-03-09', items: 1 },
-  { id: '#10037', user: 'Iris Taylor', email: 'iris@email.com', product: 'Leather Backpack', amount: 89, status: 'Delivered', date: '2026-03-08', items: 1 },
-  { id: '#10036', user: 'Jack Davis', email: 'jack@email.com', product: 'Ray-Ban Aviator', amount: 154, status: 'Delivered', date: '2026-03-08', items: 1 },
-  { id: '#10035', user: 'Kate Johnson', email: 'kate@email.com', product: 'Yoga Mat Premium', amount: 65, status: 'Processing', date: '2026-03-07', items: 3 },
-  { id: '#10034', user: 'Leo Adams', email: 'leo@email.com', product: "Levi's 501 Jeans", amount: 79, status: 'Cancelled', date: '2026-03-07', items: 1 },
+const purchaseOrders: IPurchaseOrder[] = [
+  { orderId: 10045, firstName: 'Alice', lastName: 'Johnson', email: 'alice@email.com', address: '123 Main St', postalCode: '10001', amount: 120, status: 'Delivered', Date: new Date('2026-03-12'), Products: [{ id: 1, name: 'Nike Air Max 90', price: 120, category: 'Shoes', image: '', stockCount: 0 }] },
+  { orderId: 10044, firstName: 'Bob', lastName: 'Smith', email: 'bob@email.com', address: '456 Oak Ave', postalCode: '10002', amount: 999, status: 'Processing', Date: new Date('2026-03-12'), Products: [{ id: 2, name: 'Samsung Galaxy S24', price: 999, category: 'Electronics', image: '', stockCount: 0 }] },
+  { orderId: 10043, firstName: 'Carol', lastName: 'White', email: 'carol@email.com', address: '789 Pine Rd', postalCode: '10003', amount: 399, status: 'Shipped', Date: new Date('2026-03-11'), Products: [{ id: 3, name: 'Apple Watch Series 9', price: 399, category: 'Electronics', image: '', stockCount: 0 }] },
+  { orderId: 10042, firstName: 'David', lastName: 'Lee', email: 'david@email.com', address: '321 Elm St', postalCode: '10004', amount: 350, status: 'Delivered', Date: new Date('2026-03-11'), Products: [{ id: 4, name: 'Sony WH-1000XM5', price: 350, category: 'Electronics', image: '', stockCount: 0 }] },
+  { orderId: 10041, firstName: 'Eva', lastName: 'Brown', email: 'eva@email.com', address: '654 Maple Dr', postalCode: '10005', amount: 1299, status: 'Cancelled', Date: new Date('2026-03-10'), Products: [{ id: 5, name: 'MacBook Air M3', price: 1299, category: 'Electronics', image: '', stockCount: 0 }] },
+  { orderId: 10040, firstName: 'Frank', lastName: 'Martinez', email: 'frank@email.com', address: '987 Cedar Ln', postalCode: '10006', amount: 1199, status: 'Delivered', Date: new Date('2026-03-10'), Products: [{ id: 6, name: 'iPhone 15 Pro', price: 1199, category: 'Electronics', image: '', stockCount: 0 }] },
+  { orderId: 10039, firstName: 'Grace', lastName: 'Kim', email: 'grace@email.com', address: '147 Birch Blvd', postalCode: '10007', amount: 180, status: 'Processing', Date: new Date('2026-03-09'), Products: [{ id: 7, name: 'Adidas Ultraboost', price: 90, category: 'Shoes', image: '', stockCount: 0 }, { id: 8, name: 'Adidas Cap', price: 90, category: 'Accessories', image: '', stockCount: 0 }] },
+  { orderId: 10038, firstName: 'Henry', lastName: 'Wilson', email: 'henry@email.com', address: '258 Spruce Way', postalCode: '10008', amount: 1099, status: 'Shipped', Date: new Date('2026-03-09'), Products: [{ id: 9, name: 'iPad Pro', price: 1099, category: 'Electronics', image: '', stockCount: 0 }] },
+  { orderId: 10037, firstName: 'Iris', lastName: 'Taylor', email: 'iris@email.com', address: '369 Walnut Ct', postalCode: '10009', amount: 89, status: 'Delivered', Date: new Date('2026-03-08'), Products: [{ id: 10, name: 'Leather Backpack', price: 89, category: 'Bags', image: '', stockCount: 0 }] },
+  { orderId: 10036, firstName: 'Jack', lastName: 'Davis', email: 'jack@email.com', address: '741 Ash Ave', postalCode: '10010', amount: 154, status: 'Delivered', Date: new Date('2026-03-08'), Products: [{ id: 11, name: 'Ray-Ban Aviator', price: 154, category: 'Accessories', image: '', stockCount: 0 }] },
+  { orderId: 10035, firstName: 'Kate', lastName: 'Johnson', email: 'kate@email.com', address: '852 Willow Pl', postalCode: '10011', amount: 65, status: 'Processing', Date: new Date('2026-03-07'), Products: [{ id: 12, name: 'Yoga Mat Premium', price: 22, category: 'Fitness', image: '', stockCount: 0 }, { id: 13, name: 'Resistance Band', price: 22, category: 'Fitness', image: '', stockCount: 0 }, { id: 14, name: 'Water Bottle', price: 21, category: 'Fitness', image: '', stockCount: 0 }] },
+  { orderId: 10034, firstName: 'Leo', lastName: 'Adams', email: 'leo@email.com', address: '963 Poplar St', postalCode: '10012', amount: 79, status: 'Cancelled', Date: new Date('2026-03-07'), Products: [{ id: 15, name: "Levi's 501 Jeans", price: 79, category: 'Clothing', image: '', stockCount: 0 }] },
 ];
 
 const statusMap: Record<string, 'success' | 'warning' | 'info' | 'error'> = {
@@ -36,7 +37,10 @@ const PurchaseOrdersPage: React.FC = () => {
   const filtered = purchaseOrders.filter(
     (o) =>
       (statusFilter === 'All' || o.status === statusFilter) &&
-      (o.id.toLowerCase().includes(search.toLowerCase()) || o.user.toLowerCase().includes(search.toLowerCase()))
+      (
+        String(o.orderId).includes(search.toLowerCase()) ||
+        `${o.firstName} ${o.lastName}`.toLowerCase().includes(search.toLowerCase())
+      )
   );
 
   return (
@@ -91,17 +95,17 @@ const PurchaseOrdersPage: React.FC = () => {
               </TableHead>
               <TableBody>
                 {filtered.slice(page * rowsPerPage, (page + 1) * rowsPerPage).map((order) => (
-                  <TableRow key={order.id} sx={{ '&:hover': { bgcolor: '#FAFAFA' } }}>
-                    <TableCell><Typography variant="body2" fontWeight={700} color="primary">{order.id}</Typography></TableCell>
+                  <TableRow key={order.orderId} sx={{ '&:hover': { bgcolor: '#FAFAFA' } }}>
+                    <TableCell><Typography variant="body2" fontWeight={700} color="primary">#{order.orderId}</Typography></TableCell>
                     <TableCell>
-                      <Typography variant="body2" fontWeight={600}>{order.user}</Typography>
+                      <Typography variant="body2" fontWeight={600}>{order.firstName} {order.lastName}</Typography>
                     </TableCell>
-                    <TableCell align="center"><Typography variant="body2">{order.items}</Typography></TableCell>
+                    <TableCell align="center"><Typography variant="body2">{order.Products.length}</Typography></TableCell>
                     <TableCell align="right"><Typography variant="body2" fontWeight={700}>${order.amount.toLocaleString()}</Typography></TableCell>
                     <TableCell>
                       <Chip label={order.status} color={statusMap[order.status]} size="small" sx={{ fontSize: 11, height: 22 }} />
                     </TableCell>
-                    <TableCell><Typography variant="caption" color="text.secondary">{order.date}</Typography></TableCell>
+                    <TableCell><Typography variant="caption" color="text.secondary">{order.Date.toLocaleDateString()}</Typography></TableCell>
                     <TableCell align="center">
                       <Tooltip title="View Details">
                         <IconButton size="small"><VisibilityIcon fontSize="small" /></IconButton>
