@@ -72,7 +72,6 @@ const UsersPage: React.FC = () => {
                     <TableCell>User</TableCell>
                     <TableCell align="center">Orders</TableCell>
                     <TableCell align="right">Total Spent</TableCell>
-                    <TableCell>Rating</TableCell>
                     <TableCell>Status</TableCell>
                     <TableCell>Joined</TableCell>
                     <TableCell align="center">Actions</TableCell>
@@ -94,9 +93,6 @@ const UsersPage: React.FC = () => {
                       </TableCell>
                       <TableCell align="center"><Typography variant="body2" fontWeight={600}>{user.orders}</Typography></TableCell>
                       <TableCell align="right"><Typography variant="body2" fontWeight={700} color="primary">${user.spent.toLocaleString()}</Typography></TableCell>
-                      <TableCell>
-                        <Rating value={user.rating} precision={0.5} size="small" readOnly />
-                      </TableCell>
                       <TableCell>
                         <Chip
                           label={user.status}
