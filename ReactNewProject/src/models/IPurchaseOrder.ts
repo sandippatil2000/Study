@@ -11,4 +11,5 @@ export interface IPurchaseOrder {
     amount: number;
     Date: Date;
     Products: IProduct[];
+    supplierName?: string;
 }
