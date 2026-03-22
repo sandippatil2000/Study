@@ -16,6 +16,7 @@ import EmailIcon from '@mui/icons-material/Email';
 import { useUserContext } from '../contexts/UserContext';
 import { useNavigate } from 'react-router-dom';
 import { getSessionUser } from '../common/CommonFunction';
+import { orderStatus } from '../models/mode';
 
 const CreatePurchaseOrderPage: React.FC = () => {
   const { state, removeItem, updateQuantity, totalItems, totalPrice, setPurchaseOrder, clearCart } = useUserContext();
@@ -39,7 +40,7 @@ const CreatePurchaseOrderPage: React.FC = () => {
       email: user.email,
       address: user.address || '',
       postalCode: user.postalCode || '',
-      status: 'Pending',
+      status: orderStatus.Processing,
       amount: totalPrice,
       Date: new Date(),
       Products: state.items,

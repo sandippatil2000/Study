@@ -27,7 +27,7 @@ const UpdatePurchaseOrderpage: React.FC = () => {
   const [loading, setLoading] = useState(true);
   const [successDialogOpen, setSuccessDialogOpen] = useState(false);
   const [updatedOrderId, setUpdatedOrderId] = useState<number | null>(null);
-  
+
   // Add Product Dialog States
   const [addDialogOpen, setAddDialogOpen] = useState(false);
   const [selectedProductId, setSelectedProductId] = useState<number | ''>('');
@@ -54,7 +54,7 @@ const UpdatePurchaseOrderpage: React.FC = () => {
         const products = await productapi.getProducts();
         setAvailableProducts(products);
       }
-      
+
       if (orderId) {
         const order = await purchaseorderapi.getPurchaseOrderById(Number(orderId));
         if (order) {
@@ -79,8 +79,8 @@ const UpdatePurchaseOrderpage: React.FC = () => {
   };
 
   const categories = ['All', ...Array.from(new Set(availableProducts.map(p => p.category)))];
-  const filteredProducts = selectedCategory === 'All' 
-    ? availableProducts 
+  const filteredProducts = selectedCategory === 'All'
+    ? availableProducts
     : availableProducts.filter(p => p.category === selectedCategory);
 
   const handleAddProduct = () => {
