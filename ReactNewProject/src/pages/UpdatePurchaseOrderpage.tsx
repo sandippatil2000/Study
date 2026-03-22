@@ -3,7 +3,7 @@ import {
   Box, Typography, Button, IconButton,
   List, ListItem, Avatar, Chip, Paper, Divider,
   Dialog, DialogTitle, DialogContent, DialogActions,
-  CircularProgress
+  CircularProgress, Select, MenuItem, FormControl, InputLabel, TextField, Autocomplete
 } from '@mui/material';
 import AddIcon from '@mui/icons-material/Add';
 import RemoveIcon from '@mui/icons-material/Remove';
@@ -16,14 +16,24 @@ import EmailIcon from '@mui/icons-material/Email';
 import { useNavigate, useSearchParams } from 'react-router-dom';
 import { getSessionUser } from '../common/CommonFunction';
 import { purchaseorderapi } from '../api/purchaseorderapi';
+import { productapi } from '../api/productapi';
+import { IProduct } from '../models/IProduct';
 import { CartItem } from '../contexts/UserContext';
 import { Mode } from '../models/mode';
 
 const UpdatePurchaseOrderpage: React.FC = () => {
   const [items, setItems] = useState<CartItem[]>([]);
+  const [availableProducts, setAvailableProducts] = useState<IProduct[]>([]);
   const [loading, setLoading] = useState(true);
   const [successDialogOpen, setSuccessDialogOpen] = useState(false);
   const [updatedOrderId, setUpdatedOrderId] = useState<number | null>(null);
+  
+  // Add Product Dialog States
+  const [addDialogOpen, setAddDialogOpen] = useState(false);
+  const [selectedProductId, setSelectedProductId] = useState<number | ''>('');
+  const [selectedCategory, setSelectedCategory] = useState<string>('All');
+  const [addQuantity, setAddQuantity] = useState<number>(1);
+
   const navigate = useNavigate();
   const [searchParams] = useSearchParams();
   const orderId = searchParams.get('orderId');
@@ -38,9 +48,15 @@ const UpdatePurchaseOrderpage: React.FC = () => {
   }, [user, navigate]);
 
   useEffect(() => {
-    if (orderId) {
+    const fetchInitialData = async () => {
       setLoading(true);
-      purchaseorderapi.getPurchaseOrderById(Number(orderId)).then(order => {
+      if (mode !== Mode.view) {
+        const products = await productapi.getProducts();
+        setAvailableProducts(products);
+      }
+      
+      if (orderId) {
+        const order = await purchaseorderapi.getPurchaseOrderById(Number(orderId));
         if (order) {
           const initialItems: CartItem[] = order.Products.map(p => ({
             ...p,
@@ -48,12 +64,39 @@ const UpdatePurchaseOrderpage: React.FC = () => {
           }));
           setItems(initialItems);
         }
-        setLoading(false);
-      });
-    } else {
+      }
       setLoading(false);
-    }
-  }, [orderId]);
+    };
+
+    fetchInitialData();
+  }, [orderId, mode]);
+
+  const handleOpenAddDialog = () => {
+    setSelectedCategory('All');
+    setSelectedProductId('');
+    setAddQuantity(1);
+    setAddDialogOpen(true);
+  };
+
+  const categories = ['All', ...Array.from(new Set(availableProducts.map(p => p.category)))];
+  const filteredProducts = selectedCategory === 'All' 
+    ? availableProducts 
+    : availableProducts.filter(p => p.category === selectedCategory);
+
+  const handleAddProduct = () => {
+    if (!selectedProductId) return;
+    const selectedProduct = availableProducts.find(p => p.id === selectedProductId);
+    if (!selectedProduct) return;
+
+    setItems(prev => {
+      const existing = prev.find(i => i.id === selectedProduct.id);
+      if (existing) {
+        return prev.map(i => i.id === selectedProduct.id ? { ...i, quantity: i.quantity + addQuantity } : i);
+      }
+      return [...prev, { ...selectedProduct, quantity: addQuantity }];
+    });
+    setAddDialogOpen(false);
+  };
 
   const updateQuantity = (id: number, quantity: number) => {
     setItems(prev => prev.map(i => i.id === id ? { ...i, quantity } : i).filter(i => i.quantity > 0));
@@ -124,8 +167,13 @@ const UpdatePurchaseOrderpage: React.FC = () => {
 
             {/* Cart Items */}
             <Paper elevation={0} sx={{ borderRadius: 3, border: '1px solid #eee', overflow: 'hidden' }}>
-              <Box sx={{ bgcolor: '#FAFAFA', p: 1.5, borderBottom: '1px solid #eee' }}>
+              <Box sx={{ bgcolor: '#FAFAFA', p: 1.5, borderBottom: '1px solid #eee', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
                 <Typography variant="body2" fontWeight={700}>Order Items</Typography>
+                {mode !== Mode.view && (
+                  <Button startIcon={<AddIcon />} size="small" variant="outlined" onClick={handleOpenAddDialog} sx={{ fontSize: 11, fontWeight: 700 }}>
+                    Add Product
+                  </Button>
+                )}
               </Box>
               {items.length === 0 ? (
                 <Box sx={{ p: 3, textAlign: 'center' }}>
@@ -225,6 +273,48 @@ const UpdatePurchaseOrderpage: React.FC = () => {
           <Button variant="contained" onClick={handleDialogOk} sx={{ px: 4, fontWeight: 600 }}>
             OK
           </Button>
+        </DialogActions>
+      </Dialog>
+      {/* Add Product Dialog */}
+      <Dialog open={addDialogOpen} onClose={() => setAddDialogOpen(false)} maxWidth="xs" fullWidth>
+        <DialogTitle sx={{ fontWeight: 700 }}>Add Product</DialogTitle>
+        <DialogContent sx={{ display: 'flex', flexDirection: 'column', gap: 2, pt: 2 }}>
+          <FormControl fullWidth sx={{ mt: 1 }}>
+            <InputLabel id="category-select-label">Category</InputLabel>
+            <Select
+              labelId="category-select-label"
+              value={selectedCategory}
+              label="Category"
+              onChange={(e) => {
+                setSelectedCategory(e.target.value);
+                setSelectedProductId('');
+              }}
+            >
+              {categories.map(c => (
+                <MenuItem key={c} value={c}>{c}</MenuItem>
+              ))}
+            </Select>
+          </FormControl>
+          <Autocomplete
+            options={filteredProducts}
+            getOptionLabel={(option) => `${option.name} - $${option.price}`}
+            value={filteredProducts.find(p => p.id === selectedProductId) || null}
+            onChange={(e, newValue) => setSelectedProductId(newValue ? (newValue as IProduct).id : '')}
+            renderInput={(params) => <TextField {...params} label="Search Product" />}
+            fullWidth
+          />
+          <TextField
+            label="Quantity"
+            type="number"
+            value={addQuantity}
+            onChange={(e) => setAddQuantity(Math.max(1, parseInt(e.target.value) || 1))}
+            fullWidth
+            inputProps={{ min: 1 }}
+          />
+        </DialogContent>
+        <DialogActions sx={{ pb: 2, pr: 2 }}>
+          <Button onClick={() => setAddDialogOpen(false)} color="inherit">Cancel</Button>
+          <Button variant="contained" onClick={handleAddProduct} disabled={!selectedProductId}>Add</Button>
         </DialogActions>
       </Dialog>
     </>
