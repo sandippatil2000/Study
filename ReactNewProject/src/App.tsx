@@ -14,6 +14,7 @@ import UsersPage from './pages/UsersPage';
 import SettingsPage from './pages/SettingsPage';
 import CartPage from './pages/CartPage';
 import CreatePurchaseOrderPage from './pages/CreatePurchaseOrderPage';
+import UpdatePurchaseOrderpage from './pages/UpdatePurchaseOrderpage';
 
 const App: React.FC = () => (
   <ThemeProvider theme={theme}>
@@ -35,6 +36,7 @@ const App: React.FC = () => (
             <Route path="settings" element={<SettingsPage />} />
             <Route path="cart" element={<CartPage />} />
             <Route path="create-order" element={<CreatePurchaseOrderPage />} />
+            <Route path="update-order" element={<UpdatePurchaseOrderpage />} />
           </Route>
 
           {/* Default redirect */}

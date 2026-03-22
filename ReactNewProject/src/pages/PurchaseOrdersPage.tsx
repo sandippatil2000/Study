@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import {
   Box, Card, CardContent, Typography, Chip, Table, TableBody,
   TableCell, TableHead, TableRow, TablePagination, TextField,
@@ -14,6 +15,7 @@ const statusMap: Record<string, 'success' | 'warning' | 'info' | 'error'> = {
 };
 
 const PurchaseOrdersPage: React.FC = () => {
+  const navigate = useNavigate();
   const [purchaseOrders, setPurchaseOrders] = React.useState<IPurchaseOrder[]>([]);
   const [loading, setLoading] = React.useState(true);
   const [search, setSearch] = useState('');
@@ -115,7 +117,9 @@ const PurchaseOrdersPage: React.FC = () => {
                         <IconButton size="small"><VisibilityIcon fontSize="small" /></IconButton>
                       </Tooltip>
                       <Tooltip title="Edit">
-                        <IconButton size="small"><EditIcon fontSize="small" /></IconButton>
+                        <IconButton size="small" onClick={() => navigate(`/dashboard/update-order?orderId=${order.orderId}`)}>
+                          <EditIcon fontSize="small" />
+                        </IconButton>
                       </Tooltip>
                     </TableCell>
                   </TableRow>
