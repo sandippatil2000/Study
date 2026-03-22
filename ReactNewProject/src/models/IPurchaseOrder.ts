@@ -1,4 +1,5 @@
 import { IProduct } from "./IProduct";
+import { orderStatus } from "./mode";
 
 export interface IPurchaseOrder {
     orderId: number;
@@ -6,7 +7,7 @@ export interface IPurchaseOrder {
     lastName: string;
     email: string;
     address: string;
-    status: string;
+    status: orderStatus;
     postalCode: string;
     amount: number;
     Date: Date;

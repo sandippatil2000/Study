@@ -10,8 +10,13 @@ import VisibilityIcon from '@mui/icons-material/Visibility';
 import EditIcon from '@mui/icons-material/Edit';
 import { IPurchaseOrder } from '../models/IPurchaseOrder';
 import { purchaseorderapi } from '../api/purchaseorderapi';
-const statusMap: Record<string, 'success' | 'warning' | 'info' | 'error'> = {
-  Delivered: 'success', Processing: 'warning', Shipped: 'info', Cancelled: 'error',
+import { orderStatus } from '../models/mode';
+
+const statusMap: Record<number, 'success' | 'warning' | 'info' | 'error'> = {
+  [orderStatus.Submitted]: 'success', // mapped to success
+  [orderStatus.Processing]: 'warning',
+  [orderStatus.Shipped]: 'info',
+  [orderStatus.Cancelled]: 'error',
 };
 
 const PurchaseOrdersPage: React.FC = () => {
@@ -19,7 +24,7 @@ const PurchaseOrdersPage: React.FC = () => {
   const [purchaseOrders, setPurchaseOrders] = React.useState<IPurchaseOrder[]>([]);
   const [loading, setLoading] = React.useState(true);
   const [search, setSearch] = useState('');
-  const [statusFilter, setStatusFilter] = useState('All');
+  const [statusFilter, setStatusFilter] = useState<'All' | orderStatus>('All');
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(8);
 
@@ -56,13 +61,15 @@ const PurchaseOrdersPage: React.FC = () => {
 
       {/* Summary chips */}
       <Box sx={{ display: 'flex', gap: 1.5, mb: 3, flexWrap: 'wrap' }}>
-        {['All', 'Delivered', 'Processing', 'Shipped', 'Cancelled'].map((s) => {
+        {(['All', orderStatus.Submitted, orderStatus.Processing, orderStatus.Shipped, orderStatus.Cancelled] as const).map((s) => {
           const count = s === 'All' ? purchaseOrders.length : purchaseOrders.filter((o) => o.status === s).length;
+          const label = s === 'All' ? 'All' : orderStatus[s];
+          const color = s === 'All' ? 'default' : statusMap[s];
           return (
             <Chip
               key={s}
-              label={`${s} (${count})`}
-              color={s === 'All' ? 'default' : statusMap[s]}
+              label={`${label} (${count})`}
+              color={color}
               variant={statusFilter === s ? 'filled' : 'outlined'}
               onClick={() => setStatusFilter(s)}
               clickable
@@ -109,7 +116,7 @@ const PurchaseOrdersPage: React.FC = () => {
                     <TableCell align="center"><Typography variant="body2">{order.Products.length}</Typography></TableCell>
                     <TableCell align="right"><Typography variant="body2" fontWeight={700}>${order.amount.toLocaleString()}</Typography></TableCell>
                     <TableCell>
-                      <Chip label={order.status} color={statusMap[order.status]} size="small" sx={{ fontSize: 11, height: 22 }} />
+                      <Chip label={orderStatus[order.status]} color={statusMap[order.status]} size="small" sx={{ fontSize: 11, height: 22 }} />
                     </TableCell>
                     <TableCell><Typography variant="caption" color="text.secondary">{order.Date.toLocaleDateString()}</Typography></TableCell>
                     <TableCell align="center">
