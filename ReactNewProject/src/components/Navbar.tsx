@@ -164,7 +164,7 @@ const Navbar: React.FC<NavbarProps> = ({ onMenuClick, onDesktopMenuClick, isColl
             <Typography variant="caption" color="text.secondary">{user?.email || 'guest@shopdash.com'}</Typography>
           </Box>
           <Divider />
-          <MenuItem onClick={handleProfileClose}>
+          <MenuItem onClick={() => { handleProfileClose(); navigate('/dashboard/profile'); }}>
             <AccountCircleIcon sx={{ mr: 1.5, fontSize: 18 }} /> Profile
           </MenuItem>
           <MenuItem onClick={() => { handleProfileClose(); navigate('/dashboard/settings'); }}>

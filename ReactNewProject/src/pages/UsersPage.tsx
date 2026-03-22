@@ -5,8 +5,9 @@ import {
   TextField, InputAdornment, IconButton, Tooltip, Rating, CircularProgress,
 } from '@mui/material';
 import SearchIcon from '@mui/icons-material/Search';
-import EmailIcon from '@mui/icons-material/Email';
+import VisibilityIcon from '@mui/icons-material/Visibility';
 import PersonOffIcon from '@mui/icons-material/PersonOff';
+import { useNavigate } from 'react-router-dom';
 
 import { IUser } from '../models/IUser';
 import { userapi } from '../api/userapi';
@@ -14,6 +15,7 @@ import { userapi } from '../api/userapi';
 const avatarColors = ['#D32F2F', '#1565C0', '#2E7D32', '#E65100', '#6A1B9A', '#00838F', '#AD1457', '#37474F'];
 
 const UsersPage: React.FC = () => {
+  const navigate = useNavigate();
   const [users, setUsers] = useState<IUser[]>([]);
   const [loading, setLoading] = useState(true);
   const [search, setSearch] = useState('');
@@ -73,7 +75,6 @@ const UsersPage: React.FC = () => {
                     <TableCell align="center">Orders</TableCell>
                     <TableCell>Supplier Name</TableCell>
                     <TableCell>Status</TableCell>
-                    <TableCell>Joined</TableCell>
                     <TableCell align="center">Actions</TableCell>
                   </TableRow>
                 </TableHead>
@@ -101,9 +102,12 @@ const UsersPage: React.FC = () => {
                           sx={{ fontSize: 11, height: 22 }}
                         />
                       </TableCell>
-                      <TableCell><Typography variant="caption" color="text.secondary">{user.joined}</Typography></TableCell>
                       <TableCell align="center">
-                        <Tooltip title="Send Email"><IconButton size="small"><EmailIcon fontSize="small" /></IconButton></Tooltip>
+                        <Tooltip title="View User">
+                          <IconButton size="small" onClick={() => navigate('/dashboard/profile', { state: { selectedUser: user } })}>
+                            <VisibilityIcon fontSize="small" />
+                          </IconButton>
+                        </Tooltip>
                         <Tooltip title="Deactivate"><IconButton size="small"><PersonOffIcon fontSize="small" /></IconButton></Tooltip>
                       </TableCell>
                     </TableRow>

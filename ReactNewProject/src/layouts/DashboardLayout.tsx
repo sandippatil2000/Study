@@ -14,6 +14,7 @@ const pageTitles: Record<string, string> = {
   '/dashboard/users': 'Users',
   '/dashboard/cart': 'Cart',
   '/dashboard/settings': 'Settings',
+  '/dashboard/profile': 'User Profile',
 };
 
 const DashboardLayout: React.FC = () => {
