@@ -114,10 +114,12 @@ const PurchaseOrdersPage: React.FC = () => {
                     <TableCell><Typography variant="caption" color="text.secondary">{order.Date.toLocaleDateString()}</Typography></TableCell>
                     <TableCell align="center">
                       <Tooltip title="View Details">
-                        <IconButton size="small"><VisibilityIcon fontSize="small" /></IconButton>
+                        <IconButton size="small" onClick={() => navigate(`/dashboard/update-order?orderId=${order.orderId}&mode=view`)}>
+                          <VisibilityIcon fontSize="small" />
+                        </IconButton>
                       </Tooltip>
                       <Tooltip title="Edit">
-                        <IconButton size="small" onClick={() => navigate(`/dashboard/update-order?orderId=${order.orderId}`)}>
+                        <IconButton size="small" onClick={() => navigate(`/dashboard/update-order?orderId=${order.orderId}&mode=edit`)}>
                           <EditIcon fontSize="small" />
                         </IconButton>
                       </Tooltip>

@@ -17,6 +17,7 @@ import { useNavigate, useSearchParams } from 'react-router-dom';
 import { getSessionUser } from '../common/CommonFunction';
 import { purchaseorderapi } from '../api/purchaseorderapi';
 import { CartItem } from '../contexts/UserContext';
+import { Mode } from '../models/mode';
 
 const UpdatePurchaseOrderpage: React.FC = () => {
   const [items, setItems] = useState<CartItem[]>([]);
@@ -26,6 +27,8 @@ const UpdatePurchaseOrderpage: React.FC = () => {
   const navigate = useNavigate();
   const [searchParams] = useSearchParams();
   const orderId = searchParams.get('orderId');
+  const queryMode = searchParams.get('mode');
+  const [mode] = useState<Mode>(queryMode === 'view' ? Mode.view : Mode.edit);
   const user = getSessionUser();
 
   useEffect(() => {
@@ -85,7 +88,7 @@ const UpdatePurchaseOrderpage: React.FC = () => {
     <>
       <Box sx={{ maxWidth: 900, mx: 'auto', p: { xs: 1, md: 2 } }}>
         <Typography variant="h6" fontWeight={700} sx={{ mb: 2, display: 'flex', alignItems: 'center', gap: 1 }}>
-          <ReceiptIcon fontSize="small" color="primary" /> Update Purchase Order #{orderId}
+          <ReceiptIcon fontSize="small" color="primary" /> {mode === Mode.view ? 'View' : 'Update'} Purchase Order #{orderId}
         </Typography>
 
         <Box sx={{ display: 'flex', flexDirection: { xs: 'column', md: 'row' }, gap: 4 }}>
@@ -142,20 +145,28 @@ const UpdatePurchaseOrderpage: React.FC = () => {
                           </Typography>
                         </Box>
                         <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-end', gap: 1 }}>
-                          <Box sx={{ display: 'flex', alignItems: 'center', border: '1px solid #e0e0e0', borderRadius: 1 }}>
-                            <IconButton onClick={() => updateQuantity(item.id, item.quantity - 1)} size="small" sx={{ p: 0.5 }}>
-                              <RemoveIcon fontSize="small" />
-                            </IconButton>
-                            <Typography variant="body2" sx={{ px: 1.5, minWidth: 24, textAlign: 'center', fontWeight: 600 }}>
-                              {item.quantity}
+                          {mode === Mode.view ? (
+                            <Typography variant="body2" sx={{ px: 1.5, textAlign: 'center', fontWeight: 600 }}>
+                              Qty: {item.quantity}
                             </Typography>
-                            <IconButton onClick={() => updateQuantity(item.id, item.quantity + 1)} size="small" sx={{ p: 0.5 }}>
-                              <AddIcon fontSize="small" />
-                            </IconButton>
-                          </Box>
-                          <Button startIcon={<DeleteOutlineIcon fontSize="small" />} color="error" size="small" sx={{ fontSize: 11 }} onClick={() => removeItem(item.id)}>
-                            Remove
-                          </Button>
+                          ) : (
+                            <>
+                              <Box sx={{ display: 'flex', alignItems: 'center', border: '1px solid #e0e0e0', borderRadius: 1 }}>
+                                <IconButton onClick={() => updateQuantity(item.id, item.quantity - 1)} size="small" sx={{ p: 0.5 }}>
+                                  <RemoveIcon fontSize="small" />
+                                </IconButton>
+                                <Typography variant="body2" sx={{ px: 1.5, minWidth: 24, textAlign: 'center', fontWeight: 600 }}>
+                                  {item.quantity}
+                                </Typography>
+                                <IconButton onClick={() => updateQuantity(item.id, item.quantity + 1)} size="small" sx={{ p: 0.5 }}>
+                                  <AddIcon fontSize="small" />
+                                </IconButton>
+                              </Box>
+                              <Button startIcon={<DeleteOutlineIcon fontSize="small" />} color="error" size="small" sx={{ fontSize: 11 }} onClick={() => removeItem(item.id)}>
+                                Remove
+                              </Button>
+                            </>
+                          )}
                         </Box>
                       </ListItem>
                       {index < items.length - 1 && <Divider />}
@@ -178,17 +189,19 @@ const UpdatePurchaseOrderpage: React.FC = () => {
                 <Typography variant="body2" fontWeight={700}>Total</Typography>
                 <Typography variant="body2" fontWeight={700} color="primary">${totalPrice.toFixed(2)}</Typography>
               </Box>
-              <Button
-                fullWidth
-                variant="contained"
-                size="small"
-                startIcon={<CheckCircleIcon fontSize="small" />}
-                sx={{ py: 0.8, fontWeight: 600, fontSize: 13 }}
-                disabled={items.length === 0}
-                onClick={handleSubmitOrder}
-              >
-                Update Order
-              </Button>
+              {mode !== Mode.view && (
+                <Button
+                  fullWidth
+                  variant="contained"
+                  size="small"
+                  startIcon={<CheckCircleIcon fontSize="small" />}
+                  sx={{ py: 0.8, fontWeight: 600, fontSize: 13 }}
+                  disabled={items.length === 0}
+                  onClick={handleSubmitOrder}
+                >
+                  Update Order
+                </Button>
+              )}
             </Paper>
           </Box>
         </Box>
