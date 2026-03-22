@@ -11,4 +11,5 @@ export interface IUser {
   joined: string;
   avatar: string;
   postalCode: string;
+  supplierName?: string;
 }

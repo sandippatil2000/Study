@@ -71,7 +71,7 @@ const UsersPage: React.FC = () => {
                   <TableRow sx={{ '& th': { fontWeight: 700, color: '#757575', bgcolor: '#FAFAFA', fontSize: 12 } }}>
                     <TableCell>User</TableCell>
                     <TableCell align="center">Orders</TableCell>
-                    <TableCell align="right">Total Spent</TableCell>
+                    <TableCell>Supplier Name</TableCell>
                     <TableCell>Status</TableCell>
                     <TableCell>Joined</TableCell>
                     <TableCell align="center">Actions</TableCell>
@@ -92,7 +92,7 @@ const UsersPage: React.FC = () => {
                         </Box>
                       </TableCell>
                       <TableCell align="center"><Typography variant="body2" fontWeight={600}>{user.orders}</Typography></TableCell>
-                      <TableCell align="right"><Typography variant="body2" fontWeight={700} color="primary">${user.spent.toLocaleString()}</Typography></TableCell>
+                      <TableCell><Typography variant="body2">{user.supplierName || '-'}</Typography></TableCell>
                       <TableCell>
                         <Chip
                           label={user.status}

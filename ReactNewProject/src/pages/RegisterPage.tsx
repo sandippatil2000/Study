@@ -27,7 +27,7 @@ const strengthColor: ('error' | StrengthColor)[] = ['error', 'error', 'warning',
 
 const RegisterPage: React.FC = () => {
   const navigate = useNavigate();
-  const [form, setForm] = useState({ firstName: '', lastName: '', email: '', password: '', confirmPassword: '', address: '', postalCode: '' });
+  const [form, setForm] = useState({ firstName: '', lastName: '', email: '', password: '', confirmPassword: '', supplierName: '', address: '', postalCode: '' });
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirm, setShowConfirm] = useState(false);
   const [loading, setLoading] = useState(false);
@@ -134,6 +134,9 @@ const RegisterPage: React.FC = () => {
                       sx={{ '& .MuiOutlinedInput-root': { borderRadius: 2 } }}
                       InputProps={{ endAdornment: <InputAdornment position="end"><IconButton onClick={() => setShowConfirm(!showConfirm)} edge="end">{showConfirm ? <VisibilityOffIcon /> : <VisibilityIcon />}</IconButton></InputAdornment> }}
                     />
+                  </Grid>
+                  <Grid size={{ xs: 12 }}>
+                    <TextField label="Supplier Name" value={form.supplierName} onChange={handleChange('supplierName')} fullWidth size="small" sx={{ '& .MuiOutlinedInput-root': { borderRadius: 2 } }} />
                   </Grid>
                   <Grid size={{ xs: 12 }}>
                     <TextField label="Address *" value={form.address} onChange={handleChange('address')} fullWidth size="small" multiline rows={2} sx={{ '& .MuiOutlinedInput-root': { borderRadius: 2 } }} />
