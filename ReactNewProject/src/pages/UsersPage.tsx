@@ -7,6 +7,7 @@ import {
 import SearchIcon from '@mui/icons-material/Search';
 import VisibilityIcon from '@mui/icons-material/Visibility';
 import PersonOffIcon from '@mui/icons-material/PersonOff';
+import PersonAddIcon from '@mui/icons-material/PersonAdd';
 import { useNavigate } from 'react-router-dom';
 
 import { IUser } from '../models/IUser';
@@ -42,6 +43,25 @@ const UsersPage: React.FC = () => {
       `${u.firstName} ${u.lastName}`.toLowerCase().includes(search.toLowerCase()) ||
       u.email.toLowerCase().includes(search.toLowerCase())
   );
+
+  const handleToggleStatus = async (user: IUser) => {
+    try {
+      let success = false;
+      if (user.status === 'Active') {
+        success = await userapi.deactivateUser(user.id);
+      } else {
+        success = await userapi.activateUser(user.id);
+      }
+
+      if (success) {
+        setUsers(users.map(u => 
+          u.id === user.id ? { ...u, status: user.status === 'Active' ? 'Inactive' : 'Active' } : u
+        ));
+      }
+    } catch (error) {
+      console.error('Error toggling status:', error);
+    }
+  };
 
   return (
     <Box>
@@ -108,7 +128,19 @@ const UsersPage: React.FC = () => {
                             <VisibilityIcon fontSize="small" />
                           </IconButton>
                         </Tooltip>
-                        <Tooltip title="Deactivate"><IconButton size="small"><PersonOffIcon fontSize="small" /></IconButton></Tooltip>
+                        {user.status === 'Active' ? (
+                          <Tooltip title="Deactivate">
+                            <IconButton size="small" onClick={() => handleToggleStatus(user)}>
+                              <PersonOffIcon fontSize="small" />
+                            </IconButton>
+                          </Tooltip>
+                        ) : (
+                          <Tooltip title="Activate">
+                            <IconButton size="small" onClick={() => handleToggleStatus(user)}>
+                              <PersonAddIcon fontSize="small" />
+                            </IconButton>
+                          </Tooltip>
+                        )}
                       </TableCell>
                     </TableRow>
                   ))}

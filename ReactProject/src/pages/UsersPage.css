@@ -1,0 +1,44 @@
+.users-header-box {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 16px;
+}
+
+.users-icon-wrapper {
+  padding: 8px;
+  border-radius: 16px;
+  background-color: rgba(211, 47, 47, 0.1);
+  color: #D32F2F; /* primary.main */
+  display: flex;
+}
+
+.users-card-content {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.users-avatar {
+  font-weight: 700 !important;
+}
+
+.users-info-box {
+  flex: 1;
+}
+
+.users-chips-box {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  align-items: flex-end;
+}
+
+.users-role-chip {
+  font-weight: 600 !important;
+  font-size: 11px !important;
+}
+
+.users-status-chip {
+  font-size: 10px !important;
+}

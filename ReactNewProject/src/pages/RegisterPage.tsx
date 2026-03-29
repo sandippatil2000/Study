@@ -11,6 +11,7 @@ import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
 import PersonAddIcon from '@mui/icons-material/PersonAdd';
 import CheckCircleIcon from '@mui/icons-material/CheckCircle';
 import { Link, useNavigate } from 'react-router-dom';
+import { userapi } from '../api/userapi';
 
 const getPasswordStrength = (pw: string): number => {
   let score = 0;
@@ -48,13 +49,34 @@ const RegisterPage: React.FC = () => {
     return '';
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     const err = validate();
     if (err) { setError(err); return; }
     setError('');
     setLoading(true);
-    setTimeout(() => { setLoading(false); setSuccess(true); setTimeout(() => navigate('/login'), 2000); }, 1500);
+    try {
+      await userapi.createUser({
+        firstName: form.firstName,
+        lastName: form.lastName,
+        email: form.email,
+        password: form.password,
+        address: form.address,
+        postalCode: form.postalCode,
+        supplierName: form.supplierName,
+        orders: 0,
+        spent: 0,
+        status: 'Active',
+        joined: new Date().toLocaleDateString('en-US', { month: 'short', year: 'numeric' }),
+        avatar: (form.firstName[0] + form.lastName[0]).toUpperCase(),
+      });
+      setSuccess(true);
+      setTimeout(() => navigate('/login'), 2000);
+    } catch (err: any) {
+      setError(err.message || 'Failed to create account.');
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (

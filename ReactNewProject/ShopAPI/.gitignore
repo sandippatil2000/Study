@@ -1,0 +1,79 @@
+## .NET / C# .gitignore
+
+# Build output
+bin/
+obj/
+out/
+
+# NuGet packages
+*.nupkg
+*.snupkg
+.nuget/
+packages/
+# Restore lock files are okay to commit, but exclude the cache
+project.lock.json
+project.fragment.lock.json
+artifacts/
+
+# Visual Studio / Rider
+.vs/
+.idea/
+*.suo
+*.user
+*.userosscache
+*.sln.docstates
+*.vcxproj.filters
+
+# Rider
+.idea/
+
+# Visual Studio Code
+.vscode/
+!.vscode/settings.json
+!.vscode/tasks.json
+!.vscode/launch.json
+!.vscode/extensions.json
+
+# Test results
+TestResults/
+*.trx
+*.coverage
+*.coveragexml
+coverage*.json
+coverage*.xml
+coverage*.info
+
+# Entity Framework Core migrations (keep migrations, ignore snapshots if auto-generated)
+# Uncomment below only if you auto-generate migrations in CI
+# Migrations/
+
+# Publish output
+publish/
+**/PublishProfiles/
+
+# App secrets & connection strings (NEVER commit these)
+appsettings.Development.json
+appsettings.Local.json
+secrets.json
+*.pfx
+*.p12
+*.key
+*.pem
+
+# Logs
+logs/
+*.log
+*.txt.log
+
+# Docker
+docker-compose.override.yml
+
+# OS generated files
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# Temporary files
+*.tmp
+*.temp
+~$*

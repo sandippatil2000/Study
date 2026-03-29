@@ -1,0 +1,8 @@
+﻿################################################################################
+# This .gitignore file was automatically created by Microsoft(R) Visual Studio.
+################################################################################
+
+/ReactProject/ShopAPI/.vs
+/ReactProject/ShopAPI/bin
+/ReactProject/ShopAPI/obj
+/ReactProject/ShopAPI/obj

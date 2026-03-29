@@ -1,0 +1,138 @@
+.cart-header-box {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  margin-bottom: 24px;
+}
+
+.cart-icon-wrapper {
+  padding: 12px;
+  border-radius: 16px;
+  background-color: rgba(211, 47, 47, 0.1);
+  color: #D32F2F; /* primary.main */
+}
+
+.cart-empty-content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding-top: 64px;
+  padding-bottom: 64px;
+  gap: 16px;
+}
+
+.cart-empty-icon {
+  font-size: 64px !important;
+  color: rgba(211, 47, 47, 0.2) !important;
+}
+
+.cart-empty-btn {
+  margin-top: 16px !important;
+}
+
+.cart-list-card-content {
+  padding: 0 !important;
+}
+
+.cart-item-row {
+  display: flex;
+  align-items: center;
+  gap: 24px;
+  padding: 24px;
+}
+
+.cart-item-avatar {
+  width: 80px !important;
+  height: 80px !important;
+  border-radius: 16px !important;
+  background-color: rgba(211, 47, 47, 0.1) !important;
+  color: #D32F2F !important;
+  font-weight: 700 !important;
+  font-size: 24px !important;
+}
+
+.cart-item-info {
+  flex: 1;
+  min-width: 0;
+}
+
+.cart-item-name {
+  margin-bottom: 4px;
+}
+
+.cart-item-actions-wrapper {
+  display: flex;
+  align-items: center;
+  gap: 32px;
+}
+
+.cart-item-qty-box {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background-color: #FAFAFA;
+  border-radius: 16px;
+  border: 1px solid #E0E0E0;
+  padding: 4px;
+}
+
+.cart-item-qty-btn {
+  color: #D32F2F !important;
+}
+
+.cart-item-qty-text {
+  min-width: 30px;
+  text-align: center;
+}
+
+.cart-item-total-price {
+  min-width: 80px;
+  text-align: right;
+}
+
+.cart-item-delete-btn {
+  color: #757575 !important; /* text.secondary */
+  transition: all 0.2s !important;
+}
+
+.cart-item-delete-btn:hover {
+  color: #D32F2F !important; /* error.main */
+  background-color: rgba(211, 47, 47, 0.1) !important;
+}
+
+.cart-summary-card {
+  position: sticky;
+  top: 24px;
+}
+
+.cart-summary-content {
+  padding: 24px;
+}
+
+.cart-summary-title {
+  margin-bottom: 24px;
+}
+
+.cart-summary-row {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 16px;
+}
+
+.cart-summary-divider {
+  margin-top: 16px !important;
+  margin-bottom: 16px !important;
+}
+
+.cart-summary-total-row {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 24px;
+}
+
+.cart-checkout-btn {
+  margin-bottom: 16px !important;
+  padding-top: 12px !important;
+  padding-bottom: 12px !important;
+}

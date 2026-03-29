@@ -1,0 +1,104 @@
+.po-table-card {
+  margin-top: 8px;
+}
+
+.po-table-card-content {
+  padding: 0 !important;
+}
+
+.po-table-header-box {
+  padding: 16px;
+  border-bottom: 1px solid #E0E0E0;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 16px;
+}
+
+.po-table-filters-box {
+  display: flex;
+  gap: 16px;
+  flex-wrap: wrap;
+}
+
+.po-table-filter-input {
+  min-width: 150px;
+}
+
+.po-table-table {
+  min-width: 600px;
+}
+
+.po-table-head {
+  background-color: #FF6659; /* primary.light */
+}
+
+.po-table-head-cell {
+  font-weight: 600 !important;
+  padding-top: 12px !important;
+  padding-bottom: 12px !important;
+  color: #ffffff !important; /* primary.contrastText */
+}
+
+.po-table-row:last-child td,
+.po-table-row:last-child th {
+  border: 0;
+}
+
+.po-table-cell {
+  padding-top: 12px !important;
+  padding-bottom: 12px !important;
+}
+
+.po-table-id-cell {
+  font-weight: 600 !important;
+  color: #D32F2F !important; /* primary.main */
+}
+
+.po-table-name-cell {
+  font-weight: 500 !important;
+}
+
+.po-table-date-cell {
+  color: #757575 !important; /* text.secondary */
+}
+
+.po-table-status-chip {
+  font-weight: 700 !important;
+  font-size: 11px !important;
+  height: 22px !important;
+}
+
+.po-table-actions-cell {
+  padding-top: 8px !important;
+  padding-bottom: 8px !important;
+}
+
+.po-table-actions-box {
+  display: flex;
+  justify-content: flex-end;
+  gap: 4px;
+}
+
+.po-table-view-btn {
+  background-color: rgba(211,47,47,0.08) !important;
+}
+
+.po-table-view-btn:hover {
+  background-color: rgba(211,47,47,0.15) !important;
+}
+
+.po-table-edit-btn {
+  background-color: rgba(2,136,209,0.08) !important;
+}
+
+.po-table-edit-btn:hover {
+  background-color: rgba(2,136,209,0.15) !important;
+}
+
+.po-table-empty-cell {
+  padding-top: 24px !important;
+  padding-bottom: 24px !important;
+  color: #757575 !important; /* text.secondary */
+}

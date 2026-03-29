@@ -1,0 +1,30 @@
+# React TypeScript MUI Admin Dashboard Project
+
+## Setup
+- [ ] Initialize React TypeScript project with Vite in d:\Sutdy\NewProject
+- [ ] Install Material UI and dependencies
+- [ ] Install React Router DOM
+- [ ] Configure project structure
+
+## Theme & Design
+- [ ] Create red and white MUI theme
+- [ ] Set up ThemeProvider
+
+## Authentication Pages
+- [ ] Create Login page with custom login form
+- [ ] Add SSO (Single Sign-On) option to login page
+
+## Dashboard Layout
+- [ ] Create sidebar navigation component
+- [ ] Create top navbar/header component
+- [ ] Build main dashboard page with:
+  - [ ] Stat cards (users, revenue, orders, etc.)
+  - [ ] Charts/graphs section
+  - [ ] Recent activity table
+
+## Routing
+- [ ] Set up React Router with protected routes
+- [ ] Auth guard for protected dashboard routes
+
+## Verification
+- [ ] Run dev server and verify all pages render correctly

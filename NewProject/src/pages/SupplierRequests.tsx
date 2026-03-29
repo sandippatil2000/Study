@@ -1,0 +1,292 @@
+import React, { useState, useMemo } from 'react';
+import { useNavigate } from 'react-router-dom';
+import type { ISupplierRequest } from '../components/models/SupplierRequest';
+import {
+  Box,
+  Grid,
+  Card,
+  CardContent,
+  Typography,
+  Table,
+  TableBody,
+  TableCell,
+  TableContainer,
+  TableHead,
+  TableRow,
+  Chip,
+  TextField,
+  MenuItem,
+  Button,
+  Stack,
+  InputAdornment,
+} from '@mui/material';
+import SearchIcon from '@mui/icons-material/Search';
+import FilterListIcon from '@mui/icons-material/FilterList';
+import ClearIcon from '@mui/icons-material/Clear';
+import AddIcon from '@mui/icons-material/Add';
+
+// ---- Data ----
+const supplierRequests: ISupplierRequest[] = [
+  { RequestId: 1, UserId: 101, FirstName: 'Alice', LastName: 'Johnson', Email: 'alice@example.com', Supplier: 'Tech Corp', Date: new Date('2026-03-25'), Status: 'Completed' },
+  { RequestId: 2, UserId: 102, FirstName: 'Bob', LastName: 'Smith', Email: 'bob@example.com', Supplier: 'Global Supply', Date: new Date('2026-03-26'), Status: 'Pending' },
+  { RequestId: 3, UserId: 103, FirstName: 'Carol', LastName: 'White', Email: 'carol@example.com', Supplier: 'Prime Electronics', Date: new Date('2026-03-27'), Status: 'Processing' },
+  { RequestId: 4, UserId: 104, FirstName: 'David', LastName: 'Lee', Email: 'david@example.com', Supplier: 'Tech Corp', Date: new Date('2026-03-28'), Status: 'Completed' },
+  { RequestId: 5, UserId: 105, FirstName: 'Eva', LastName: 'Brown', Email: 'eva@example.com', Supplier: 'Global Supply', Date: new Date('2026-03-29'), Status: 'Cancelled' },
+];
+
+// ---- Status Badge Colors ----
+const statusColor: Record<string, 'success' | 'warning' | 'info' | 'error' | 'default'> = {
+  Completed: 'success',
+  Pending: 'warning',
+  Processing: 'info',
+  Cancelled: 'error',
+};
+
+const STATUS_OPTIONS = ['All', 'Completed', 'Pending', 'Processing', 'Cancelled'];
+
+// ---- Default Filter State ----
+const defaultFilters = {
+  name: '',
+  fromDate: '',
+  toDate: '',
+  status: 'All',
+};
+
+// ---- Page Component ----
+const SupplierRequestsPage: React.FC = () => {
+  const navigate = useNavigate();
+  const [filters, setFilters] = useState(defaultFilters);
+  const [applied, setApplied] = useState(defaultFilters);
+
+  const handleChange = (field: keyof typeof filters, value: string) => {
+    setFilters((prev) => ({ ...prev, [field]: value }));
+  };
+
+  const handleApply = () => {
+    setApplied({ ...filters });
+  };
+
+  const handleClear = () => {
+    setFilters(defaultFilters);
+    setApplied(defaultFilters);
+  };
+
+  const filteredRequests = useMemo(() => {
+    return supplierRequests.filter((row) => {
+      const fullName = `${row.FirstName} ${row.LastName}`.toLowerCase();
+
+      // Name filter
+      if (applied.name && !fullName.includes(applied.name.toLowerCase())) return false;
+
+      // From date filter
+      if (applied.fromDate) {
+        const from = new Date(applied.fromDate);
+        if (row.Date < from) return false;
+      }
+
+      // To date filter
+      if (applied.toDate) {
+        const to = new Date(applied.toDate);
+        to.setHours(23, 59, 59, 999);
+        if (row.Date > to) return false;
+      }
+
+      // Status filter
+      if (applied.status !== 'All' && row.Status !== applied.status) return false;
+
+      return true;
+    });
+  }, [applied]);
+
+  return (
+    <Box>
+      {/* Page Header */}
+      <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', mb: 3 }}>
+        <Box>
+          <Typography variant="h4" fontWeight={700}>Supplier Requests</Typography>
+          <Typography variant="body2" color="text.secondary">
+            Welcome back! Here's what's happening with your business today.
+          </Typography>
+        </Box>
+        <Button
+          variant="contained"
+          startIcon={<AddIcon />}
+          onClick={() => navigate('/supplierRequests/create')}
+          sx={{ textTransform: 'none', fontWeight: 700, whiteSpace: 'nowrap' }}
+        >
+          New Request
+        </Button>
+      </Box>
+
+      <Grid container spacing={3}>
+        {/* Recent Supplier Requests Table */}
+        <Grid size={{ xs: 12, lg: 12 }}>
+          <Card>
+            <CardContent>
+              {/* Table Header */}
+              <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', mb: 2 }}>
+                <Box>
+                  <Typography variant="h6" fontWeight={700}>Recent Supplier Requests</Typography>
+                  <Typography variant="body2" color="text.secondary">
+                    {filteredRequests.length} result{filteredRequests.length !== 1 ? 's' : ''} found
+                  </Typography>
+                </Box>
+              </Box>
+
+              {/* ---- Filter Bar ---- */}
+              <Box
+                sx={{
+                  mb: 3,
+                  p: 2,
+                  borderRadius: 2,
+                  border: '1px solid',
+                  borderColor: 'divider',
+                  bgcolor: 'background.default',
+                }}
+              >
+                <Stack direction="row" alignItems="center" spacing={1} sx={{ mb: 1.5 }}>
+                  <FilterListIcon fontSize="small" color="action" />
+                  <Typography variant="subtitle2" fontWeight={600} color="text.secondary">
+                    Filters
+                  </Typography>
+                </Stack>
+                <Grid container spacing={2} alignItems="flex-end">
+                  {/* Name */}
+                  <Grid size={{ xs: 12, sm: 6, md: 3 }}>
+                    <TextField
+                      label="Name"
+                      size="small"
+                      fullWidth
+                      value={filters.name}
+                      onChange={(e) => handleChange('name', e.target.value)}
+                      placeholder="Search by name…"
+                      slotProps={{
+                        input: {
+                          startAdornment: (
+                            <InputAdornment position="start">
+                              <SearchIcon fontSize="small" />
+                            </InputAdornment>
+                          ),
+                        },
+                      }}
+                    />
+                  </Grid>
+
+                  {/* From Date */}
+                  <Grid size={{ xs: 12, sm: 6, md: 3 }}>
+                    <TextField
+                      label="From Date"
+                      type="date"
+                      size="small"
+                      fullWidth
+                      value={filters.fromDate}
+                      onChange={(e) => handleChange('fromDate', e.target.value)}
+                      slotProps={{ inputLabel: { shrink: true } }}
+                    />
+                  </Grid>
+
+                  {/* To Date */}
+                  <Grid size={{ xs: 12, sm: 6, md: 3 }}>
+                    <TextField
+                      label="To Date"
+                      type="date"
+                      size="small"
+                      fullWidth
+                      value={filters.toDate}
+                      onChange={(e) => handleChange('toDate', e.target.value)}
+                      slotProps={{ inputLabel: { shrink: true } }}
+                    />
+                  </Grid>
+
+                  {/* Status */}
+                  <Grid size={{ xs: 12, sm: 6, md: 2 }}>
+                    <TextField
+                      label="Status"
+                      select
+                      size="small"
+                      fullWidth
+                      value={filters.status}
+                      onChange={(e) => handleChange('status', e.target.value)}
+                    >
+                      {STATUS_OPTIONS.map((s) => (
+                        <MenuItem key={s} value={s}>{s}</MenuItem>
+                      ))}
+                    </TextField>
+                  </Grid>
+
+                  {/* Actions */}
+                  <Grid size={{ xs: 12, sm: 'auto' }}>
+                    <Stack direction="row" spacing={1}>
+                      <Button
+                        variant="contained"
+                        size="small"
+                        onClick={handleApply}
+                        sx={{ textTransform: 'none', fontWeight: 600 }}
+                      >
+                        Apply
+                      </Button>
+                      <Button
+                        variant="outlined"
+                        size="small"
+                        onClick={handleClear}
+                        startIcon={<ClearIcon />}
+                        sx={{ textTransform: 'none' }}
+                      >
+                        Clear
+                      </Button>
+                    </Stack>
+                  </Grid>
+                </Grid>
+              </Box>
+
+              {/* ---- Table ---- */}
+              <TableContainer>
+                <Table size="small">
+                  <TableHead>
+                    <TableRow sx={{ '& th': { fontWeight: 700, fontSize: 12, color: 'text.secondary', borderBottom: '2px solid', borderColor: 'divider' } }}>
+                      <TableCell>Request ID</TableCell>
+                      <TableCell>Name</TableCell>
+                      <TableCell>Email</TableCell>
+                      <TableCell>Supplier</TableCell>
+                      <TableCell>Date</TableCell>
+                      <TableCell>Status</TableCell>
+                    </TableRow>
+                  </TableHead>
+                  <TableBody>
+                    {filteredRequests.length > 0 ? (
+                      filteredRequests.map((row) => (
+                        <TableRow key={row.RequestId} hover>
+                          <TableCell sx={{ fontWeight: 600, fontSize: 13 }}>#{row.RequestId}</TableCell>
+                          <TableCell sx={{ fontSize: 13 }}>{row.FirstName} {row.LastName}</TableCell>
+                          <TableCell sx={{ fontSize: 13 }}>{row.Email}</TableCell>
+                          <TableCell sx={{ fontSize: 13 }}>{row.Supplier}</TableCell>
+                          <TableCell sx={{ fontSize: 13 }}>{row.Date.toLocaleDateString()}</TableCell>
+                          <TableCell>
+                            <Chip
+                              label={row.Status}
+                              color={statusColor[row.Status]}
+                              size="small"
+                              sx={{ fontWeight: 600, fontSize: 11 }}
+                            />
+                          </TableCell>
+                        </TableRow>
+                      ))
+                    ) : (
+                      <TableRow>
+                        <TableCell colSpan={6} align="center" sx={{ py: 4, color: 'text.secondary', fontSize: 14 }}>
+                          No records match the selected filters.
+                        </TableCell>
+                      </TableRow>
+                    )}
+                  </TableBody>
+                </Table>
+              </TableContainer>
+            </CardContent>
+          </Card>
+        </Grid>
+      </Grid>
+    </Box>
+  );
+};
+
+export default SupplierRequestsPage;

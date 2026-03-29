@@ -1,0 +1,24 @@
+.dashboard-layout-root {
+  display: flex;
+  min-height: 100vh;
+  background-color: #F5F5F5;
+}
+
+.dashboard-layout-main-wrapper {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+.dashboard-layout-content {
+  flex: 1;
+  padding: 16px;
+  overflow: auto;
+}
+
+@media (min-width: 900px) {
+  .dashboard-layout-content {
+    padding: 24px;
+  }
+}

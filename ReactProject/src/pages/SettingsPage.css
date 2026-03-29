@@ -1,0 +1,35 @@
+.settings-header-box {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 16px;
+}
+
+.settings-icon-wrapper {
+  padding: 8px;
+  border-radius: 16px;
+  background-color: rgba(211, 47, 47, 0.1);
+  color: #D32F2F; /* primary.main */
+  display: flex;
+}
+
+.settings-card {
+  max-width: 600px;
+}
+
+.settings-card-content {
+  padding: 16px;
+}
+
+.settings-title {
+  margin-bottom: 12px;
+}
+
+.settings-divider {
+  margin-top: 12px !important;
+  margin-bottom: 12px !important;
+}
+
+.settings-save-box {
+  margin-top: 24px;
+}

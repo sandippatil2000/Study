@@ -1,0 +1,178 @@
+.topbar-toolbar {
+  gap: 8px;
+  min-height: 56px !important;
+  padding-left: 12px;
+  padding-right: 12px;
+  flex-wrap: nowrap;
+}
+
+@media (min-width: 900px) {
+  .topbar-toolbar {
+    padding-left: 20px;
+    padding-right: 20px;
+  }
+}
+
+.topbar-brand {
+  letter-spacing: 0.5px;
+  margin-right: 8px;
+  white-space: nowrap;
+  display: none;
+}
+
+@media (min-width: 600px) {
+  .topbar-brand {
+    display: block;
+  }
+}
+
+.topbar-nav-container {
+  display: none;
+  align-items: center;
+  gap: 4px;
+  margin-right: 8px;
+}
+
+@media (min-width: 900px) {
+  .topbar-nav-container {
+    display: flex;
+  }
+}
+
+.topbar-nav-link {
+  border-radius: 16px !important;
+  padding: 6.4px 12px !important;
+  transition: all 0.2s !important;
+  text-transform: none !important;
+  font-size: 13px !important;
+  min-width: auto !important;
+}
+
+.topbar-nav-link-active {
+  font-weight: 700 !important;
+  color: #D32F2F !important;
+  background-color: rgba(211, 47, 47, 0.08) !important;
+}
+
+.topbar-nav-link-inactive {
+  font-weight: 500 !important;
+  color: #757575 !important;
+  background-color: transparent !important;
+}
+
+.topbar-nav-link-inactive:hover {
+  background-color: rgba(211, 47, 47, 0.06) !important;
+  color: #D32F2F !important;
+}
+
+.topbar-spacer {
+  flex: 1;
+}
+
+.topbar-cart-wrapper {
+  position: relative;
+}
+
+.topbar-cart-btn {
+  border-radius: 16px !important;
+  padding: 12px !important;
+  gap: 4px !important;
+  transition: all 0.2s !important;
+}
+
+.topbar-cart-btn-active {
+  background-color: rgba(211, 47, 47, 0.08) !important;
+  border: 1.5px solid rgba(211, 47, 47, 0.25) !important;
+}
+
+.topbar-cart-btn-active:hover {
+  background-color: rgba(211, 47, 47, 0.12) !important;
+  border-color: rgba(211, 47, 47, 0.4) !important;
+}
+
+.topbar-cart-btn-inactive {
+  background-color: transparent !important;
+  border: 1.5px solid transparent !important;
+}
+
+.topbar-cart-badge .MuiBadge-badge {
+  font-weight: 800;
+  font-size: 10px;
+  min-width: 18px;
+  height: 18px;
+}
+
+.topbar-cart-chip {
+  height: 20px !important;
+  font-size: 11px !important;
+  font-weight: 700 !important;
+  background-color: #D32F2F !important;
+  color: #fff !important;
+  margin-left: 4px !important;
+}
+
+.topbar-cart-chip .MuiChip-label {
+  padding: 0 8px !important;
+}
+
+.topbar-avatar-container {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  cursor: pointer;
+  margin-left: 4px;
+  padding: 4px;
+  border-radius: 16px;
+  transition: background 0.2s;
+}
+
+.topbar-avatar-container:hover {
+  background-color: rgba(0, 0, 0, 0.04);
+}
+
+.topbar-avatar {
+  width: 30px !important;
+  height: 30px !important;
+  background-color: #D32F2F !important;
+  font-weight: 600 !important;
+  font-size: 13px !important;
+}
+
+.topbar-user-info {
+  display: none;
+}
+
+@media (min-width: 1200px) {
+  .topbar-user-info {
+    display: block;
+  }
+}
+
+.topbar-mobile-nav {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  padding-left: 12px;
+  padding-right: 12px;
+  padding-bottom: 8px;
+  overflow-x: auto;
+}
+
+.topbar-mobile-nav::-webkit-scrollbar {
+  display: none;
+}
+
+@media (min-width: 900px) {
+  .topbar-mobile-nav {
+    display: none;
+  }
+}
+
+.topbar-mobile-nav-link {
+  border-radius: 40px !important;
+  padding: 0 12px !important;
+  white-space: nowrap !important;
+  font-size: 12px !important;
+  text-transform: none !important;
+  flex-shrink: 0 !important;
+}
