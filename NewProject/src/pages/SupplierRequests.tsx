@@ -19,19 +19,57 @@ import {
   Button,
   Stack,
   InputAdornment,
+  Tooltip,
+  IconButton,
 } from '@mui/material';
 import SearchIcon from '@mui/icons-material/Search';
 import FilterListIcon from '@mui/icons-material/FilterList';
 import ClearIcon from '@mui/icons-material/Clear';
 import AddIcon from '@mui/icons-material/Add';
+import VisibilityIcon from '@mui/icons-material/Visibility';
 
 // ---- Data ----
 const supplierRequests: ISupplierRequest[] = [
-  { RequestId: 1, UserId: 101, FirstName: 'Alice', LastName: 'Johnson', Email: 'alice@example.com', Supplier: 'Tech Corp', Date: new Date('2026-03-25'), Status: 'Completed' },
-  { RequestId: 2, UserId: 102, FirstName: 'Bob', LastName: 'Smith', Email: 'bob@example.com', Supplier: 'Global Supply', Date: new Date('2026-03-26'), Status: 'Pending' },
-  { RequestId: 3, UserId: 103, FirstName: 'Carol', LastName: 'White', Email: 'carol@example.com', Supplier: 'Prime Electronics', Date: new Date('2026-03-27'), Status: 'Processing' },
-  { RequestId: 4, UserId: 104, FirstName: 'David', LastName: 'Lee', Email: 'david@example.com', Supplier: 'Tech Corp', Date: new Date('2026-03-28'), Status: 'Completed' },
-  { RequestId: 5, UserId: 105, FirstName: 'Eva', LastName: 'Brown', Email: 'eva@example.com', Supplier: 'Global Supply', Date: new Date('2026-03-29'), Status: 'Cancelled' },
+  {
+    RequestId: 1, UserId: 101, FirstName: 'Alice', LastName: 'Johnson',
+    Email: 'alice@example.com', Supplier: 'Tech Corp',
+    Description: 'Request for networking hardware components and accessories.',
+    Date: new Date('2026-03-25'), Status: 'Completed',
+    SupplierFile: 'supplier_tech_corp.pdf',
+    ProductFiles: ['product_list_q1.xlsx', 'specs_networking.pdf'],
+  },
+  {
+    RequestId: 2, UserId: 102, FirstName: 'Bob', LastName: 'Smith',
+    Email: 'bob@example.com', Supplier: 'Global Supply',
+    Description: 'Bulk order request for office stationery and consumables.',
+    Date: new Date('2026-03-26'), Status: 'Pending',
+    SupplierFile: 'supplier_global_supply.pdf',
+    ProductFiles: ['office_products.xlsx'],
+  },
+  {
+    RequestId: 3, UserId: 103, FirstName: 'Carol', LastName: 'White',
+    Email: 'carol@example.com', Supplier: 'Prime Electronics',
+    Description: 'Request for electronic components for the manufacturing line.',
+    Date: new Date('2026-03-27'), Status: 'Processing',
+    SupplierFile: null,
+    ProductFiles: ['electronics_bom.xlsx', 'component_specs.pdf', 'pricing_sheet.pdf'],
+  },
+  {
+    RequestId: 4, UserId: 104, FirstName: 'David', LastName: 'Lee',
+    Email: 'david@example.com', Supplier: 'Tech Corp',
+    Description: 'Follow-up request for server rack units and cabling.',
+    Date: new Date('2026-03-28'), Status: 'Completed',
+    SupplierFile: 'supplier_tech_corp_v2.pdf',
+    ProductFiles: [],
+  },
+  {
+    RequestId: 5, UserId: 105, FirstName: 'Eva', LastName: 'Brown',
+    Email: 'eva@example.com', Supplier: 'Global Supply',
+    Description: 'Cancelled due to budget freeze for this quarter.',
+    Date: new Date('2026-03-29'), Status: 'Cancelled',
+    SupplierFile: null,
+    ProductFiles: [],
+  },
 ];
 
 // ---- Status Badge Colors ----
@@ -250,13 +288,14 @@ const SupplierRequestsPage: React.FC = () => {
                       <TableCell>Supplier</TableCell>
                       <TableCell>Date</TableCell>
                       <TableCell>Status</TableCell>
+                      <TableCell align="center">Actions</TableCell>
                     </TableRow>
                   </TableHead>
                   <TableBody>
                     {filteredRequests.length > 0 ? (
                       filteredRequests.map((row) => (
                         <TableRow key={row.RequestId} hover>
-                          <TableCell sx={{ fontWeight: 600, fontSize: 13 }}>#{row.RequestId}</TableCell>
+                          <TableCell sx={{ fontWeight: 600, fontSize: 13 }}>{row.RequestId}</TableCell>
                           <TableCell sx={{ fontSize: 13 }}>{row.FirstName} {row.LastName}</TableCell>
                           <TableCell sx={{ fontSize: 13 }}>{row.Email}</TableCell>
                           <TableCell sx={{ fontSize: 13 }}>{row.Supplier}</TableCell>
@@ -269,11 +308,26 @@ const SupplierRequestsPage: React.FC = () => {
                               sx={{ fontWeight: 600, fontSize: 11 }}
                             />
                           </TableCell>
+                          <TableCell align="center">
+                            <Stack direction="row" spacing={0.5} justifyContent="center">
+                              <Tooltip title="View">
+                                <IconButton
+                                  size="small"
+                                  color="primary"
+                                  onClick={() =>
+                                    navigate(`/supplierRequests/view/${row.RequestId}`, { state: { request: row } })
+                                  }
+                                >
+                                  <VisibilityIcon fontSize="small" />
+                                </IconButton>
+                              </Tooltip>
+                            </Stack>
+                          </TableCell>
                         </TableRow>
                       ))
                     ) : (
                       <TableRow>
-                        <TableCell colSpan={6} align="center" sx={{ py: 4, color: 'text.secondary', fontSize: 14 }}>
+                        <TableCell colSpan={7} align="center" sx={{ py: 4, color: 'text.secondary', fontSize: 14 }}>
                           No records match the selected filters.
                         </TableCell>
                       </TableRow>

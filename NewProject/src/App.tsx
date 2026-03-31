@@ -10,6 +10,8 @@ import DashboardPage from './pages/DashboardPage';
 import UsersPage from './pages/UsersPage';
 import SupplierRequests from './pages/SupplierRequests';
 import CreateSupplierRequest from './pages/CreateSupplierRequest';
+import ValidateFilePage from './pages/ValidateFilePage';
+import ViewSupplierRequest from './pages/ViewSupplierRequest';
 
 const App: React.FC = () => {
   return (
@@ -32,6 +34,9 @@ const App: React.FC = () => {
                       <Route path="/users" element={<UsersPage />} />
                       <Route path="/supplierRequests" element={<SupplierRequests />} />
                       <Route path="/supplierRequests/create" element={<CreateSupplierRequest />} />
+                      <Route path="/supplierRequests/validate" element={<ValidateFilePage />} />
+                      <Route path="/supplierRequests/view/:id" element={<ViewSupplierRequest />} />
+                      <Route path="/supplierRequests/edit/:id" element={<ViewSupplierRequest />} />
                       <Route path="/" element={<Navigate to="/dashboard" replace />} />
                       <Route path="*" element={<Navigate to="/dashboard" replace />} />
                     </Routes>

@@ -34,6 +34,7 @@ interface FormState {
   email: string;
   supplier: string;
   status: string;
+  description: string;
 }
 
 interface FormErrors {
@@ -42,6 +43,7 @@ interface FormErrors {
   email?: string;
   supplier?: string;
   status?: string;
+  description?: string;
 }
 
 // ---- File Upload Zone Component ----
@@ -99,7 +101,7 @@ const FileUploadZone: React.FC<FileUploadZoneProps> = ({
           border: '2px dashed',
           borderColor: dragging ? 'primary.main' : 'divider',
           borderRadius: 2,
-          p: 3,
+          p: 1.5,
           textAlign: 'center',
           cursor: 'pointer',
           bgcolor: dragging ? 'action.hover' : 'background.default',
@@ -110,7 +112,7 @@ const FileUploadZone: React.FC<FileUploadZoneProps> = ({
           },
         }}
       >
-        <CloudUploadIcon sx={{ fontSize: 36, color: 'primary.main', mb: 1 }} />
+        <CloudUploadIcon sx={{ fontSize: 24, color: 'primary.main', mb: 0.5 }} />
         <Typography variant="body2" fontWeight={600}>
           Click to browse or drag & drop
         </Typography>
@@ -182,6 +184,7 @@ const CreateSupplierRequest: React.FC = () => {
     email: '',
     supplier: '',
     status: 'Pending',
+    description: ''
   });
 
   const [errors, setErrors] = useState<FormErrors>({});
@@ -195,7 +198,9 @@ const CreateSupplierRequest: React.FC = () => {
   };
 
   const validate = (): boolean => {
-    const newErrors: FormErrors = {};
+    const newErrors: FormErrors = {
+      description: ''
+    };
     if (!form.firstName.trim()) newErrors.firstName = 'First name is required.';
     if (!form.lastName.trim()) newErrors.lastName = 'Last name is required.';
     if (!form.email.trim()) {
@@ -205,6 +210,7 @@ const CreateSupplierRequest: React.FC = () => {
     }
     if (!form.supplier.trim()) newErrors.supplier = 'Supplier is required.';
     if (!form.status) newErrors.status = 'Status is required.';
+    if (!form.description) newErrors.status = 'Description is required.';
     setErrors(newErrors);
     return Object.keys(newErrors).length === 0;
   };
@@ -215,11 +221,11 @@ const CreateSupplierRequest: React.FC = () => {
 
     // TODO: Integrate with API
     console.log('Submitting:', { ...form, supplierFile, productFiles });
-    setSubmitted(true);
+    navigate('/supplierRequests/validate');
   };
 
   const handleReset = () => {
-    setForm({ firstName: '', lastName: '', email: '', supplier: '', status: 'Pending' });
+    setForm({ firstName: '', lastName: '', email: '', supplier: '', status: 'Pending', description: '' });
     setErrors({});
     setSupplierFile([]);
     setProductFiles([]);
@@ -320,6 +326,19 @@ const CreateSupplierRequest: React.FC = () => {
               </Grid>
               <Grid size={{ xs: 12, sm: 6 }}>
                 <TextField
+                  label="Description"
+                  size="small"
+                  sx={{ width: '75%' }}
+                  required
+                  value={form.supplier}
+                  onChange={(e) => handleChange('description', e.target.value)}
+                  error={!!errors.supplier}
+                  helperText={errors.supplier}
+                  disabled={submitted}
+                />
+              </Grid>
+              <Grid size={{ xs: 12, sm: 6 }}>
+                <TextField
                   label="Status"
                   select
                   size="small"
@@ -392,7 +411,7 @@ const CreateSupplierRequest: React.FC = () => {
                 disabled={submitted}
                 sx={{ textTransform: 'none', fontWeight: 700, minWidth: 160 }}
               >
-                Submit Request
+                Save Request
               </Button>
             </Stack>
           </form>
