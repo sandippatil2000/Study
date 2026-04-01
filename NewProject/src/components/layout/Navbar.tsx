@@ -23,8 +23,6 @@ import {
   People as PeopleIcon,
   ShoppingCart as ShoppingCartIcon,
   BarChart as BarChartIcon,
-  Layers as LayersIcon,
-  Description as DescriptionIcon,
   Settings as SettingsNavIcon,
   ExpandMore as ExpandMoreIcon,
 } from '@mui/icons-material';
@@ -39,10 +37,10 @@ interface NavMenuItem {
 }
 
 const navMenuItems: NavMenuItem[] = [
-  { label: 'Dashboard', icon: <DashboardIcon fontSize="small" />, path: '/dashboard' },
+  { label: 'Dashboard', icon: <DashboardIcon sx={{ fontSize: 15 }} />, path: '/dashboard' },
   {
     label: 'Users',
-    icon: <PeopleIcon fontSize="small" />,
+    icon: <PeopleIcon sx={{ fontSize: 15 }} />,
     children: [
       { label: 'All Users', path: '/users' },
       { label: 'Add User', path: '/users/add' },
@@ -50,15 +48,14 @@ const navMenuItems: NavMenuItem[] = [
   },
   {
     label: 'Supplier',
-    icon: <ShoppingCartIcon />,
+    icon: <ShoppingCartIcon sx={{ fontSize: 15 }} />,
     children: [
       { label: 'Supplier Requests', path: '/supplierRequests' },
       { label: 'Create Request', path: '/supplierRequests/create' },
     ],
   },
-
-  { label: 'Reports', icon: <BarChartIcon fontSize="small" />, path: '/reports' },
-  { label: 'Settings', icon: <SettingsNavIcon fontSize="small" />, path: '/settings' },
+  { label: 'Reports', icon: <BarChartIcon sx={{ fontSize: 15 }} />, path: '/reports' },
+  { label: 'Settings', icon: <SettingsNavIcon sx={{ fontSize: 15 }} />, path: '/settings' },
 ];
 
 interface NavbarProps {
@@ -111,17 +108,31 @@ const Navbar: React.FC<NavbarProps> = ({ onMenuToggle, sidebarWidth }) => {
       }}
       elevation={0}
     >
-      <Toolbar sx={{ gap: 1.5, minHeight: { xs: 56, md: 64 }, flexWrap: 'wrap', py: 0.5 }}>
+      {/* Compact Toolbar: 40px desktop, 44px mobile */}
+      <Toolbar
+        variant="dense"
+        sx={{
+          gap: 1,
+          minHeight: { xs: '44px !important', md: '40px !important' },
+          px: { xs: 1, md: 1.5 },
+          py: 0,
+        }}
+      >
         <IconButton
           edge="start"
+          size="small"
           onClick={onMenuToggle}
-          sx={{ display: { md: 'none' }, color: 'text.primary' }}
+          sx={{ display: { md: 'none' }, color: 'text.primary', p: 0.5 }}
         >
-          <MenuIcon />
+          <MenuIcon sx={{ fontSize: 18 }} />
         </IconButton>
 
         {/* Page Title */}
-        <Typography variant="h5" fontWeight={700} sx={{ ml: { xs: 1, sm: 2 }, display: 'flex', alignItems: 'center' }}>
+        <Typography
+          variant="h6"
+          fontWeight={700}
+          sx={{ ml: { xs: 0.5, sm: 1 }, fontSize: '0.82rem', display: 'flex', alignItems: 'center' }}
+        >
           {currentPageTitle}
         </Typography>
 
@@ -131,9 +142,8 @@ const Navbar: React.FC<NavbarProps> = ({ onMenuToggle, sidebarWidth }) => {
         <Box
           sx={{
             display: { xs: 'none', md: 'flex' },
-            alignItems: 'end',
+            alignItems: 'center',
             gap: 0.25,
-            ml: 1,
           }}
         >
           {navMenuItems.map((item) => {
@@ -144,23 +154,25 @@ const Navbar: React.FC<NavbarProps> = ({ onMenuToggle, sidebarWidth }) => {
               <Button
                 key={item.label}
                 startIcon={item.icon}
-                endIcon={item.children ? <ExpandMoreIcon sx={{ fontSize: '14px !important' }} /> : undefined}
+                endIcon={item.children ? <ExpandMoreIcon sx={{ fontSize: '12px !important' }} /> : undefined}
                 onClick={(e) =>
                   item.children
                     ? setNavAnchor({ el: e.currentTarget, item })
                     : navigate(item.path || '/')
                 }
-                size="medium"
+                size="small"
                 sx={{
-                  fontSize: 14,
+                  fontSize: '0.72rem',
                   fontWeight: isActive ? 700 : 500,
                   color: isActive ? '#C62828' : 'text.secondary',
                   backgroundColor: isActive ? 'rgba(198,40,40,0.08)' : 'transparent',
                   borderRadius: 1.5,
-                  px: 1.5,
-                  py: 1,
+                  px: 1,
+                  py: 0.4,
                   minWidth: 0,
                   textTransform: 'none',
+                  lineHeight: 1.4,
+                  '& .MuiButton-startIcon': { mr: 0.5 },
                   '&:hover': {
                     backgroundColor: 'rgba(198,40,40,0.08)',
                     color: '#C62828',
@@ -178,7 +190,7 @@ const Navbar: React.FC<NavbarProps> = ({ onMenuToggle, sidebarWidth }) => {
           anchorEl={navAnchor?.el}
           open={Boolean(navAnchor)}
           onClose={() => setNavAnchor(null)}
-          PaperProps={{ sx: { borderRadius: 2, mt: 0.5, minWidth: 160 } }}
+          PaperProps={{ sx: { borderRadius: 1.5, mt: 0.5, minWidth: 140 } }}
         >
           {navAnchor?.item.children?.map((child) => (
             <MenuItem
@@ -186,7 +198,8 @@ const Navbar: React.FC<NavbarProps> = ({ onMenuToggle, sidebarWidth }) => {
               selected={location.pathname === child.path}
               onClick={() => { navigate(child.path); setNavAnchor(null); }}
               sx={{
-                fontSize: 13,
+                fontSize: '0.75rem',
+                py: 0.8,
                 '&.Mui-selected': { color: '#C62828', fontWeight: 600 },
               }}
             >
@@ -197,9 +210,9 @@ const Navbar: React.FC<NavbarProps> = ({ onMenuToggle, sidebarWidth }) => {
 
         {/* Notifications */}
         <Tooltip title="Notifications">
-          <IconButton onClick={(e) => setNotifAnchor(e.currentTarget)}>
-            <Badge badgeContent={4} color="error">
-              <NotificationsIcon />
+          <IconButton size="small" onClick={(e) => setNotifAnchor(e.currentTarget)} sx={{ p: 0.5 }}>
+            <Badge badgeContent={4} color="error" sx={{ '& .MuiBadge-badge': { fontSize: 9, minWidth: 14, height: 14 } }}>
+              <NotificationsIcon sx={{ fontSize: 18 }} />
             </Badge>
           </IconButton>
         </Tooltip>
@@ -208,14 +221,14 @@ const Navbar: React.FC<NavbarProps> = ({ onMenuToggle, sidebarWidth }) => {
           anchorEl={notifAnchor}
           open={Boolean(notifAnchor)}
           onClose={() => setNotifAnchor(null)}
-          PaperProps={{ sx: { width: 300, borderRadius: 2, mt: 1 } }}
+          PaperProps={{ sx: { width: 260, borderRadius: 2, mt: 0.5 } }}
         >
-          <Box sx={{ px: 2, py: 1.5, borderBottom: '1px solid', borderColor: 'divider' }}>
-            <Typography variant="subtitle2" fontWeight={700}>Notifications</Typography>
+          <Box sx={{ px: 1.5, py: 1, borderBottom: '1px solid', borderColor: 'divider' }}>
+            <Typography variant="caption" fontWeight={700}>Notifications</Typography>
           </Box>
           {['New user registered', 'Order #1234 placed', 'Server alert: High CPU', 'Report generated'].map((msg, i) => (
-            <MenuItem key={i} sx={{ py: 1.5, fontSize: 13, gap: 1 }}>
-              <Avatar sx={{ width: 28, height: 28, bgcolor: '#C62828', fontSize: 12 }}>{i + 1}</Avatar>
+            <MenuItem key={i} sx={{ py: 1, fontSize: '0.72rem', gap: 1 }}>
+              <Avatar sx={{ width: 22, height: 22, bgcolor: '#C62828', fontSize: 10 }}>{i + 1}</Avatar>
               {msg}
             </MenuItem>
           ))}
@@ -224,20 +237,20 @@ const Navbar: React.FC<NavbarProps> = ({ onMenuToggle, sidebarWidth }) => {
         {/* User Avatar */}
         <Tooltip title="Account">
           <Box
-            sx={{ display: 'flex', alignItems: 'center', gap: 1.5, cursor: 'pointer' }}
+            sx={{ display: 'flex', alignItems: 'center', gap: 1, cursor: 'pointer', ml: 0.5 }}
             onClick={(e) => setAnchorEl(e.currentTarget)}
           >
-            <Avatar sx={{ width: 40, height: 40, bgcolor: '#C62828', fontSize: 16 }}>
+            <Avatar sx={{ width: 28, height: 28, bgcolor: '#C62828', fontSize: 12 }}>
               {user?.name?.charAt(0) || 'A'}
             </Avatar>
             <Box sx={{ display: { xs: 'none', sm: 'block' } }}>
-              <Typography variant="body2" fontWeight={600} lineHeight={1.2}>
+              <Typography variant="body2" fontWeight={600} lineHeight={1.2} sx={{ fontSize: '0.72rem' }}>
                 {user?.name || 'Admin'}
               </Typography>
               <Chip
                 label={user?.role || 'Admin'}
                 size="small"
-                sx={{ height: 16, fontSize: 10, bgcolor: '#ffebee', color: '#C62828', fontWeight: 600 }}
+                sx={{ height: 14, fontSize: 9, bgcolor: '#ffebee', color: '#C62828', fontWeight: 600 }}
               />
             </Box>
           </Box>
@@ -247,16 +260,16 @@ const Navbar: React.FC<NavbarProps> = ({ onMenuToggle, sidebarWidth }) => {
           anchorEl={anchorEl}
           open={Boolean(anchorEl)}
           onClose={() => setAnchorEl(null)}
-          PaperProps={{ sx: { borderRadius: 2, mt: 1, minWidth: 180 } }}
+          PaperProps={{ sx: { borderRadius: 2, mt: 0.5, minWidth: 160 } }}
         >
-          <Box sx={{ px: 2, py: 1.5, borderBottom: '1px solid', borderColor: 'divider' }}>
-            <Typography variant="subtitle2" fontWeight={700}>{user?.name}</Typography>
-            <Typography variant="caption" color="text.secondary">{user?.email}</Typography>
+          <Box sx={{ px: 1.5, py: 1, borderBottom: '1px solid', borderColor: 'divider' }}>
+            <Typography variant="caption" fontWeight={700}>{user?.name}</Typography>
+            <Typography variant="caption" color="text.secondary" display="block">{user?.email}</Typography>
           </Box>
-          <MenuItem sx={{ gap: 1.5, py: 1.2 }}><Person fontSize="small" /> Profile</MenuItem>
-          <MenuItem sx={{ gap: 1.5, py: 1.2 }}><Settings fontSize="small" /> Settings</MenuItem>
-          <MenuItem sx={{ gap: 1.5, py: 1.2, color: 'error.main' }} onClick={handleLogout}>
-            <Logout fontSize="small" /> Logout
+          <MenuItem sx={{ gap: 1, py: 0.8, fontSize: '0.75rem' }}><Person sx={{ fontSize: 15 }} /> Profile</MenuItem>
+          <MenuItem sx={{ gap: 1, py: 0.8, fontSize: '0.75rem' }}><Settings sx={{ fontSize: 15 }} /> Settings</MenuItem>
+          <MenuItem sx={{ gap: 1, py: 0.8, fontSize: '0.75rem', color: 'error.main' }} onClick={handleLogout}>
+            <Logout sx={{ fontSize: 15 }} /> Logout
           </MenuItem>
         </Menu>
       </Toolbar>
