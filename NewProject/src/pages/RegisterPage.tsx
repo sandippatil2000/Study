@@ -12,43 +12,69 @@ import {
 } from '@mui/material';
 import { Link as RouterLink, useNavigate } from 'react-router-dom';
 import { userApi } from '../api/UserApi';
+import type { IUser } from '../models/User';
+
+type RegisterFormData = Pick<IUser, 'FirstName' | 'LastName' | 'Supplier' | 'Email' | 'Address' | 'PostalCode'>;
+
+interface FormErrors {
+  FirstName?: string;
+  LastName?: string;
+  Email?: string;
+  Supplier?: string;
+}
 
 const RegisterPage: React.FC = () => {
   const navigate = useNavigate();
-  const [formData, setFormData] = useState({
-    firstName: '',
-    lastName: '',
-    email: '',
-    supplier: '',
-    address: '',
-    postalCode: '',
+  const [formData, setFormData] = useState<RegisterFormData>({
+    FirstName: '',
+    LastName: '',
+    Email: '',
+    Supplier: '',
+    Address: '',
+    PostalCode: '',
   });
-  const [error, setError] = useState('');
+  const [errors, setErrors] = useState<FormErrors>({});
+  const [apiError, setApiError] = useState('');
   const [success, setSuccess] = useState(false);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setFormData({ ...formData, [e.target.name]: e.target.value });
+    const { name, value } = e.target;
+    setFormData((prev) => ({ ...prev, [name]: value }));
+    if (name in ({} as FormErrors)) {
+      setErrors((prev) => ({ ...prev, [name]: undefined }));
+    }
+  };
+
+  const validate = (): boolean => {
+    const newErrors: FormErrors = {};
+    if (!formData.FirstName.trim()) newErrors.FirstName = 'First name is required.';
+    if (!formData.LastName.trim()) newErrors.LastName = 'Last name is required.';
+    if (!formData.Email.trim()) {
+      newErrors.Email = 'Email is required.';
+    } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(formData.Email)) {
+      newErrors.Email = 'Enter a valid email address.';
+    }
+    if (!formData.Supplier.trim()) newErrors.Supplier = 'Supplier is required.';
+    setErrors(newErrors);
+    return Object.keys(newErrors).length === 0;
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (!formData.firstName || !formData.lastName || !formData.email || !formData.supplier) {
-      setError('Please fill in all required fields.');
-      return;
-    }
-    setError('');
+    if (!validate()) return;
+    setApiError('');
 
     try {
       await userApi.CreateUser({
-        FirstName: formData.firstName,
-        LastName: formData.lastName,
-        Email: formData.email,
-        Supplier: formData.supplier,
-        Address: formData.address,
-        PostalCode: formData.postalCode,
-        Role: 'User',
-        Status: 'Pending',
-        Avatar: (formData.firstName.charAt(0) + formData.lastName.charAt(0)).toUpperCase(),
+        FirstName: formData.FirstName,
+        LastName: formData.LastName,
+        Email: formData.Email,
+        Supplier: formData.Supplier,
+        Address: formData.Address,
+        PostalCode: formData.PostalCode,
+        Role: '',
+        Status: '',
+        Avatar: (formData.FirstName.charAt(0) + formData.LastName.charAt(0)).toUpperCase(),
         Approved: 'None'
       });
       setSuccess(true);
@@ -56,7 +82,7 @@ const RegisterPage: React.FC = () => {
         navigate('/login');
       }, 2000);
     } catch (err: any) {
-      setError(err.message || 'Failed to register user.');
+      setApiError(err.message || 'Failed to register user.');
     }
   };
 
@@ -119,62 +145,70 @@ const RegisterPage: React.FC = () => {
             </Typography>
           </Box>
 
-          {error && <Alert severity="error" sx={{ mb: 3 }}>{error}</Alert>}
+          {apiError && <Alert severity="error" sx={{ mb: 3 }}>{apiError}</Alert>}
           {success && <Alert severity="success" sx={{ mb: 3 }}>Registration successful! Redirecting to login...</Alert>}
 
-          <Box component="form" onSubmit={handleSubmit}>
+          <form onSubmit={handleSubmit}>
             <Grid container spacing={2}>
               <Grid size={{ xs: 12, sm: 6 }}>
                 <TextField
                   fullWidth
                   label="First Name"
-                  name="firstName"
-                  value={formData.firstName}
+                  name="FirstName"
+                  value={formData.FirstName}
                   onChange={handleChange}
                   required
                   size="small"
+                  error={!!errors.FirstName}
+                  helperText={errors.FirstName}
                 />
               </Grid>
               <Grid size={{ xs: 12, sm: 6 }}>
                 <TextField
                   fullWidth
                   label="Last Name"
-                  name="lastName"
-                  value={formData.lastName}
+                  name="LastName"
+                  value={formData.LastName}
                   onChange={handleChange}
                   required
                   size="small"
+                  error={!!errors.LastName}
+                  helperText={errors.LastName}
                 />
               </Grid>
               <Grid size={{ xs: 12 }}>
                 <TextField
                   fullWidth
                   label="Email Address"
-                  name="email"
+                  name="Email"
                   type="email"
-                  value={formData.email}
+                  value={formData.Email}
                   onChange={handleChange}
                   required
                   size="small"
+                  error={!!errors.Email}
+                  helperText={errors.Email}
                 />
               </Grid>
               <Grid size={{ xs: 12 }}>
                 <TextField
                   fullWidth
                   label="Supplier"
-                  name="supplier"
-                  value={formData.supplier}
+                  name="Supplier"
+                  value={formData.Supplier}
                   onChange={handleChange}
                   required
                   size="small"
+                  error={!!errors.Supplier}
+                  helperText={errors.Supplier}
                 />
               </Grid>
               <Grid size={{ xs: 12, sm: 8 }}>
                 <TextField
                   fullWidth
                   label="Address"
-                  name="address"
-                  value={formData.address}
+                  name="Address"
+                  value={formData.Address || ''}
                   onChange={handleChange}
                   size="small"
                 />
@@ -183,8 +217,8 @@ const RegisterPage: React.FC = () => {
                 <TextField
                   fullWidth
                   label="Postal Code"
-                  name="postalCode"
-                  value={formData.postalCode}
+                  name="PostalCode"
+                  value={formData.PostalCode || ''}
                   onChange={handleChange}
                   size="small"
                 />
@@ -215,7 +249,7 @@ const RegisterPage: React.FC = () => {
                 Sign in
               </Link>
             </Typography>
-          </Box>
+          </form>
         </CardContent>
       </Card>
     </Box>
