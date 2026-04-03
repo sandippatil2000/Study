@@ -40,7 +40,7 @@ const RegisterPage: React.FC = () => {
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
     setFormData((prev) => ({ ...prev, [name]: value }));
-    if (name in ({} as FormErrors)) {
+    if (['FirstName', 'LastName', 'Email', 'Supplier'].includes(name)) {
       setErrors((prev) => ({ ...prev, [name]: undefined }));
     }
   };
@@ -148,7 +148,7 @@ const RegisterPage: React.FC = () => {
           {apiError && <Alert severity="error" sx={{ mb: 3 }}>{apiError}</Alert>}
           {success && <Alert severity="success" sx={{ mb: 3 }}>Registration successful! Redirecting to login...</Alert>}
 
-          <form onSubmit={handleSubmit}>
+          <form onSubmit={handleSubmit} noValidate>
             <Grid container spacing={2}>
               <Grid size={{ xs: 12, sm: 6 }}>
                 <TextField
