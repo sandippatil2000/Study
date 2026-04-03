@@ -1,10 +1,11 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { useNavigate, useParams, useLocation } from 'react-router-dom';
 import {
   Box,
   Card,
   CardContent,
   Chip,
+  CircularProgress,
   Divider,
   Grid,
   IconButton,
@@ -22,22 +23,7 @@ import InsertDriveFileIcon from '@mui/icons-material/InsertDriveFile';
 import EditIcon from '@mui/icons-material/Edit';
 import FactCheck from '@mui/icons-material/FactCheck';
 import type { ISupplierRequest } from '../models/SupplierRequest';
-
-// ─── Mock data (replace with real API fetch by id) ───────────────────────────
-
-const MOCK_REQUEST: ISupplierRequest = {
-  RequestId: 1,
-  UserId: 101,
-  FirstName: 'John',
-  LastName: 'Doe',
-  Email: 'john.doe@example.com',
-  Supplier: 'Acme Corp',
-  Date: new Date('2025-03-15'),
-  Status: 'Pending',
-  Description: 'Description',
-  SupplierFile: 'acme_supplier_data.xlsx',
-  ProductFiles: ['product_catalog.xlsx', 'product_images.zip'],
-};
+import { supplierApi } from '../api/SupplierApi';
 
 // ─── Status chip colour map ───────────────────────────────────────────────────
 
@@ -142,18 +128,69 @@ const AttachmentList: React.FC<AttachmentListProps> = ({ label, files }) => (
 
 // ─── Main Page ────────────────────────────────────────────────────────────────
 
-const ViewSupplierRequest: React.FC = () => {
+interface ViewSupplierRequestProps {
+  SupplierId?: number;
+}
+
+const ViewSupplierRequest: React.FC<ViewSupplierRequestProps> = ({ SupplierId }) => {
   const navigate = useNavigate();
   const { id } = useParams<{ id: string }>();
   const location = useLocation();
 
-  // Prefer the full record passed via navigation state (from the table's View/Edit action).
-  // Fall back to mock data when navigating directly by URL.
-  const stateRequest = (location.state as { request?: ISupplierRequest } | null)?.request;
-  const request: ISupplierRequest = stateRequest ?? {
-    ...MOCK_REQUEST,
-    RequestId: id ? Number(id) : MOCK_REQUEST.RequestId,
-  };
+  const [request, setRequest] = useState<ISupplierRequest | null>(null);
+  const [loading, setLoading] = useState<boolean>(true);
+  const [error, setError] = useState<string | null>(null);
+
+  useEffect(() => {
+    const fetchRequest = async () => {
+      setLoading(true);
+      try {
+        const fetchId = SupplierId !== undefined ? SupplierId : (id ? Number(id) : null);
+        if (fetchId) {
+          const data = await supplierApi.GetSupplierRequestById(fetchId);
+          if (data) {
+            setRequest(data);
+          } else {
+            setError('Supplier request not found');
+          }
+        } else {
+          setError('Invalid request ID');
+        }
+      } catch (err) {
+        setError('Failed to fetch supplier details');
+        console.error(err);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    const stateRequest = (location.state as { request?: ISupplierRequest } | null)?.request;
+    if (stateRequest && SupplierId === undefined) {
+      setRequest(stateRequest);
+      setLoading(false);
+    } else {
+      fetchRequest();
+    }
+  }, [id, SupplierId, location.state]);
+
+  if (loading) {
+    return (
+      <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '50vh' }}>
+        <CircularProgress />
+      </Box>
+    );
+  }
+
+  if (error || !request) {
+    return (
+      <Box sx={{ p: 4, textAlign: 'center' }}>
+        <Typography variant="h6" color="error">{error || 'Request missing'}</Typography>
+        <Button variant="outlined" sx={{ mt: 2 }} onClick={() => navigate('/supplierRequests')}>
+          Back to List
+        </Button>
+      </Box>
+    );
+  }
 
   const statusColor: ChipColor = STATUS_COLOR[request.Status] ?? 'default';
 
