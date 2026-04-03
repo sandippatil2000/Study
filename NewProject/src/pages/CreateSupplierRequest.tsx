@@ -17,13 +17,16 @@ import {
   ListItemIcon,
   ListItemText,
   Tooltip,
-  Alert,
+  Dialog,
+  DialogTitle,
+  DialogContent,
+  DialogActions,
 } from '@mui/material';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import CloudUploadIcon from '@mui/icons-material/CloudUpload';
 import InsertDriveFileIcon from '@mui/icons-material/InsertDriveFile';
 import DeleteIcon from '@mui/icons-material/Delete';
-import CheckCircleOutlineIcon from '@mui/icons-material/CheckCircleOutline';
+import CheckCircleIcon from '@mui/icons-material/CheckCircle';
 import { supplierApi } from '../api/SupplierApi';
 
 // ---- Constants ----
@@ -192,6 +195,7 @@ const CreateSupplierRequest: React.FC = () => {
   const [supplierFile, setSupplierFile] = useState<File[]>([]);
   const [productFiles, setProductFiles] = useState<File[]>([]);
   const [submitted, setSubmitted] = useState(false);
+  const [successRequestId, setSuccessRequestId] = useState<number | null>(null);
 
   const handleChange = (field: keyof FormState, value: string) => {
     setForm((prev) => ({ ...prev, [field]: value }));
@@ -200,7 +204,6 @@ const CreateSupplierRequest: React.FC = () => {
 
   const validate = (): boolean => {
     const newErrors: FormErrors = {
-      description: ''
     };
     if (!form.firstName.trim()) newErrors.firstName = 'First name is required.';
     if (!form.lastName.trim()) newErrors.lastName = 'Last name is required.';
@@ -211,7 +214,7 @@ const CreateSupplierRequest: React.FC = () => {
     }
     if (!form.supplier.trim()) newErrors.supplier = 'Supplier is required.';
     if (!form.status) newErrors.status = 'Status is required.';
-    if (!form.description) newErrors.status = 'Description is required.';
+    if (!form.description) newErrors.description = 'Description is required.';
     setErrors(newErrors);
     return Object.keys(newErrors).length === 0;
   };
@@ -221,7 +224,7 @@ const CreateSupplierRequest: React.FC = () => {
     if (!validate()) return;
 
     try {
-      await supplierApi.CreateSupplierRequest({
+      const response = await supplierApi.CreateSupplierRequest({
         UserId: 101, // Defaulting system mock user ID
         FirstName: form.firstName,
         LastName: form.lastName,
@@ -234,10 +237,8 @@ const CreateSupplierRequest: React.FC = () => {
         ProductFiles: productFiles.map(f => f.name)
       });
 
+      setSuccessRequestId(response.RequestId);
       setSubmitted(true);
-      setTimeout(() => {
-        navigate('/supplierRequests');
-      }, 1500);
     } catch (error) {
       console.error('Failed to save supplier request:', error);
     }
@@ -249,6 +250,7 @@ const CreateSupplierRequest: React.FC = () => {
     setSupplierFile([]);
     setProductFiles([]);
     setSubmitted(false);
+    setSuccessRequestId(null);
   };
 
   return (
@@ -266,21 +268,31 @@ const CreateSupplierRequest: React.FC = () => {
         </Box>
       </Box>
 
-      {/* Success Banner */}
-      {submitted && (
-        <Alert
-          icon={<CheckCircleOutlineIcon fontSize="inherit" />}
-          severity="success"
-          sx={{ mb: 3 }}
-          action={
-            <Button size="small" color="inherit" onClick={handleReset}>
-              New Request
-            </Button>
-          }
-        >
-          Supplier request submitted successfully!
-        </Alert>
-      )}
+      {/* Success Dialog */}
+      <Dialog 
+        open={successRequestId !== null} 
+        onClose={() => navigate('/supplierRequests')} 
+        maxWidth="xs" 
+        fullWidth
+      >
+        <DialogTitle sx={{ textAlign: 'center', pt: 3 }}>
+          <CheckCircleIcon sx={{ fontSize: 52, color: 'success.main', mb: 1, display: 'block', mx: 'auto' }} />
+          <Typography variant="h6" fontWeight={700}>Order Placed Successfully!</Typography>
+        </DialogTitle>
+        <DialogContent sx={{ textAlign: 'center', pb: 1 }}>
+          <Typography variant="body2" color="text.secondary">
+            Supplier Request has been submitted successfully.
+          </Typography>
+          <Typography variant="subtitle1" fontWeight={700} color="primary" sx={{ mt: 1 }}>
+            Supplier Request ID: #{successRequestId}
+          </Typography>
+        </DialogContent>
+        <DialogActions sx={{ justifyContent: 'center', pb: 3 }}>
+          <Button variant="contained" onClick={() => navigate('/supplierRequests')} sx={{ px: 4, fontWeight: 600 }}>
+            OK
+          </Button>
+        </DialogActions>
+      </Dialog>
 
       <Card>
         <CardContent sx={{ p: 3 }}>

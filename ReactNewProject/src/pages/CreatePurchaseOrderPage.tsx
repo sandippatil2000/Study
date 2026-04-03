@@ -182,10 +182,10 @@ const CreatePurchaseOrderPage: React.FC = () => {
         </DialogTitle>
         <DialogContent sx={{ textAlign: 'center', pb: 1 }}>
           <Typography variant="body2" color="text.secondary">
-            Your order has been submitted successfully.
+            Supplier Request has been submitted successfully.
           </Typography>
           <Typography variant="subtitle1" fontWeight={700} color="primary" sx={{ mt: 1 }}>
-            Order ID: #{submittedOrderId}
+            Supplier Request ID: #{}
           </Typography>
         </DialogContent>
         <DialogActions sx={{ justifyContent: 'center', pb: 3 }}>

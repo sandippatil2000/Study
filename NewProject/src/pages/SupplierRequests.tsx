@@ -108,7 +108,7 @@ const SupplierRequestsPage: React.FC = () => {
 
       return true;
     });
-  }, [applied]);
+  }, [applied, requests]);
 
   return (
     <Box>
