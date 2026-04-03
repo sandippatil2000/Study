@@ -24,6 +24,7 @@ import CloudUploadIcon from '@mui/icons-material/CloudUpload';
 import InsertDriveFileIcon from '@mui/icons-material/InsertDriveFile';
 import DeleteIcon from '@mui/icons-material/Delete';
 import CheckCircleOutlineIcon from '@mui/icons-material/CheckCircleOutline';
+import { supplierApi } from '../api/SupplierApi';
 
 // ---- Constants ----
 const STATUS_OPTIONS = ['Pending', 'Processing', 'Completed', 'Cancelled'];
@@ -215,13 +216,31 @@ const CreateSupplierRequest: React.FC = () => {
     return Object.keys(newErrors).length === 0;
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!validate()) return;
 
-    // TODO: Integrate with API
-    console.log('Submitting:', { ...form, supplierFile, productFiles });
-    navigate('/supplierRequests/validate');
+    try {
+      await supplierApi.CreateSupplierRequest({
+        UserId: 101, // Defaulting system mock user ID
+        FirstName: form.firstName,
+        LastName: form.lastName,
+        Email: form.email,
+        Supplier: form.supplier,
+        Description: form.description,
+        Status: form.status,
+        Date: new Date(),
+        SupplierFile: supplierFile.length > 0 ? supplierFile[0].name : null,
+        ProductFiles: productFiles.map(f => f.name)
+      });
+
+      setSubmitted(true);
+      setTimeout(() => {
+        navigate('/supplierRequests');
+      }, 1500);
+    } catch (error) {
+      console.error('Failed to save supplier request:', error);
+    }
   };
 
   const handleReset = () => {
@@ -330,10 +349,10 @@ const CreateSupplierRequest: React.FC = () => {
                   size="small"
                   sx={{ width: '75%' }}
                   required
-                  value={form.supplier}
+                  value={form.description}
                   onChange={(e) => handleChange('description', e.target.value)}
-                  error={!!errors.supplier}
-                  helperText={errors.supplier}
+                  error={!!errors.description}
+                  helperText={errors.description}
                   disabled={submitted}
                 />
               </Grid>
