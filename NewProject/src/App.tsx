@@ -40,7 +40,7 @@ const App: React.FC = () => {
                       <Route path="/supplierRequests/create" element={<CreateSupplierRequest />} />
                       <Route path="/supplierRequests/validate" element={<ValidateFilePage />} />
                       <Route path="/supplierRequests/view/:id" element={<ViewSupplierRequest />} />
-                      <Route path="/supplierRequests/edit/:id" element={<ViewSupplierRequest />} />
+                      <Route path="/supplierRequests/validate/:id" element={<ValidateFilePage />} />
                       <Route path="/" element={<Navigate to="/dashboard" replace />} />
                       <Route path="*" element={<Navigate to="/dashboard" replace />} />
                     </Routes>

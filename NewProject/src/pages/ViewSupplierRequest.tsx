@@ -9,21 +9,17 @@ import {
   Divider,
   Grid,
   IconButton,
-  List,
-  ListItem,
-  ListItemIcon,
-  ListItemText,
   Stack,
   Button,
   TextField,
   Typography,
 } from '@mui/material';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
-import InsertDriveFileIcon from '@mui/icons-material/InsertDriveFile';
 import EditIcon from '@mui/icons-material/Edit';
 import FactCheck from '@mui/icons-material/FactCheck';
 import type { ISupplierRequest } from '../models/SupplierRequest';
 import { supplierApi } from '../api/SupplierApi';
+import AttachmentList from '../components/AttachmentList';
 
 // ─── Status chip colour map ───────────────────────────────────────────────────
 
@@ -68,63 +64,6 @@ const ReadField: React.FC<ReadFieldProps> = ({ label, value, type = 'text' }) =>
   />
 );
 
-// ─── Read-only attachment list ────────────────────────────────────────────────
-
-interface AttachmentListProps {
-  label: string;
-  files?: string[];
-}
-
-const AttachmentList: React.FC<AttachmentListProps> = ({ label, files }) => (
-  <Box>
-    <Typography variant="body2" fontWeight={600} color="text.secondary" sx={{ mb: 1 }}>
-      {label}
-    </Typography>
-
-    {files?.length === 0 ? (
-      <Box
-        sx={{
-          border: '1px dashed',
-          borderColor: 'divider',
-          borderRadius: 2,
-          p: 2,
-          textAlign: 'center',
-          bgcolor: 'action.hover',
-        }}
-      >
-        <Typography variant="caption" color="text.disabled">
-          No file attached
-        </Typography>
-      </Box>
-    ) : (
-      <List dense sx={{ mt: 0.5 }}>
-        {files?.map((name, i) => (
-          <ListItem
-            key={i}
-            sx={{
-              border: '1px solid',
-              borderColor: 'divider',
-              borderRadius: 1.5,
-              mb: 0.5,
-              bgcolor: 'action.hover',
-            }}
-          >
-            <ListItemIcon sx={{ minWidth: 32 }}>
-              <InsertDriveFileIcon fontSize="small" color="primary" />
-            </ListItemIcon>
-            <ListItemText
-              primary={
-                <Typography variant="body2" fontWeight={600} noWrap sx={{ maxWidth: 260 }}>
-                  {name}
-                </Typography>
-              }
-            />
-          </ListItem>
-        ))}
-      </List>
-    )}
-  </Box>
-);
 
 // ─── Main Page ────────────────────────────────────────────────────────────────
 
@@ -325,7 +264,7 @@ const ViewSupplierRequest: React.FC<ViewSupplierRequestProps> = ({ SupplierId })
             <Button
               variant="contained"
               startIcon={<FactCheck />}
-              onClick={() => navigate(`/supplierRequests/edit/${request.RequestId}`)}
+              onClick={() => navigate(`/supplierRequests/validate/${request.RequestId}`)}
               sx={{ textTransform: 'none' }}
             >
               Continue To Valdiate
