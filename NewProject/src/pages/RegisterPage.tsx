@@ -11,6 +11,7 @@ import {
   Alert,
 } from '@mui/material';
 import { Link as RouterLink, useNavigate } from 'react-router-dom';
+import { userApi } from '../api/UserApi';
 
 const RegisterPage: React.FC = () => {
   const navigate = useNavigate();
@@ -29,18 +30,34 @@ const RegisterPage: React.FC = () => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!formData.firstName || !formData.lastName || !formData.email || !formData.supplier) {
       setError('Please fill in all required fields.');
       return;
     }
     setError('');
-    // Mock API call or handling logic here
-    setSuccess(true);
-    setTimeout(() => {
-      navigate('/login');
-    }, 2000);
+
+    try {
+      await userApi.CreateUser({
+        FirstName: formData.firstName,
+        LastName: formData.lastName,
+        Email: formData.email,
+        Supplier: formData.supplier,
+        Address: formData.address,
+        PostalCode: formData.postalCode,
+        Role: 'User',
+        Status: 'Pending',
+        Avatar: (formData.firstName.charAt(0) + formData.lastName.charAt(0)).toUpperCase(),
+        Approved: 'None'
+      });
+      setSuccess(true);
+      setTimeout(() => {
+        navigate('/login');
+      }, 2000);
+    } catch (err: any) {
+      setError(err.message || 'Failed to register user.');
+    }
   };
 
   return (
