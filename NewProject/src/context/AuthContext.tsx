@@ -1,6 +1,7 @@
 import React, { createContext, useContext, useState } from 'react';
 import type { ReactNode } from 'react';
 import type { User, AuthContextType, LoginCredentials } from '../types/auth';
+import { userApi } from '../api/UserApi';
 
 const AuthContext = createContext<AuthContextType | null>(null);
 
@@ -11,19 +12,18 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
   });
 
   const login = async (credentials: LoginCredentials): Promise<void> => {
-    // Simulate API call
-    await new Promise((res) => setTimeout(res, 1000));
-    if (credentials.email && credentials.password) {
-      const mockUser: User = {
-        id: '1',
-        name: 'Admin User',
-        email: credentials.email,
-        role: 'Administrator',
-        avatar: '',
+    try {
+      const authResponseUser = await userApi.Authenticate(credentials.email, credentials.password);
+      const authUser: User = {
+        id: authResponseUser.UserId.toString(),
+        name: `${authResponseUser.FirstName} ${authResponseUser.LastName}`,
+        email: authResponseUser.Email,
+        role: authResponseUser.Role,
+        avatar: authResponseUser.Avatar,
       };
-      setUser(mockUser);
-      localStorage.setItem('auth_user', JSON.stringify(mockUser));
-    } else {
+      setUser(authUser);
+      localStorage.setItem('auth_user', JSON.stringify(authUser));
+    } catch (e) {
       throw new Error('Invalid credentials');
     }
   };

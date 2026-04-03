@@ -1,6 +1,6 @@
 import React, { useState, useMemo } from 'react';
 import { useNavigate } from 'react-router-dom';
-import type { ISupplierRequest } from '../components/models/SupplierRequest';
+import type { ISupplierRequest } from '../models/SupplierRequest';
 import {
   Box,
   Grid,

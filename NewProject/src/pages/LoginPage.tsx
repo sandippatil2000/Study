@@ -21,11 +21,9 @@ import {
   VisibilityOff,
   Email as EmailIcon,
   Lock as LockIcon,
-  Google as GoogleIcon,
   Microsoft as MicrosoftIcon,
-  GitHub as GitHubIcon,
 } from '@mui/icons-material';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, Link as RouterLink } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 
 const LoginPage: React.FC = () => {
@@ -68,9 +66,7 @@ const LoginPage: React.FC = () => {
   };
 
   const ssoProviders = [
-    { name: 'Google', icon: <GoogleIcon />, color: '#EA4335' },
     { name: 'Microsoft', icon: <MicrosoftIcon />, color: '#00a1f1' },
-    { name: 'GitHub', icon: <GitHubIcon />, color: '#24292e' },
   ];
 
   return (
@@ -293,8 +289,8 @@ const LoginPage: React.FC = () => {
             {/* Footer */}
             <Typography variant="body2" color="text.secondary" align="center" sx={{ mt: 3 }}>
               Don't have an account?{' '}
-              <Link href="#" color="primary" underline="hover" fontWeight={600}>
-                Contact admin
+              <Link component={RouterLink} to="/register" color="primary" underline="hover" fontWeight={600}>
+                Register User
               </Link>
             </Typography>
           </CardContent>

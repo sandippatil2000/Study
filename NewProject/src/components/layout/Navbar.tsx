@@ -266,7 +266,15 @@ const Navbar: React.FC<NavbarProps> = ({ onMenuToggle, sidebarWidth }) => {
             <Typography variant="caption" fontWeight={700}>{user?.name}</Typography>
             <Typography variant="caption" color="text.secondary" display="block">{user?.email}</Typography>
           </Box>
-          <MenuItem sx={{ gap: 1, py: 0.8, fontSize: '0.75rem' }}><Person sx={{ fontSize: 15 }} /> Profile</MenuItem>
+          <MenuItem 
+            sx={{ gap: 1, py: 0.8, fontSize: '0.75rem' }} 
+            onClick={() => {
+              setAnchorEl(null);
+              if (user?.id) navigate(`/users/view/${user.id}`);
+            }}
+          >
+            <Person sx={{ fontSize: 15 }} /> Profile
+          </MenuItem>
           <MenuItem sx={{ gap: 1, py: 0.8, fontSize: '0.75rem' }}><Settings sx={{ fontSize: 15 }} /> Settings</MenuItem>
           <MenuItem sx={{ gap: 1, py: 0.8, fontSize: '0.75rem', color: 'error.main' }} onClick={handleLogout}>
             <Logout sx={{ fontSize: 15 }} /> Logout

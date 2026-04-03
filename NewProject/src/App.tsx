@@ -6,12 +6,14 @@ import { AuthProvider } from './context/AuthContext';
 import ProtectedRoute from './components/ProtectedRoute';
 import DashboardLayout from './components/layout/DashboardLayout';
 import LoginPage from './pages/LoginPage';
+import RegisterPage from './pages/RegisterPage';
 import DashboardPage from './pages/DashboardPage';
 import UsersPage from './pages/UsersPage';
 import SupplierRequests from './pages/SupplierRequests';
 import CreateSupplierRequest from './pages/CreateSupplierRequest';
 import ValidateFilePage from './pages/ValidateFilePage';
 import ViewSupplierRequest from './pages/ViewSupplierRequest';
+import ViewUserPage from './pages/ViewUserPage';
 
 const App: React.FC = () => {
   return (
@@ -22,6 +24,7 @@ const App: React.FC = () => {
           <Routes>
             {/* Public Routes */}
             <Route path="/login" element={<LoginPage />} />
+            <Route path="/register" element={<RegisterPage />} />
 
             {/* Protected Routes */}
             <Route
@@ -32,6 +35,7 @@ const App: React.FC = () => {
                     <Routes>
                       <Route path="/dashboard" element={<DashboardPage />} />
                       <Route path="/users" element={<UsersPage />} />
+                      <Route path="/users/view/:id" element={<ViewUserPage />} />
                       <Route path="/supplierRequests" element={<SupplierRequests />} />
                       <Route path="/supplierRequests/create" element={<CreateSupplierRequest />} />
                       <Route path="/supplierRequests/validate" element={<ValidateFilePage />} />

@@ -21,7 +21,7 @@ import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import InsertDriveFileIcon from '@mui/icons-material/InsertDriveFile';
 import EditIcon from '@mui/icons-material/Edit';
 import FactCheck from '@mui/icons-material/FactCheck';
-import type { ISupplierRequest } from '../components/models/SupplierRequest';
+import type { ISupplierRequest } from '../models/SupplierRequest';
 
 // ─── Mock data (replace with real API fetch by id) ───────────────────────────
 
