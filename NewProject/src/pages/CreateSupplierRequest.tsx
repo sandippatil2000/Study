@@ -21,6 +21,7 @@ import {
   DialogTitle,
   DialogContent,
   DialogActions,
+  Alert,
 } from '@mui/material';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import CloudUploadIcon from '@mui/icons-material/CloudUpload';
@@ -196,6 +197,7 @@ const CreateSupplierRequest: React.FC = () => {
   const [productFiles, setProductFiles] = useState<File[]>([]);
   const [submitted, setSubmitted] = useState(false);
   const [successRequestId, setSuccessRequestId] = useState<number | null>(null);
+  const [apiStatus, setApiStatus] = useState<{ message: string; severity: 'error' | 'success' | 'info' | 'warning' } | null>(null);
 
   const handleChange = (field: keyof FormState, value: string) => {
     setForm((prev) => ({ ...prev, [field]: value }));
@@ -222,10 +224,11 @@ const CreateSupplierRequest: React.FC = () => {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!validate()) return;
+    setApiStatus(null);
 
     try {
       const response = await supplierApi.CreateSupplierRequest({
-        UserId: 101, // Defaulting system mock user ID
+        UserId: 0, // Defaulting system mock user ID
         FirstName: form.firstName,
         LastName: form.lastName,
         Email: form.email,
@@ -239,8 +242,8 @@ const CreateSupplierRequest: React.FC = () => {
 
       setSuccessRequestId(response.RequestId);
       setSubmitted(true);
-    } catch (error) {
-      console.error('Failed to save supplier request:', error);
+    } catch (error: any) {
+      setApiStatus({ message: error.message || 'Failed to save supplier request', severity: 'error' });
     }
   };
 
@@ -251,6 +254,7 @@ const CreateSupplierRequest: React.FC = () => {
     setProductFiles([]);
     setSubmitted(false);
     setSuccessRequestId(null);
+    setApiStatus(null);
   };
 
   return (
@@ -269,10 +273,10 @@ const CreateSupplierRequest: React.FC = () => {
       </Box>
 
       {/* Success Dialog */}
-      <Dialog 
-        open={successRequestId !== null} 
-        onClose={() => navigate('/supplierRequests')} 
-        maxWidth="xs" 
+      <Dialog
+        open={successRequestId !== null}
+        onClose={() => navigate('/supplierRequests')}
+        maxWidth="xs"
         fullWidth
       >
         <DialogTitle sx={{ textAlign: 'center', pt: 3 }}>
@@ -301,6 +305,13 @@ const CreateSupplierRequest: React.FC = () => {
             <Typography variant="subtitle1" fontWeight={700} sx={{ mb: 2 }}>
               Supplier Information
             </Typography>
+
+            {apiStatus && (
+              <Alert severity={apiStatus.severity} sx={{ mb: 3 }}>
+                {apiStatus.message}
+              </Alert>
+            )}
+
             <Grid container spacing={2.5}>
               <Grid size={{ xs: 12, sm: 6 }}>
                 <TextField
