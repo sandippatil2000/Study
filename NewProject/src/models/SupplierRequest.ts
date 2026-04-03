@@ -11,4 +11,7 @@ export interface ISupplierRequest {
     SupplierFile?: string | null;   // filename string (from API / mock)
     ProductFiles?: string[];        // filename strings
     FileType?: string;
+    AssignedTo?: string;
+    CSSEmail?: string;
+    MDEmail?: string;
 }

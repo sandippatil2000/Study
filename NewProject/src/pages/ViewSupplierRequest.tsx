@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate, useParams, useLocation } from 'react-router-dom';
 import {
+  Autocomplete,
   Box,
   Card,
   CardContent,
@@ -18,7 +19,9 @@ import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import EditIcon from '@mui/icons-material/Edit';
 import FactCheck from '@mui/icons-material/FactCheck';
 import type { ISupplierRequest } from '../models/SupplierRequest';
+import type { IUser } from '../models/User';
 import { supplierApi } from '../api/SupplierApi';
+import { userApi } from '../api/UserApi';
 import AttachmentList from '../components/AttachmentList';
 
 // ─── Status chip colour map ───────────────────────────────────────────────────
@@ -79,6 +82,10 @@ const ViewSupplierRequest: React.FC<ViewSupplierRequestProps> = ({ SupplierId })
   const [request, setRequest] = useState<ISupplierRequest | null>(null);
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
+  const [users, setUsers] = useState<IUser[]>([]);
+  const [cssEmail, setCssEmail] = useState<IUser | null>(null);
+  const [mdEmail, setMdEmail] = useState<IUser | null>(null);
+  const [assignedTo, setAssignedTo] = useState<IUser | null>(null);
 
   useEffect(() => {
     const fetchRequest = async () => {
@@ -110,6 +117,11 @@ const ViewSupplierRequest: React.FC<ViewSupplierRequestProps> = ({ SupplierId })
     } else {
       fetchRequest();
     }
+
+    // Load users for CSS Email search
+    userApi.GetUsers().then((data) => {
+      setUsers(data);
+    });
   }, [id, SupplierId, location.state]);
 
   if (loading) {
@@ -204,6 +216,30 @@ const ViewSupplierRequest: React.FC<ViewSupplierRequestProps> = ({ SupplierId })
               <ReadField label="Last Name" value={request.LastName} />
             </Grid>
             <Grid size={{ xs: 12, sm: 6 }}>
+              <TextField
+                label="Description"
+                value={request.Description ?? ''}
+                size="small"
+                multiline
+                minRows={2}
+                InputProps={{ readOnly: true }}
+                variant="outlined"
+                sx={{
+                  width: '75%',
+                  '& .MuiOutlinedInput-root': {
+                    bgcolor: 'action.hover',
+                    '& fieldset': { borderColor: 'divider' },
+                    '&:hover fieldset': { borderColor: 'divider' },
+                    '&.Mui-focused fieldset': { borderColor: 'divider' },
+                  },
+                  '& .MuiInputBase-input': {
+                    color: 'text.primary',
+                    WebkitTextFillColor: 'unset',
+                  },
+                }}
+              />
+            </Grid>
+            <Grid size={{ xs: 12, sm: 6 }}>
               <ReadField label="Email Address" value={request.Email} type="email" />
             </Grid>
             <Grid size={{ xs: 12, sm: 6 }}>
@@ -218,6 +254,81 @@ const ViewSupplierRequest: React.FC<ViewSupplierRequestProps> = ({ SupplierId })
                 value={request.Date instanceof Date
                   ? request.Date.toLocaleDateString()
                   : new Date(request.Date).toLocaleDateString()}
+              />
+            </Grid>
+            <Grid size={{ xs: 12, sm: 6 }}>
+              <Autocomplete
+                options={users}
+                value={cssEmail}
+                onChange={(_e, value) => setCssEmail(value)}
+                getOptionLabel={(u) => `${u.FirstName} ${u.LastName} <${u.Email}>`}
+                isOptionEqualToValue={(opt, val) => opt.UserId === val.UserId}
+                renderInput={(params) => (
+                  <TextField
+                    {...params}
+                    label="CSS Email"
+                    size="small"
+                    placeholder="Search by name or email…"
+                    sx={{ width: '75%' }}
+                  />
+                )}
+                filterOptions={(options, { inputValue }) =>
+                  options.filter((u) =>
+                    `${u.FirstName} ${u.LastName} ${u.Email}`
+                      .toLowerCase()
+                      .includes(inputValue.toLowerCase())
+                  )
+                }
+              />
+            </Grid>
+            <Grid size={{ xs: 12, sm: 6 }}>
+              <Autocomplete
+                options={users}
+                value={mdEmail}
+                onChange={(_e, value) => setMdEmail(value)}
+                getOptionLabel={(u) => `${u.FirstName} ${u.LastName} <${u.Email}>`}
+                isOptionEqualToValue={(opt, val) => opt.UserId === val.UserId}
+                renderInput={(params) => (
+                  <TextField
+                    {...params}
+                    label="MD Email"
+                    size="small"
+                    placeholder="Search by name or email…"
+                    sx={{ width: '75%' }}
+                  />
+                )}
+                filterOptions={(options, { inputValue }) =>
+                  options.filter((u) =>
+                    `${u.FirstName} ${u.LastName} ${u.Email}`
+                      .toLowerCase()
+                      .includes(inputValue.toLowerCase())
+                  )
+                }
+              />
+            </Grid>
+            <Grid size={{ xs: 12, sm: 6 }}>
+              <Autocomplete
+                options={users}
+                value={assignedTo}
+                onChange={(_e, value) => setAssignedTo(value)}
+                getOptionLabel={(u) => `${u.FirstName} ${u.LastName} <${u.Email}>`}
+                isOptionEqualToValue={(opt, val) => opt.UserId === val.UserId}
+                renderInput={(params) => (
+                  <TextField
+                    {...params}
+                    label="Assigned To (Email)"
+                    size="small"
+                    placeholder="Search by name or email…"
+                    sx={{ width: '75%' }}
+                  />
+                )}
+                filterOptions={(options, { inputValue }) =>
+                  options.filter((u) =>
+                    `${u.FirstName} ${u.LastName} ${u.Email}`
+                      .toLowerCase()
+                      .includes(inputValue.toLowerCase())
+                  )
+                }
               />
             </Grid>
           </Grid>
@@ -241,7 +352,7 @@ const ViewSupplierRequest: React.FC<ViewSupplierRequestProps> = ({ SupplierId })
             </Grid>
           </Grid>
 
-          <Divider sx={{ my: 3 }} />
+
 
           {/* ── Actions ── */}
           <Stack direction="row" spacing={2} justifyContent="flex-end">
@@ -273,7 +384,7 @@ const ViewSupplierRequest: React.FC<ViewSupplierRequestProps> = ({ SupplierId })
 
         </CardContent>
       </Card>
-    </Box>
+    </Box >
   );
 };
 

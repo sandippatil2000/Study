@@ -262,13 +262,14 @@ const SupplierRequestsPage: React.FC = () => {
                       <TableCell>Supplier</TableCell>
                       <TableCell>Date</TableCell>
                       <TableCell>Status</TableCell>
+                      <TableCell>Assigned To</TableCell>
                       <TableCell align="center">Actions</TableCell>
                     </TableRow>
                   </TableHead>
                   <TableBody>
                     {loading ? (
                       <TableRow>
-                        <TableCell colSpan={7} align="center" sx={{ py: 4 }}>
+                        <TableCell colSpan={9} align="center" sx={{ py: 4 }}>
                           <CircularProgress size={24} sx={{ color: '#C62828' }} />
                         </TableCell>
                       </TableRow>
@@ -288,6 +289,7 @@ const SupplierRequestsPage: React.FC = () => {
                               sx={{ fontWeight: 600, fontSize: 11 }}
                             />
                           </TableCell>
+                          <TableCell sx={{ fontSize: 13 }}>{row.AssignedTo ?? '—'}</TableCell>
                           <TableCell align="center">
                             <Stack direction="row" spacing={0.5} justifyContent="center">
                               <Tooltip title="View">
@@ -307,7 +309,7 @@ const SupplierRequestsPage: React.FC = () => {
                       ))
                     ) : (
                       <TableRow>
-                        <TableCell colSpan={7} align="center" sx={{ py: 4, color: 'text.secondary', fontSize: 14 }}>
+                        <TableCell colSpan={9} align="center" sx={{ py: 4, color: 'text.secondary', fontSize: 14 }}>
                           No records match the selected filters.
                         </TableCell>
                       </TableRow>
