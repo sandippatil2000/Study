@@ -264,7 +264,7 @@ const ViewSupplierRequest: React.FC<ViewSupplierRequestProps> = ({ SupplierId })
             <Button
               variant="contained"
               startIcon={<FactCheck />}
-              onClick={() => navigate(`/supplierRequests/validate/${request.RequestId}`)}
+              onClick={() => navigate(`/supplierRequests/validate/${request.RequestId}`, { state: { request: request } })}
               sx={{ textTransform: 'none' }}
             >
               Continue To Valdiate

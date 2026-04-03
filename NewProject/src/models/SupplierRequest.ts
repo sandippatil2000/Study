@@ -10,4 +10,5 @@ export interface ISupplierRequest {
     Status: string;
     SupplierFile?: string | null;   // filename string (from API / mock)
     ProductFiles?: string[];        // filename strings
+    FileType?: string;
 }

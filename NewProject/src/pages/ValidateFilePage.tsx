@@ -1,5 +1,6 @@
-import React, { useRef, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import React, { useEffect, useRef, useState } from 'react';
+import { useLocation, useNavigate } from 'react-router-dom';
+import type { ISupplierRequest } from '../models/SupplierRequest';
 import {
   Alert,
   Box,
@@ -8,6 +9,7 @@ import {
   CardContent,
   Chip,
   Divider,
+  Grid,
   IconButton,
   LinearProgress,
   List,
@@ -15,6 +17,7 @@ import {
   ListItemIcon,
   ListItemText,
   Stack,
+  TextField,
   Tooltip,
   Typography,
 } from '@mui/material';
@@ -60,12 +63,12 @@ const runMockValidation = (
         pass
           ? { valid: true, errors: [] }
           : {
-              valid: false,
-              errors: [
-                { row: 3, column: 'SupplierCode', message: 'Value is required.' },
-                { row: 7, column: 'UnitPrice', message: 'Must be a positive number.' },
-              ],
-            },
+            valid: false,
+            errors: [
+              { row: 3, column: 'SupplierCode', message: 'Value is required.' },
+              { row: 7, column: 'UnitPrice', message: 'Must be a positive number.' },
+            ],
+          },
       );
     }, 1800),
   );
@@ -111,9 +114,9 @@ const FileUploadZone: React.FC<FileUploadZoneProps> = ({ file, onChange, disable
           '&:hover': disabled
             ? {}
             : {
-                borderColor: 'primary.main',
-                bgcolor: 'action.hover',
-              },
+              borderColor: 'primary.main',
+              bgcolor: 'action.hover',
+            },
         }}
       >
         <CloudUploadIcon
@@ -181,6 +184,8 @@ const FileUploadZone: React.FC<FileUploadZoneProps> = ({ file, onChange, disable
 
 const ValidateFilePage: React.FC = () => {
   const navigate = useNavigate();
+  const location = useLocation();
+  const [request, setRequest] = useState<ISupplierRequest | null>(null);
 
   const [supplierFile, setSupplierFile] = useState<File | null>(null);
   const [validationStatus, setValidationStatus] = useState<ValidationStatus>('idle');
@@ -190,7 +195,10 @@ const ValidateFilePage: React.FC = () => {
   const isValidating = validationStatus === 'validating';
   const isValid = validationStatus === 'valid';
   const isInvalid = validationStatus === 'invalid';
-
+  useEffect(() => {
+    const stateRequest = (location.state as { request: ISupplierRequest } | null)?.request ?? null;
+    setRequest(stateRequest);
+  }, [location.state]);
   // ---- Validate ----
   const handleValidate = async () => {
     if (!supplierFile) return;
@@ -274,6 +282,36 @@ const ValidateFilePage: React.FC = () => {
 
       <Card>
         <CardContent sx={{ p: { xs: 2, sm: 3 } }}>
+
+          {/* ── Section: Request Info (from navigation state) ── */}
+          {request && (
+            <>
+              <Typography variant="subtitle1" fontWeight={700} sx={{ mb: 1.5 }}>
+                Request Details
+              </Typography>
+              <Grid container spacing={2} sx={{ mb: 3 }}>
+                <Grid size={{ xs: 12, sm: 6 }}>
+                  <TextField
+                    label="Supplier File"
+                    value={request.SupplierFile ?? '—'}
+                    size="small"
+                    fullWidth
+                    slotProps={{ input: { readOnly: true } }}
+                  />
+                </Grid>
+                <Grid size={{ xs: 12, sm: 6 }}>
+                  <TextField
+                    label="File Type"
+                    value={request.FileType ?? '—'}
+                    size="small"
+                    fullWidth
+                    slotProps={{ input: { readOnly: true } }}
+                  />
+                </Grid>
+              </Grid>
+              <Divider sx={{ mb: 3 }} />
+            </>
+          )}
 
           {/* ── Section: File Upload ── */}
           <Typography variant="subtitle1" fontWeight={700} sx={{ mb: 0.5 }}>
