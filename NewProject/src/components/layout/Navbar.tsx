@@ -113,7 +113,7 @@ const Navbar: React.FC<NavbarProps> = ({ onMenuToggle, sidebarWidth }) => {
     setAnchorEl(null);
   };
 
-  const userInitial = user?.name?.charAt(0).toUpperCase() || 'A';
+  //const userInitial = user?.name?.charAt(0).toUpperCase() || 'A';
 
   return (
     <AppBar
@@ -519,16 +519,16 @@ const Navbar: React.FC<NavbarProps> = ({ onMenuToggle, sidebarWidth }) => {
                   boxShadow: '0 2px 8px rgba(198,40,40,0.4)',
                 }}
               >
-                {userInitial}
+                {/* {user?.userInitial} */}
               </Avatar>
             </Box>
 
             <Box sx={{ display: { xs: 'none', sm: 'block' } }}>
               <Typography variant="body2" fontWeight={700} lineHeight={1.2} sx={{ fontSize: '0.7rem', color: 'text.primary' }}>
-                {user?.name || 'Admin'}
+                {user?.firstname || ''}
               </Typography>
               <Typography variant="caption" sx={{ fontSize: '0.6rem', color: '#C62828', fontWeight: 600, lineHeight: 1 }}>
-                {user?.role || 'Admin'}
+                {user?.role || ''}
               </Typography>
             </Box>
 
@@ -575,7 +575,7 @@ const Navbar: React.FC<NavbarProps> = ({ onMenuToggle, sidebarWidth }) => {
                 border: '2px solid rgba(255,255,255,0.5)',
               }}
             >
-              {userInitial}
+              {/* {user?.userInitial} */}
             </Avatar>
             <Box>
               <Typography variant="caption" fontWeight={700} sx={{ color: '#fff', display: 'block', fontSize: '0.72rem' }}>

@@ -7,9 +7,12 @@ export interface LoginCredentials {
 export interface User {
   id: string;
   name: string;
+  firstname: string;
+  lastname: string;
   email: string;
   role: string;
   avatar?: string;
+  userInitial?: string;
 }
 
 export interface AuthContextType {

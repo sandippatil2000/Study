@@ -17,9 +17,12 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
       const authUser: User = {
         id: authResponseUser.UserId.toString(),
         name: `${authResponseUser.FirstName} ${authResponseUser.LastName}`,
+        firstname: `${authResponseUser.FirstName}`,
+        lastname: `${authResponseUser.LastName}`,
         email: authResponseUser.Email,
         role: authResponseUser.Role,
         avatar: authResponseUser.Avatar,
+        userInitial: `${user?.firstname?.charAt(0).toUpperCase() || 'A'} ${user?.lastname?.charAt(0).toUpperCase()}`
       };
       setUser(authUser);
       localStorage.setItem('auth_user', JSON.stringify(authUser));
@@ -33,7 +36,9 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
     const mockUser: User = {
       id: '2',
       name: `${provider} User`,
-      email: `user@${provider.toLowerCase()}.com`,
+      firstname: ``,
+      lastname: ``,
+      email: `user @${provider.toLowerCase()}.com`,
       role: 'Administrator',
       avatar: '',
     };
