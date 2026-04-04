@@ -1,4 +1,4 @@
-import React, { useState, useRef } from 'react';
+import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import {
   Box,
@@ -12,11 +12,6 @@ import {
   Stack,
   Divider,
   IconButton,
-  List,
-  ListItem,
-  ListItemIcon,
-  ListItemText,
-  Tooltip,
   Dialog,
   DialogTitle,
   DialogContent,
@@ -24,11 +19,9 @@ import {
   Alert,
 } from '@mui/material';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
-import CloudUploadIcon from '@mui/icons-material/CloudUpload';
-import InsertDriveFileIcon from '@mui/icons-material/InsertDriveFile';
-import DeleteIcon from '@mui/icons-material/Delete';
 import CheckCircleIcon from '@mui/icons-material/CheckCircle';
 import { supplierApi } from '../api/SupplierApi';
+import FileUpload from '../components/FileUpload';
 
 // ---- Constants ----
 const STATUS_OPTIONS = ['Pending', 'Processing', 'Completed', 'Cancelled'];
@@ -51,133 +44,8 @@ interface FormErrors {
   description?: string;
 }
 
-// ---- File Upload Zone Component ----
-interface FileUploadZoneProps {
-  label: string;
-  multiple?: boolean;
-  files: File[];
-  onFilesChange: (files: File[]) => void;
-  accept?: string;
-}
 
-const FileUploadZone: React.FC<FileUploadZoneProps> = ({
-  label,
-  multiple = false,
-  files,
-  onFilesChange,
-  accept = '*',
-}) => {
-  const inputRef = useRef<HTMLInputElement>(null);
-  const [dragging, setDragging] = useState(false);
 
-  const addFiles = (incoming: FileList | null) => {
-    if (!incoming) return;
-    const newFiles = Array.from(incoming);
-    onFilesChange(multiple ? [...files, ...newFiles] : [newFiles[0]]);
-  };
-
-  const removeFile = (index: number) => {
-    onFilesChange(files.filter((_, i) => i !== index));
-  };
-
-  const formatSize = (bytes: number) => {
-    if (bytes < 1024) return `${bytes} B`;
-    if (bytes < 1024 * 1024) return `${(bytes / 1024).toFixed(1)} KB`;
-    return `${(bytes / (1024 * 1024)).toFixed(1)} MB`;
-  };
-
-  return (
-    <Box>
-      <Typography variant="body2" fontWeight={600} color="text.secondary" sx={{ mb: 1 }}>
-        {label}
-      </Typography>
-
-      {/* Drop Zone */}
-      <Box
-        onClick={() => inputRef.current?.click()}
-        onDragOver={(e) => { e.preventDefault(); setDragging(true); }}
-        onDragLeave={() => setDragging(false)}
-        onDrop={(e) => {
-          e.preventDefault();
-          setDragging(false);
-          addFiles(e.dataTransfer.files);
-        }}
-        sx={{
-          border: '2px dashed',
-          borderColor: dragging ? 'primary.main' : 'divider',
-          borderRadius: 2,
-          p: 1.5,
-          textAlign: 'center',
-          cursor: 'pointer',
-          bgcolor: dragging ? 'action.hover' : 'background.default',
-          transition: 'all 0.2s ease',
-          '&:hover': {
-            borderColor: 'primary.main',
-            bgcolor: 'action.hover',
-          },
-        }}
-      >
-        <CloudUploadIcon sx={{ fontSize: 24, color: 'primary.main', mb: 0.5 }} />
-        <Typography variant="body2" fontWeight={600}>
-          Click to browse or drag & drop
-        </Typography>
-        <Typography variant="caption" color="text.secondary">
-          {multiple ? 'Multiple files supported' : 'Single file only'}
-        </Typography>
-        <input
-          ref={inputRef}
-          type="file"
-          multiple={multiple}
-          accept={accept}
-          style={{ display: 'none' }}
-          onChange={(e) => addFiles(e.target.files)}
-        />
-      </Box>
-
-      {/* File List */}
-      {files.length > 0 && (
-        <List dense sx={{ mt: 1 }}>
-          {files.map((file, index) => (
-            <ListItem
-              key={index}
-              sx={{
-                border: '1px solid',
-                borderColor: 'divider',
-                borderRadius: 1.5,
-                mb: 0.5,
-                bgcolor: 'background.paper',
-                pr: 1,
-              }}
-              secondaryAction={
-                <Tooltip title="Remove">
-                  <IconButton edge="end" size="small" onClick={() => removeFile(index)} color="error">
-                    <DeleteIcon fontSize="small" />
-                  </IconButton>
-                </Tooltip>
-              }
-            >
-              <ListItemIcon sx={{ minWidth: 32 }}>
-                <InsertDriveFileIcon fontSize="small" color="primary" />
-              </ListItemIcon>
-              <ListItemText
-                primary={
-                  <Typography variant="body2" fontWeight={600} noWrap sx={{ maxWidth: 260 }}>
-                    {file.name}
-                  </Typography>
-                }
-                secondary={
-                  <Typography variant="caption" color="text.secondary">
-                    {formatSize(file.size)}
-                  </Typography>
-                }
-              />
-            </ListItem>
-          ))}
-        </List>
-      )}
-    </Box>
-  );
-};
 
 // ---- Main Page ----
 const CreateSupplierRequest: React.FC = () => {
@@ -406,18 +274,17 @@ const CreateSupplierRequest: React.FC = () => {
             <Typography variant="subtitle1" fontWeight={700} sx={{ mb: 2 }}>
               Attachments
             </Typography>
-            <Grid container spacing={3}>
+            <Grid container spacing={4}>
               <Grid size={{ xs: 12, md: 4 }}>
-                <FileUploadZone
+                <FileUpload
                   label="Supplier File"
                   multiple={false}
                   files={supplierFile}
-
                   onFilesChange={setSupplierFile}
                 />
               </Grid>
               <Grid size={{ xs: 12, md: 4 }}>
-                <FileUploadZone
+                <FileUpload
                   label="Product Files"
                   multiple={true}
                   files={productFiles}
