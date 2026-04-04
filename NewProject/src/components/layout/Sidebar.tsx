@@ -57,11 +57,11 @@ const navItems: NavItem[] = [
       { label: 'Create Request', path: '/supplierRequests/create' },
     ],
   },
-  { label: 'Reports',    icon: <BarChartIcon sx={{ fontSize: 18 }} />,    path: '/reports' },
-  { label: 'Components', icon: <LayersIcon sx={{ fontSize: 18 }} />,      path: '/components' },
-  { label: 'Pages',      icon: <DescriptionIcon sx={{ fontSize: 18 }} />, path: '/pages' },
-  { label: 'Premium',    icon: <StarIcon sx={{ fontSize: 18 }} />,        path: '/premium' },
-  { label: 'Settings',   icon: <SettingsIcon sx={{ fontSize: 18 }} />,    path: '/settings' },
+  { label: 'Reports', icon: <BarChartIcon sx={{ fontSize: 18 }} />, path: '/reports' },
+  { label: 'Components', icon: <LayersIcon sx={{ fontSize: 18 }} />, path: '/components' },
+  { label: 'Pages', icon: <DescriptionIcon sx={{ fontSize: 18 }} />, path: '/pages' },
+  { label: 'Premium', icon: <StarIcon sx={{ fontSize: 18 }} />, path: '/premium' },
+  { label: 'Settings', icon: <SettingsIcon sx={{ fontSize: 18 }} />, path: '/settings' },
 ];
 
 interface SidebarProps {
@@ -301,21 +301,52 @@ const Sidebar: React.FC<SidebarProps> = ({ mobileOpen, onClose, collapsed, onTog
           </Box>
           <Divider />
           <List sx={{ flex: 1, py: 0.5 }}>
-            {navItems.map((item) => (
-              <ListItem key={item.label} disablePadding>
-                <ListItemButton
-                  onClick={() => (item.path ? handleNav(item.path) : undefined)}
-                  selected={item.path ? location.pathname === item.path : false}
-                  sx={{
-                    mx: 0.75, borderRadius: 1.5, mb: 0.2, minHeight: 34,
-                    '&.Mui-selected': { backgroundColor: '#C62828', color: 'white', '& .MuiListItemIcon-root': { color: 'white' } },
-                  }}
-                >
-                  <ListItemIcon sx={{ minWidth: 30, color: 'text.secondary' }}>{item.icon}</ListItemIcon>
-                  <ListItemText primary={item.label} primaryTypographyProps={{ fontSize: 12, fontWeight: 500 }} />
-                </ListItemButton>
-              </ListItem>
-            ))}
+            {navItems.map((item) => {
+              const isActive = item.path
+                ? location.pathname === item.path
+                : item.children?.some((c) => location.pathname === c.path);
+
+              return (
+                <React.Fragment key={item.label}>
+                  <ListItem disablePadding>
+                    <ListItemButton
+                      onClick={() => (item.children ? toggleMenu(item.label) : handleNav(item.path || '/'))}
+                      selected={!!isActive}
+                      sx={{
+                        mx: 0.75, borderRadius: 1.5, mb: 0.2, minHeight: 34,
+                        '&.Mui-selected': { backgroundColor: '#C62828', color: 'white', '& .MuiListItemIcon-root': { color: 'white' } },
+                      }}
+                    >
+                      <ListItemIcon sx={{ minWidth: 30, color: isActive ? 'white' : 'text.secondary' }}>{item.icon}</ListItemIcon>
+                      <ListItemText primary={item.label} primaryTypographyProps={{ fontSize: 12, fontWeight: 500 }} />
+                      {item.children && (
+                        openMenus[item.label] ? <ExpandLess sx={{ fontSize: 15 }} /> : <ExpandMore sx={{ fontSize: 15 }} />
+                      )}
+                    </ListItemButton>
+                  </ListItem>
+                  {item.children && (
+                    <Collapse in={openMenus[item.label]} timeout="auto" unmountOnExit>
+                      <List disablePadding>
+                        {item.children.map((child) => (
+                          <ListItem key={child.label} disablePadding>
+                            <ListItemButton
+                              onClick={() => handleNav(child.path)}
+                              selected={location.pathname === child.path}
+                              sx={{
+                                pl: 5.5, mx: 0.75, borderRadius: 1.5, mb: 0.2, minHeight: 28,
+                                '&.Mui-selected': { backgroundColor: 'rgba(198, 40, 40, 0.12)', color: '#C62828' },
+                              }}
+                            >
+                              <ListItemText primary={child.label} primaryTypographyProps={{ fontSize: 11 }} />
+                            </ListItemButton>
+                          </ListItem>
+                        ))}
+                      </List>
+                    </Collapse>
+                  )}
+                </React.Fragment>
+              );
+            })}
           </List>
         </Box>
       </Drawer>
