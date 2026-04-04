@@ -29,8 +29,8 @@ import {
 } from '@mui/icons-material';
 import { useNavigate, useLocation } from 'react-router-dom';
 
-export const DRAWER_WIDTH = 210;       // reduced from 250
-export const MINI_DRAWER_WIDTH = 52;   // reduced from 64
+export const DRAWER_WIDTH = 190;
+export const MINI_DRAWER_WIDTH = 48;
 
 interface NavItem {
   label: string;
@@ -40,10 +40,10 @@ interface NavItem {
 }
 
 const navItems: NavItem[] = [
-  { label: 'Dashboard', icon: <DashboardIcon sx={{ fontSize: 18 }} />, path: '/dashboard' },
+  { label: 'Dashboard', icon: <DashboardIcon sx={{ fontSize: 16 }} />, path: '/dashboard' },
   {
     label: 'Users',
-    icon: <PeopleIcon sx={{ fontSize: 18 }} />,
+    icon: <PeopleIcon sx={{ fontSize: 16 }} />,
     children: [
       { label: 'All Users', path: '/users' },
       { label: 'Add User', path: '/users/add' },
@@ -51,17 +51,17 @@ const navItems: NavItem[] = [
   },
   {
     label: 'Supplier',
-    icon: <ShoppingCartIcon sx={{ fontSize: 18 }} />,
+    icon: <ShoppingCartIcon sx={{ fontSize: 16 }} />,
     children: [
       { label: 'Supplier Requests', path: '/supplierRequests' },
       { label: 'Create Request', path: '/supplierRequests/create' },
     ],
   },
-  { label: 'Reports', icon: <BarChartIcon sx={{ fontSize: 18 }} />, path: '/reports' },
-  { label: 'Components', icon: <LayersIcon sx={{ fontSize: 18 }} />, path: '/components' },
-  { label: 'Pages', icon: <DescriptionIcon sx={{ fontSize: 18 }} />, path: '/pages' },
-  { label: 'Premium', icon: <StarIcon sx={{ fontSize: 18 }} />, path: '/premium' },
-  { label: 'Settings', icon: <SettingsIcon sx={{ fontSize: 18 }} />, path: '/settings' },
+  { label: 'Reports', icon: <BarChartIcon sx={{ fontSize: 16 }} />, path: '/reports' },
+  { label: 'Components', icon: <LayersIcon sx={{ fontSize: 16 }} />, path: '/components' },
+  { label: 'Pages', icon: <DescriptionIcon sx={{ fontSize: 16 }} />, path: '/pages' },
+  { label: 'Premium', icon: <StarIcon sx={{ fontSize: 16 }} />, path: '/premium' },
+  { label: 'Settings', icon: <SettingsIcon sx={{ fontSize: 16 }} />, path: '/settings' },
 ];
 
 interface SidebarProps {
@@ -105,17 +105,17 @@ const Sidebar: React.FC<SidebarProps> = ({ mobileOpen, onClose, collapsed, onTog
           alignItems: 'center',
           justifyContent: collapsed ? 'center' : 'space-between',
           px: collapsed ? 0 : 1.5,
-          py: 1,
+          py: 0.5,
           background: 'linear-gradient(135deg, #C62828 0%, #8E0000 100%)',
-          minHeight: 48,           // reduced from 64
+          minHeight: 40,
           transition: 'padding 0.25s ease',
         }}
       >
         <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
-          <ShoppingCartIcon sx={{ color: 'white', width: 24, height: 24, flexShrink: 0 }} />
+          <ShoppingCartIcon sx={{ color: 'white', width: 20, height: 20, flexShrink: 0 }} />
           {!collapsed && (
             <Box>
-              <Typography variant="h6" sx={{ color: 'white', fontWeight: 700, lineHeight: 1.2, fontSize: 13 }}>
+              <Typography variant="h6" sx={{ color: 'white', fontWeight: 700, lineHeight: 1.2, fontSize: 12 }}>
                 One Shop
               </Typography>
               <Typography variant="caption" sx={{ color: 'rgba(255,255,255,0.75)', fontSize: 9 }}>
@@ -166,12 +166,12 @@ const Sidebar: React.FC<SidebarProps> = ({ mobileOpen, onClose, collapsed, onTog
                     onClick={() => (item.children ? toggleMenu(item.label) : handleNav(item.path || '/'))}
                     selected={!!isActive}
                     sx={{
-                      mx: 0.75,
-                      borderRadius: 1.5,
-                      mb: 0.2,
+                      mx: 0.5,
+                      borderRadius: 1,
+                      mb: 0.1,
                       justifyContent: collapsed ? 'center' : 'flex-start',
-                      px: collapsed ? 0.75 : 1.5,
-                      minHeight: 34,          // reduced from 44
+                      px: collapsed ? 0.5 : 1,
+                      minHeight: 28,
                       transition: 'padding 0.25s ease',
                       '&.Mui-selected': {
                         backgroundColor: '#C62828',
@@ -188,7 +188,7 @@ const Sidebar: React.FC<SidebarProps> = ({ mobileOpen, onClose, collapsed, onTog
                   >
                     <ListItemIcon
                       sx={{
-                        minWidth: collapsed ? 0 : 30,
+                        minWidth: collapsed ? 0 : 26,
                         color: isActive ? 'white' : 'text.secondary',
                         justifyContent: 'center',
                       }}
@@ -200,7 +200,7 @@ const Sidebar: React.FC<SidebarProps> = ({ mobileOpen, onClose, collapsed, onTog
                       <>
                         <ListItemText
                           primary={item.label}
-                          primaryTypographyProps={{ fontSize: 12, fontWeight: 500 }}
+                          primaryTypographyProps={{ fontSize: 11, fontWeight: 500 }}
                         />
                         {item.children && (
                           openMenus[item.label]
@@ -223,11 +223,11 @@ const Sidebar: React.FC<SidebarProps> = ({ mobileOpen, onClose, collapsed, onTog
                           onClick={() => handleNav(child.path)}
                           selected={location.pathname === child.path}
                           sx={{
-                            pl: 5.5,
-                            mx: 0.75,
-                            borderRadius: 1.5,
-                            mb: 0.2,
-                            minHeight: 28,
+                            pl: 4,
+                            mx: 0.5,
+                            borderRadius: 1,
+                            mb: 0.1,
+                            minHeight: 24,
                             '&.Mui-selected': {
                               backgroundColor: 'rgba(198, 40, 40, 0.12)',
                               color: '#C62828',
@@ -236,7 +236,7 @@ const Sidebar: React.FC<SidebarProps> = ({ mobileOpen, onClose, collapsed, onTog
                         >
                           <ListItemText
                             primary={child.label}
-                            primaryTypographyProps={{ fontSize: 11 }}
+                            primaryTypographyProps={{ fontSize: 10 }}
                           />
                         </ListItemButton>
                       </ListItem>
@@ -288,14 +288,14 @@ const Sidebar: React.FC<SidebarProps> = ({ mobileOpen, onClose, collapsed, onTog
               alignItems: 'center',
               gap: 1,
               px: 1.5,
-              py: 1,
+              py: 0.5,
               background: 'linear-gradient(135deg, #C62828 0%, #8E0000 100%)',
-              minHeight: 48,
+              minHeight: 40,
             }}
           >
-            <ShoppingCartIcon sx={{ color: 'white', width: 24, height: 24 }} />
+            <ShoppingCartIcon sx={{ color: 'white', width: 20, height: 20 }} />
             <Box>
-              <Typography variant="h6" sx={{ color: 'white', fontWeight: 700, lineHeight: 1.2, fontSize: 13 }}>One Shop</Typography>
+              <Typography variant="h6" sx={{ color: 'white', fontWeight: 700, lineHeight: 1.2, fontSize: 12 }}>One Shop</Typography>
               <Typography variant="caption" sx={{ color: 'rgba(255,255,255,0.75)', fontSize: 9 }}>Electronics Shop</Typography>
             </Box>
           </Box>
@@ -313,12 +313,12 @@ const Sidebar: React.FC<SidebarProps> = ({ mobileOpen, onClose, collapsed, onTog
                       onClick={() => (item.children ? toggleMenu(item.label) : handleNav(item.path || '/'))}
                       selected={!!isActive}
                       sx={{
-                        mx: 0.75, borderRadius: 1.5, mb: 0.2, minHeight: 34,
+                        mx: 0.5, borderRadius: 1, mb: 0.1, minHeight: 28,
                         '&.Mui-selected': { backgroundColor: '#C62828', color: 'white', '& .MuiListItemIcon-root': { color: 'white' } },
                       }}
                     >
-                      <ListItemIcon sx={{ minWidth: 30, color: isActive ? 'white' : 'text.secondary' }}>{item.icon}</ListItemIcon>
-                      <ListItemText primary={item.label} primaryTypographyProps={{ fontSize: 12, fontWeight: 500 }} />
+                      <ListItemIcon sx={{ minWidth: 26, color: isActive ? 'white' : 'text.secondary' }}>{item.icon}</ListItemIcon>
+                      <ListItemText primary={item.label} primaryTypographyProps={{ fontSize: 11, fontWeight: 500 }} />
                       {item.children && (
                         openMenus[item.label] ? <ExpandLess sx={{ fontSize: 15 }} /> : <ExpandMore sx={{ fontSize: 15 }} />
                       )}
@@ -333,11 +333,11 @@ const Sidebar: React.FC<SidebarProps> = ({ mobileOpen, onClose, collapsed, onTog
                               onClick={() => handleNav(child.path)}
                               selected={location.pathname === child.path}
                               sx={{
-                                pl: 5.5, mx: 0.75, borderRadius: 1.5, mb: 0.2, minHeight: 28,
+                                pl: 4, mx: 0.5, borderRadius: 1, mb: 0.1, minHeight: 24,
                                 '&.Mui-selected': { backgroundColor: 'rgba(198, 40, 40, 0.12)', color: '#C62828' },
                               }}
                             >
-                              <ListItemText primary={child.label} primaryTypographyProps={{ fontSize: 11 }} />
+                              <ListItemText primary={child.label} primaryTypographyProps={{ fontSize: 10 }} />
                             </ListItemButton>
                           </ListItem>
                         ))}
