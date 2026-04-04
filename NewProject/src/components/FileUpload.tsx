@@ -18,6 +18,8 @@ interface FileUploadZoneProps {
     files: File[];
     onFilesChange: (files: File[]) => void;
     accept?: string;
+    error?: boolean;
+    helperText?: string;
 }
 
 const FileUpload: React.FC<FileUploadZoneProps> = ({
@@ -26,6 +28,8 @@ const FileUpload: React.FC<FileUploadZoneProps> = ({
     files,
     onFilesChange,
     accept = '*',
+    error = false,
+    helperText = '',
 }) => {
     const inputRef = useRef<HTMLInputElement>(null);
     const [dragging, setDragging] = useState(false);
@@ -64,7 +68,7 @@ const FileUpload: React.FC<FileUploadZoneProps> = ({
                 }}
                 sx={{
                     border: '2px dashed',
-                    borderColor: dragging ? 'primary.main' : 'divider',
+                    borderColor: error ? 'error.main' : (dragging ? 'primary.main' : 'divider'),
                     borderRadius: 1.5,
                     p: 1,
                     textAlign: 'center',
@@ -72,7 +76,7 @@ const FileUpload: React.FC<FileUploadZoneProps> = ({
                     bgcolor: dragging ? 'action.hover' : 'background.default',
                     transition: 'all 0.2s ease',
                     '&:hover': {
-                        borderColor: 'primary.main',
+                        borderColor: error ? 'error.main' : 'primary.main',
                         bgcolor: 'action.hover',
                     },
                 }}
@@ -93,6 +97,12 @@ const FileUpload: React.FC<FileUploadZoneProps> = ({
                     onChange={(e) => addFiles(e.target.files)}
                 />
             </Box>
+
+            {error && helperText && (
+                <Typography variant="caption" color="error" sx={{ display: 'block', mt: 0.5, px: 0.5 }}>
+                    {helperText}
+                </Typography>
+            )}
 
             {/* File List */}
             {files.length > 0 && (

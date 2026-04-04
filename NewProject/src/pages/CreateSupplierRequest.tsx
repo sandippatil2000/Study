@@ -42,6 +42,7 @@ interface FormErrors {
   supplier?: string;
   status?: string;
   description?: string;
+  supplierFile?: string;
 }
 
 
@@ -85,6 +86,8 @@ const CreateSupplierRequest: React.FC = () => {
     if (!form.supplier.trim()) newErrors.supplier = 'Supplier is required.';
     if (!form.status) newErrors.status = 'Status is required.';
     if (!form.description) newErrors.description = 'Description is required.';
+    if (supplierFile.length === 0) newErrors.supplierFile = 'Supplier file is required.';
+    
     setErrors(newErrors);
     return Object.keys(newErrors).length === 0;
   };
@@ -280,7 +283,14 @@ const CreateSupplierRequest: React.FC = () => {
                   label="Supplier File"
                   multiple={false}
                   files={supplierFile}
-                  onFilesChange={setSupplierFile}
+                  onFilesChange={(files) => {
+                    setSupplierFile(files);
+                    if (errors.supplierFile && files.length > 0) {
+                      setErrors((prev) => ({ ...prev, supplierFile: undefined }));
+                    }
+                  }}
+                  error={!!errors.supplierFile}
+                  helperText={errors.supplierFile}
                 />
               </Grid>
               <Grid size={{ xs: 12, md: 4 }}>
