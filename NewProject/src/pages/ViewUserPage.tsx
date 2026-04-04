@@ -201,9 +201,6 @@ const ViewUserPage: React.FC = () => {
                 size="small"
                 onClick={() => navigate('/users')}
                 sx={{
-                  py: 1.25,
-                  px: 4,
-                  fontSize: 15,
                   fontWeight: 600,
                   color: '#C62828',
                   borderColor: '#C62828',
