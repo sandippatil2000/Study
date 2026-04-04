@@ -1,8 +1,10 @@
 export enum RequestStatus {
-    Supplier = "Saved",
-    Requester = "Submitted",
-    Validate = "Validate",
+    Saved = "Saved",
+    Submitted = "Submitted",
+    CSSToValidate = "CSSToValidate",
+    MDToValidate = "MDToValidate",
     Splited = "Splited",
+    Uploaded = "Uploaded",
     Completed = "Completed",
     Cancelled = "Cancelled"
 }

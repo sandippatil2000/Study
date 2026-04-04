@@ -60,7 +60,8 @@ const ValidationRequests: React.FC = () => {
   useEffect(() => {
     const fetchRequests = async () => {
       try {
-        const data = await supplierApi.GetSupplierRequests();
+        const status: string[] = [RequestStatus.MDToValidate]
+        const data = await supplierApi.GetSupplierRequestsByStatus(status);
         setRequests(data);
       } catch (error) {
         console.error('Failed to fetch supplier requests:', error);

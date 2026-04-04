@@ -35,10 +35,11 @@ import VisibilityIcon from '@mui/icons-material/Visibility';
 const statusColor: Record<string, 'success' | 'warning' | 'info' | 'error' | 'default'> = {
   [RequestStatus.Completed]: 'success',
   [RequestStatus.Cancelled]: 'error',
-  [RequestStatus.Supplier]: 'default',
-  [RequestStatus.Requester]: 'warning',
-  [RequestStatus.Validate]: 'info',
+  [RequestStatus.Saved]: 'default',
+  [RequestStatus.CSSToValidate]: 'info',
+  [RequestStatus.MDToValidate]: 'info',
   [RequestStatus.Splited]: 'info',
+  [RequestStatus.Submitted]: 'info',
 };
 
 const status = ['All', ...Object.values(RequestStatus)];
