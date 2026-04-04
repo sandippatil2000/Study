@@ -15,3 +15,4 @@ export interface ISupplierRequest {
     CSSEmail?: string;
     MDEmail?: string;
 }
+

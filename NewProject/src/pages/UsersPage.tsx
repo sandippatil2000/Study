@@ -54,7 +54,7 @@ const UsersPage: React.FC = () => {
           <Typography variant="h4" fontWeight={700}>Users</Typography>
           <Typography variant="body2" color="text.secondary">Manage your system users</Typography>
         </Box>
-        <Button variant="contained" startIcon={<AddIcon />} sx={{ background: 'linear-gradient(135deg, #C62828, #8E0000)' }}>
+        <Button variant="contained" size="small" startIcon={<AddIcon />} sx={{ background: 'linear-gradient(135deg, #C62828, #8E0000)' }}>
           Add User
         </Button>
       </Box>

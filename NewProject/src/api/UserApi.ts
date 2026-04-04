@@ -1,11 +1,12 @@
+import { Role } from '../models/Role';
 import type { IUser } from '../models/User';
 
 let mockUsers: IUser[] = [
-    { UserId: 1, FirstName: 'Alice', LastName: 'Johnson', Supplier: 'Supplier A', Email: 'alice@example.com', Role: 'Admin', Status: 'Active', Avatar: 'AJ', Approved: 'Approved' },
-    { UserId: 2, FirstName: 'Bob', LastName: 'Smith', Supplier: 'Supplier B', Email: 'bob@example.com', Role: 'User', Status: 'Active', Avatar: 'BS', Approved: 'Approved' },
-    { UserId: 3, FirstName: 'Carol', LastName: 'White', Supplier: 'Supplier C', Email: 'carol@example.com', Role: 'Manager', Status: 'Inactive', Avatar: 'CW', Approved: 'Approved' },
-    { UserId: 4, FirstName: 'David', LastName: 'Lee', Supplier: 'Supplier D', Email: 'david@example.com', Role: 'User', Status: 'Active', Avatar: 'DL', Approved: 'Approved' },
-    { UserId: 5, FirstName: 'Eva', LastName: 'Brown', Supplier: 'Supplier E', Email: 'eva@example.com', Role: 'User', Status: 'Pending', Avatar: 'EB', Approved: 'Rejected' },
+    { UserId: 1, FirstName: 'Alice', LastName: 'Johnson', Supplier: 'Supplier A', Email: 'alice@example.com', Role: Role.Admin, Status: 'Active', Avatar: 'AJ', Approved: 'Approved' },
+    { UserId: 2, FirstName: 'Bob', LastName: 'Smith', Supplier: 'Supplier B', Email: 'bob@example.com', Role: Role.Requester, Status: 'Active', Avatar: 'BS', Approved: 'Approved' },
+    { UserId: 3, FirstName: 'Carol', LastName: 'White', Supplier: 'Supplier C', Email: 'carol@example.com', Role: Role.Requester, Status: 'Inactive', Avatar: 'CW', Approved: 'Approved' },
+    { UserId: 4, FirstName: 'David', LastName: 'Lee', Supplier: 'Supplier D', Email: 'david@example.com', Role: Role.MDTeam, Status: 'Active', Avatar: 'DL', Approved: 'Approved' },
+    { UserId: 5, FirstName: 'Eva', LastName: 'Brown', Supplier: 'Supplier E', Email: 'eva@example.com', Role: Role.Supplier, Status: 'Pending', Avatar: 'EB', Approved: 'Rejected' },
 ];
 
 export const userApi = {

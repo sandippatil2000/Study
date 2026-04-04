@@ -13,6 +13,7 @@ import {
 import { useNavigate, useParams } from 'react-router-dom';
 import { userApi } from '../api/UserApi';
 import type { IUser } from '../models/User';
+import '../styles/CommonStyles.css';
 
 const ViewUserPage: React.FC = () => {
   const { id } = useParams<{ id: string }>();
@@ -195,20 +196,12 @@ const ViewUserPage: React.FC = () => {
               </Grid>
             </Grid>
 
-            <Box sx={{ display: 'flex', justifyContent: 'flex-end', mt: 4, mb: 2 }}>
+            <Box className="common-back-btn-box">
               <Button
                 variant="outlined"
                 size="small"
                 onClick={() => navigate('/users')}
-                sx={{
-                  fontWeight: 600,
-                  color: '#C62828',
-                  borderColor: '#C62828',
-                  '&:hover': {
-                    borderColor: '#8E0000',
-                    backgroundColor: 'rgba(198, 40, 40, 0.04)'
-                  },
-                }}
+                className="common-back-btn-outlined"
               >
                 Back to Users
               </Button>

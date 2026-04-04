@@ -358,22 +358,25 @@ const ViewSupplierRequest: React.FC<ViewSupplierRequestProps> = ({ SupplierId })
           <Stack direction="row" spacing={2} justifyContent="flex-end">
             <Button
               variant="outlined"
+              size="small"
               onClick={() => navigate('/supplierRequests')}
-              sx={{ textTransform: 'none', minWidth: 110 }}
+              sx={{ textTransform: 'none' }}
             >
               Back to List
             </Button>
             <Button
               variant="contained"
+              size="small"
               startIcon={<EditIcon />}
               onClick={() => navigate(`/supplierRequests/edit/${request.RequestId}`)}
-              sx={{ textTransform: 'none', fontWeight: 700, minWidth: 130 }}
+              sx={{ textTransform: 'none', fontWeight: 700 }}
             >
               Edit Request
             </Button>
             {/* Validate shortcut */}
             <Button
               variant="contained"
+              size="small"
               startIcon={<FactCheck />}
               onClick={() => navigate(`/supplierRequests/validate/${request.RequestId}`, { state: { request: request } })}
               sx={{ textTransform: 'none' }}

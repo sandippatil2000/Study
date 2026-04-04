@@ -432,8 +432,9 @@ const CreateSupplierRequest: React.FC = () => {
             <Stack direction="row" spacing={2} justifyContent="flex-end">
               <Button
                 variant="outlined"
+                size="small"
                 onClick={() => navigate('/supplierRequests')}
-                sx={{ textTransform: 'none', minWidth: 110 }}
+                sx={{ textTransform: 'none' }}
               >
                 Cancel
               </Button>
@@ -441,17 +442,19 @@ const CreateSupplierRequest: React.FC = () => {
                 type="reset"
                 variant="outlined"
                 color="warning"
+                size="small"
                 onClick={handleReset}
                 disabled={submitted}
-                sx={{ textTransform: 'none', minWidth: 110 }}
+                sx={{ textTransform: 'none' }}
               >
                 Reset
               </Button>
               <Button
                 type="submit"
                 variant="contained"
+                size="small"
                 disabled={submitted}
-                sx={{ textTransform: 'none', fontWeight: 700, minWidth: 160 }}
+                sx={{ textTransform: 'none', fontWeight: 700 }}
               >
                 Save Request
               </Button>

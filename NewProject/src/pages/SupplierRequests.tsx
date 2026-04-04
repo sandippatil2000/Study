@@ -113,16 +113,14 @@ const SupplierRequestsPage: React.FC = () => {
   return (
     <Box>
       {/* Page Header */}
-      <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', mb: 3 }}>
+      <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', mb: 2 }}>
         <Box>
-          <Typography variant="h4" fontWeight={700}>Supplier Requests</Typography>
-          <Typography variant="body2" color="text.secondary">
-            Welcome back! Here's what's happening with your business today.
-          </Typography>
+          <Typography variant="h5" fontWeight={700}>Supplier Requests</Typography>
         </Box>
         <Button
           variant="contained"
           startIcon={<AddIcon />}
+          size="small"
           onClick={() => navigate('/supplierRequests/create')}
           sx={{ textTransform: 'none', fontWeight: 700, whiteSpace: 'nowrap' }}
         >
@@ -136,14 +134,7 @@ const SupplierRequestsPage: React.FC = () => {
           <Card>
             <CardContent>
               {/* Table Header */}
-              <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', mb: 2 }}>
-                <Box>
-                  <Typography variant="h6" fontWeight={700}>Recent Supplier Requests</Typography>
-                  <Typography variant="body2" color="text.secondary">
-                    {filteredRequests.length} result{filteredRequests.length !== 1 ? 's' : ''} found
-                  </Typography>
-                </Box>
-              </Box>
+
 
               {/* ---- Filter Bar ---- */}
               <Box
@@ -250,7 +241,13 @@ const SupplierRequestsPage: React.FC = () => {
                   </Grid>
                 </Grid>
               </Box>
-
+              <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', mb: 2 }}>
+                <Box>
+                  <Typography variant="body2" color="text.secondary">
+                    {filteredRequests.length} result{filteredRequests.length !== 1 ? 's' : ''} found
+                  </Typography>
+                </Box>
+              </Box>
               {/* ---- Table ---- */}
               <TableContainer>
                 <Table size="small">

@@ -1,0 +1,17 @@
+.common-back-btn-box {
+  display: flex;
+  justify-content: flex-end;
+  margin-top: 32px;
+  margin-bottom: 16px;
+}
+
+.common-back-btn-outlined {
+  font-weight: 600 !important;
+  color: #c62828 !important;
+  border-color: #c62828 !important;
+}
+
+.common-back-btn-outlined:hover {
+  border-color: #8e0000 !important;
+  background-color: rgba(198, 40, 40, 0.04) !important;
+}
