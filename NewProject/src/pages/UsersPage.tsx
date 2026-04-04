@@ -52,7 +52,6 @@ const UsersPage: React.FC = () => {
       <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', mb: 3 }}>
         <Box>
           <Typography variant="h4" fontWeight={700}>Users</Typography>
-          <Typography variant="body2" color="text.secondary">Manage your system users</Typography>
         </Box>
         <Button variant="contained" size="small" startIcon={<AddIcon />} sx={{ background: 'linear-gradient(135deg, #C62828, #8E0000)' }}>
           Add User
@@ -61,7 +60,7 @@ const UsersPage: React.FC = () => {
       <Card>
         <CardContent>
           <TableContainer>
-            <Table>
+            <Table size="small">
               <TableHead>
                 <TableRow sx={{ '& th': { fontWeight: 700, fontSize: 12, color: 'text.secondary' } }}>
                   <TableCell>User</TableCell>
