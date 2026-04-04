@@ -14,6 +14,7 @@ import CreateSupplierRequest from './pages/CreateSupplierRequest';
 import ValidateFilePage from './pages/ValidateFilePage';
 import ViewSupplierRequest from './pages/ViewSupplierRequest';
 import ViewUserPage from './pages/ViewUserPage';
+import ValidationRequests from './pages/ValidationRequests';
 
 const App: React.FC = () => {
   return (
@@ -41,6 +42,7 @@ const App: React.FC = () => {
                       <Route path="/supplierRequests/validate" element={<ValidateFilePage />} />
                       <Route path="/supplierRequests/view/:id" element={<ViewSupplierRequest />} />
                       <Route path="/supplierRequests/validate/:id" element={<ValidateFilePage />} />
+                      <Route path="/ValidationRequests" element={<ValidationRequests />} />
                       <Route path="/" element={<Navigate to="/dashboard" replace />} />
                       <Route path="*" element={<Navigate to="/dashboard" replace />} />
                     </Routes>

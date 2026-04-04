@@ -2,7 +2,6 @@ import React, { useState, useMemo, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import type { ISupplierRequest } from '../models/SupplierRequest';
 import { supplierApi } from '../api/SupplierApi';
-import { RequestStatus } from '../models/RequestStatus';
 import {
   Box,
   Grid,
@@ -30,15 +29,14 @@ import FilterListIcon from '@mui/icons-material/FilterList';
 import ClearIcon from '@mui/icons-material/Clear';
 import AddIcon from '@mui/icons-material/Add';
 import VisibilityIcon from '@mui/icons-material/Visibility';
+import { RequestStatus } from '../models/RequestStatus';
 
 // ---- Status Badge Colors ----
 const statusColor: Record<string, 'success' | 'warning' | 'info' | 'error' | 'default'> = {
-  [RequestStatus.Completed]: 'success',
-  [RequestStatus.Cancelled]: 'error',
-  [RequestStatus.Supplier]: 'default',
-  [RequestStatus.Requester]: 'warning',
-  [RequestStatus.Validate]: 'info',
-  [RequestStatus.Splited]: 'info',
+  Completed: 'success',
+  Pending: 'warning',
+  Processing: 'info',
+  Cancelled: 'error',
 };
 
 const status = ['All', ...Object.values(RequestStatus)];
@@ -52,7 +50,7 @@ const defaultFilters = {
 };
 
 // ---- Page Component ----
-const SupplierRequestsPage: React.FC = () => {
+const ValidationRequests: React.FC = () => {
   const navigate = useNavigate();
   const [requests, setRequests] = useState<ISupplierRequest[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
@@ -325,4 +323,4 @@ const SupplierRequestsPage: React.FC = () => {
   );
 };
 
-export default SupplierRequestsPage;
+export default ValidationRequests;

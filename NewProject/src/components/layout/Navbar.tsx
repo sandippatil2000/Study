@@ -54,6 +54,13 @@ const navMenuItems: NavMenuItem[] = [
       { label: 'Create Request', path: '/supplierRequests/create' },
     ],
   },
+  {
+    label: 'Validation',
+    icon: <ShoppingCartIcon sx={{ fontSize: 15 }} />,
+    children: [
+      { label: 'Validation Requests', path: '/ValidationRequests' },
+    ],
+  },
   { label: 'Reports', icon: <BarChartIcon sx={{ fontSize: 15 }} />, path: '/reports' },
   { label: 'Settings', icon: <SettingsNavIcon sx={{ fontSize: 15 }} />, path: '/settings' },
 ];
@@ -266,8 +273,8 @@ const Navbar: React.FC<NavbarProps> = ({ onMenuToggle, sidebarWidth }) => {
             <Typography variant="caption" fontWeight={700}>{user?.name}</Typography>
             <Typography variant="caption" color="text.secondary" display="block">{user?.email}</Typography>
           </Box>
-          <MenuItem 
-            sx={{ gap: 1, py: 0.8, fontSize: '0.75rem' }} 
+          <MenuItem
+            sx={{ gap: 1, py: 0.8, fontSize: '0.75rem' }}
             onClick={() => {
               setAnchorEl(null);
               if (user?.id) navigate(`/users/view/${user.id}`);

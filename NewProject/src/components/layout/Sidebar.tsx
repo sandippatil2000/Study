@@ -57,6 +57,13 @@ const navItems: NavItem[] = [
       { label: 'Create Request', path: '/supplierRequests/create' },
     ],
   },
+  {
+    label: 'Validation',
+    icon: <ShoppingCartIcon sx={{ fontSize: 15 }} />,
+    children: [
+      { label: 'Validation Requests', path: '/ValidationRequests' },
+    ],
+  },
   { label: 'Reports', icon: <BarChartIcon sx={{ fontSize: 16 }} />, path: '/reports' },
   { label: 'Components', icon: <LayersIcon sx={{ fontSize: 16 }} />, path: '/components' },
   { label: 'Pages', icon: <DescriptionIcon sx={{ fontSize: 16 }} />, path: '/pages' },
