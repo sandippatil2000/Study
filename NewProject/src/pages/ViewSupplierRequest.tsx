@@ -14,15 +14,22 @@ import {
   Button,
   TextField,
   Typography,
+  Dialog,
+  DialogTitle,
+  DialogContent,
+  DialogContentText,
+  DialogActions,
 } from '@mui/material';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import EditIcon from '@mui/icons-material/Edit';
 import FactCheck from '@mui/icons-material/FactCheck';
+import CancelIcon from '@mui/icons-material/Cancel';
 import type { ISupplierRequest } from '../models/SupplierRequest';
 import type { IUser } from '../models/User';
 import { supplierApi } from '../api/SupplierApi';
 import { userApi } from '../api/UserApi';
 import AttachmentList from '../components/AttachmentList';
+import { RequestStatus } from '../models/RequestStatus';
 
 // ─── Status chip colour map ───────────────────────────────────────────────────
 
@@ -86,6 +93,17 @@ const ViewSupplierRequest: React.FC<ViewSupplierRequestProps> = ({ SupplierId })
   const [cssEmail, setCssEmail] = useState<IUser | null>(null);
   const [mdEmail, setMdEmail] = useState<IUser | null>(null);
   const [assignedTo, setAssignedTo] = useState<IUser | null>(null);
+  const [cancelDialogOpen, setCancelDialogOpen] = useState<boolean>(false);
+
+  const handleCancelRequest = async () => {
+    if (!request) return;
+    try {
+      await supplierApi.UpdateSupplierRequest(request.RequestId, { Status: RequestStatus.Cancelled });
+      navigate('/supplierRequests');
+    } catch (err) {
+      console.error('Failed to cancel request:', err);
+    }
+  };
 
   useEffect(() => {
     const fetchRequest = async () => {
@@ -359,6 +377,16 @@ const ViewSupplierRequest: React.FC<ViewSupplierRequestProps> = ({ SupplierId })
             <Button
               variant="outlined"
               size="small"
+              color="error"
+              startIcon={<CancelIcon />}
+              onClick={() => setCancelDialogOpen(true)}
+              sx={{ textTransform: 'none' }}
+            >
+              Cancel Request
+            </Button>
+            <Button
+              variant="outlined"
+              size="small"
               onClick={() => navigate('/supplierRequests')}
               sx={{ textTransform: 'none' }}
             >
@@ -384,6 +412,24 @@ const ViewSupplierRequest: React.FC<ViewSupplierRequestProps> = ({ SupplierId })
               Continue To Valdiate
             </Button>
           </Stack>
+
+          {/* Cancel Confirmation Dialog */}
+          <Dialog open={cancelDialogOpen} onClose={() => setCancelDialogOpen(false)}>
+            <DialogTitle>Cancel Supplier Request</DialogTitle>
+            <DialogContent>
+              <DialogContentText>
+                Are you sure you want to cancel this request? This action cannot be undone.
+              </DialogContentText>
+            </DialogContent>
+            <DialogActions>
+              <Button onClick={() => setCancelDialogOpen(false)} color="primary">
+                No
+              </Button>
+              <Button onClick={handleCancelRequest} color="error" autoFocus>
+                Yes
+              </Button>
+            </DialogActions>
+          </Dialog>
 
         </CardContent>
       </Card>
