@@ -29,7 +29,6 @@ import {
   ExpandMore as ExpandMoreIcon,
   CheckCircleOutline,
   WarningAmber,
-  InfoOutlined,
   PersonAdd,
 } from '@mui/icons-material';
 import { useNavigate, useLocation } from 'react-router-dom';
