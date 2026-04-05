@@ -212,7 +212,7 @@ const DrawerContent: React.FC<{
               color: 'rgba(255,255,255,0.85)',
               p: 0.4,
               zIndex: 1,
-              borderRadius: 1.5,
+              borderRadius: 1.0,
               display: { xs: 'none', md: 'flex' },
               '&:hover': {
                 bgcolor: 'rgba(255,255,255,0.15)',
@@ -240,7 +240,7 @@ const DrawerContent: React.FC<{
             onClick={onToggleCollapse}
             sx={{
               p: 0.4,
-              borderRadius: 1.5,
+              borderRadius: 1.0,
               color: '#C62828',
               '&:hover': { bgcolor: 'rgba(198,40,40,0.08)', color: '#B71C1C' },
             }}
@@ -275,7 +275,7 @@ const DrawerContent: React.FC<{
                     selected={!!isActive}
                     sx={{
                       mx: 0.75,
-                      borderRadius: 2,
+                      borderRadius: 1,
                       justifyContent: collapsed && !isMobile ? 'center' : 'flex-start',
                       px: collapsed && !isMobile ? 0.5 : 1.25,
                       minHeight: 32,
@@ -379,7 +379,7 @@ const DrawerContent: React.FC<{
                             sx={{
                               pl: 3.5,
                               mx: 0.75,
-                              borderRadius: 1.5,
+                              borderRadius: 1.0,
                               mb: 0.15,
                               minHeight: 26,
                               transition: 'all 0.15s ease',
