@@ -162,7 +162,7 @@ const DrawerContent: React.FC<{
             sx={{
               width: 26,
               height: 26,
-              borderRadius: 1.5,
+              borderRadius: 1,
               background: 'rgba(255,255,255,0.18)',
               display: 'flex',
               alignItems: 'center',

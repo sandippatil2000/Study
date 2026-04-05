@@ -151,7 +151,7 @@ const Navbar: React.FC<NavbarProps> = ({ onMenuToggle, sidebarWidth }) => {
         variant="dense"
         sx={{
           gap: 0.75,
-          minHeight: { xs: '46px !important', md: '42px !important' },
+          minHeight: { xs: '46px !important', md: '46px !important' },
           px: { xs: 1.5, md: 2 },
           py: 0,
         }}
