@@ -31,6 +31,7 @@ import DownloadIcon from '@mui/icons-material/Download';
 import VerifiedIcon from '@mui/icons-material/Verified';
 import SendIcon from '@mui/icons-material/Send';
 import CancelIcon from '@mui/icons-material/Cancel';
+import '../styles/CommonStyles.css';
 
 // ─── Types ───────────────────────────────────────────────────────────────────
 
@@ -438,7 +439,8 @@ const ValidateFilePage: React.FC = () => {
               startIcon={<VerifiedIcon />}
               onClick={handleValidate}
               disabled={!supplierFile || isValidating || submitted}
-              sx={{ textTransform: 'none', minWidth: 130 }}
+              //sx={{ textTransform: 'none', minWidth: 130 }}
+              className='common-button-nonfill'
             >
               Validate
             </Button>
@@ -451,7 +453,8 @@ const ValidateFilePage: React.FC = () => {
               startIcon={<DownloadIcon />}
               onClick={handleDownload}
               disabled={!isValid || submitted}
-              sx={{ textTransform: 'none', minWidth: 200 }}
+              //sx={{ textTransform: 'none', minWidth: 200 }}
+              className='common-button-nonfill'
             >
               Download Validated File
             </Button>
@@ -464,7 +467,8 @@ const ValidateFilePage: React.FC = () => {
               startIcon={<SendIcon />}
               onClick={handleSubmit}
               disabled={!isValid || submitted}
-              sx={{ textTransform: 'none', fontWeight: 700, minWidth: 130 }}
+              //sx={{ textTransform: 'none', fontWeight: 700, minWidth: 130 }}
+              className='common-button-fill'
             >
               Submit
             </Button>
@@ -476,7 +480,8 @@ const ValidateFilePage: React.FC = () => {
               color="error"
               startIcon={<CancelIcon />}
               onClick={handleCancel}
-              sx={{ textTransform: 'none', minWidth: 120 }}
+              //sx={{ textTransform: 'none', minWidth: 120 }}
+              className='common-button-nonfill'
             >
               Cancel
             </Button>

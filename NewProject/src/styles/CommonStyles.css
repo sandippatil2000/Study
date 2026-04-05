@@ -1,17 +1,37 @@
-.common-back-btn-box {
-  display: flex;
-  justify-content: flex-end;
-  margin-top: 32px;
-  margin-bottom: 16px;
+.common-button-fill {
+  font-size: 0.72rem;
+  font-weight: 600;
+  color: #fff !important;
+  background: linear-gradient(135deg, #c62828 0%, #e53935 100%) !important;
+  border-radius: 20px !important;
+  padding: 4px 14px !important;
+  text-transform: none !important;
+  line-height: 1.4;
+  box-shadow: 0 2px 8px rgba(198, 40, 40, 0.3) !important;
+  transition: all 0.2s ease !important;
 }
 
-.common-back-btn-outlined {
-  font-weight: 600 !important;
+.common-button-fill:hover {
+  background: linear-gradient(135deg, #b71c1c 0%, #c62828 100%) !important;
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(198, 40, 40, 0.45) !important;
+}
+
+.common-button-nonfill {
+  font-size: 0.72rem;
+  font-weight: 600;
   color: #c62828 !important;
-  border-color: #c62828 !important;
+  border: 1px solid rgba(198, 40, 40, 0.4) !important;
+  border-radius: 20px !important;
+  padding: 4px 14px !important;
+  text-transform: none !important;
+  line-height: 1.4;
+  background: transparent !important;
+  transition: all 0.2s ease !important;
 }
 
-.common-back-btn-outlined:hover {
-  border-color: #8e0000 !important;
-  background-color: rgba(198, 40, 40, 0.04) !important;
+.common-button-nonfill:hover {
+  background: rgba(198, 40, 40, 0.07) !important;
+  border-color: #c62828 !important;
+  transform: translateY(-1px);
 }

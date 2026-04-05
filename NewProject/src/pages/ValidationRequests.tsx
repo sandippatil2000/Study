@@ -30,6 +30,7 @@ import ClearIcon from '@mui/icons-material/Clear';
 import AddIcon from '@mui/icons-material/Add';
 import VisibilityIcon from '@mui/icons-material/Visibility';
 import { RequestStatus } from '../models/RequestStatus';
+import '../styles/CommonStyles.css';
 
 // ---- Status Badge Colors ----
 const statusColor: Record<string, 'success' | 'warning' | 'info' | 'error' | 'default'> = {
@@ -226,7 +227,8 @@ const ValidationRequests: React.FC = () => {
                         variant="contained"
                         size="small"
                         onClick={handleApply}
-                        sx={{ textTransform: 'none', fontWeight: 600 }}
+                        //sx={{ textTransform: 'none', fontWeight: 600 }}
+                        className='common-button-fill'
                       >
                         Apply
                       </Button>
@@ -235,7 +237,8 @@ const ValidationRequests: React.FC = () => {
                         size="small"
                         onClick={handleClear}
                         startIcon={<ClearIcon />}
-                        sx={{ textTransform: 'none' }}
+                        //sx={{ textTransform: 'none' }}
+                        className='common-button-nonfill'
                       >
                         Clear
                       </Button>

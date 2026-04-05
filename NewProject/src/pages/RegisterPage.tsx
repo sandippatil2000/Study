@@ -13,6 +13,7 @@ import {
 import { Link as RouterLink, useNavigate } from 'react-router-dom';
 import { userApi } from '../api/UserApi';
 import type { IUser } from '../models/User';
+import '../styles/CommonStyles.css';
 
 type RegisterFormData = Pick<IUser, 'FirstName' | 'LastName' | 'Supplier' | 'Email' | 'Address' | 'PostalCode'>;
 
@@ -230,15 +231,16 @@ const RegisterPage: React.FC = () => {
               fullWidth
               variant="contained"
               size="large"
-              sx={{
-                mt: 4,
-                mb: 2,
-                background: 'linear-gradient(135deg, #C62828, #8E0000)',
-                py: 1.25,
-                fontSize: 15,
-                fontWeight: 600,
-                '&:hover': { background: 'linear-gradient(135deg, #8E0000, #C62828)' },
-              }}
+              // sx={{
+              //   mt: 4,
+              //   mb: 2,
+              //   background: 'linear-gradient(135deg, #C62828, #8E0000)',
+              //   py: 1.25,
+              //   fontSize: 15,
+              //   fontWeight: 600,
+              //   '&:hover': { background: 'linear-gradient(135deg, #8E0000, #C62828)' },
+              // }}
+              className='common-button-fill'
             >
               Register
             </Button>

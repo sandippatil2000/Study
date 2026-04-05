@@ -380,7 +380,8 @@ const ViewSupplierRequest: React.FC<ViewSupplierRequestProps> = ({ SupplierId })
               color="error"
               startIcon={<CancelIcon />}
               onClick={() => setCancelDialogOpen(true)}
-              sx={{ textTransform: 'none' }}
+              //sx={{ textTransform: 'none' }}
+              className='common-button-nonfill'
             >
               Cancel Request
             </Button>
@@ -388,7 +389,8 @@ const ViewSupplierRequest: React.FC<ViewSupplierRequestProps> = ({ SupplierId })
               variant="outlined"
               size="small"
               onClick={() => navigate('/supplierRequests')}
-              sx={{ textTransform: 'none' }}
+              //sx={{ textTransform: 'none' }}
+              className='common-button-nonfill'
             >
               Back to List
             </Button>
@@ -397,7 +399,8 @@ const ViewSupplierRequest: React.FC<ViewSupplierRequestProps> = ({ SupplierId })
               size="small"
               startIcon={<EditIcon />}
               onClick={() => navigate(`/supplierRequests/edit/${request.RequestId}`)}
-              sx={{ textTransform: 'none', fontWeight: 700 }}
+              //sx={{ textTransform: 'none', fontWeight: 700 }}
+              className='common-button-fill'
             >
               Edit Request
             </Button>
@@ -407,7 +410,8 @@ const ViewSupplierRequest: React.FC<ViewSupplierRequestProps> = ({ SupplierId })
               size="small"
               startIcon={<FactCheck />}
               onClick={() => navigate(`/supplierRequests/validate/${request.RequestId}`, { state: { request: request } })}
-              sx={{ textTransform: 'none' }}
+              //sx={{ textTransform: 'none' }}
+              className='common-button-fill'
             >
               Continue To Valdiate
             </Button>

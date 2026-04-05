@@ -8,6 +8,7 @@ import VisibilityIcon from '@mui/icons-material/Visibility';
 import PersonOffIcon from '@mui/icons-material/PersonOff';
 import PersonAddIcon from '@mui/icons-material/PersonAdd';
 import { useNavigate } from 'react-router-dom';
+import '../styles/CommonStyles.css';
 
 const UsersPage: React.FC = () => {
   const navigate = useNavigate();
@@ -160,7 +161,8 @@ const UsersPage: React.FC = () => {
                     variant="contained"
                     size="small"
                     onClick={handleApply}
-                    sx={{ textTransform: 'none', fontWeight: 600 }}
+                    //sx={{ textTransform: 'none', fontWeight: 600 }}
+                    className='common-button-fill'
                   >
                     Apply
                   </Button>
@@ -169,7 +171,8 @@ const UsersPage: React.FC = () => {
                     size="small"
                     onClick={handleClear}
                     startIcon={<ClearIcon />}
-                    sx={{ textTransform: 'none' }}
+                    //sx={{ textTransform: 'none' }}
+                    className='common-button-nonfill'
                   >
                     Clear
                   </Button>

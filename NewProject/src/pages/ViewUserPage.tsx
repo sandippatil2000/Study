@@ -201,7 +201,8 @@ const ViewUserPage: React.FC = () => {
                 variant="outlined"
                 size="small"
                 onClick={() => navigate('/users')}
-                className="common-back-btn-outlined"
+                //className="common-back-btn-outlined"
+                className='common-button-nonfill'
               >
                 Back to Users
               </Button>

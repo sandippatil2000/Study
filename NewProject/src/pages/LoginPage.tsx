@@ -25,6 +25,7 @@ import {
 } from '@mui/icons-material';
 import { useNavigate, Link as RouterLink } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
+import '../styles/CommonStyles.css';
 
 const LoginPage: React.FC = () => {
   const { login, loginWithSSO } = useAuth();
@@ -236,13 +237,14 @@ const LoginPage: React.FC = () => {
                 variant="contained"
                 size="large"
                 disabled={loading}
-                sx={{
-                  background: 'linear-gradient(135deg, #C62828, #8E0000)',
-                  py: 1.25,
-                  fontSize: 15,
-                  fontWeight: 600,
-                  '&:hover': { background: 'linear-gradient(135deg, #8E0000, #C62828)' },
-                }}
+                // sx={{
+                //   background: 'linear-gradient(135deg, #C62828, #8E0000)',
+                //   py: 1.25,
+                //   fontSize: 15,
+                //   fontWeight: 600,
+                //   '&:hover': { background: 'linear-gradient(135deg, #8E0000, #C62828)' },
+                // }}
+                className='common-button-fill'
               >
                 {loading ? <CircularProgress size={22} color="inherit" /> : 'Sign In'}
               </Button>
@@ -280,6 +282,7 @@ const LoginPage: React.FC = () => {
                       backgroundColor: `${provider.color}08`,
                     },
                   }}
+                //className='common-button-fill'
                 >
                   Sign in with {provider.name}
                 </Button>

@@ -22,6 +22,7 @@ import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import CheckCircleIcon from '@mui/icons-material/CheckCircle';
 import { supplierApi } from '../api/SupplierApi';
 import FileUpload from '../components/FileUpload';
+import '../styles/CommonStyles.css';
 
 // ---- Constants ----
 const STATUS_OPTIONS = ['Pending', 'Processing', 'Completed', 'Cancelled'];
@@ -87,7 +88,7 @@ const CreateSupplierRequest: React.FC = () => {
     if (!form.status) newErrors.status = 'Status is required.';
     if (!form.description) newErrors.description = 'Description is required.';
     if (supplierFile.length === 0) newErrors.supplierFile = 'Supplier file is required.';
-    
+
     setErrors(newErrors);
     return Object.keys(newErrors).length === 0;
   };
@@ -311,7 +312,8 @@ const CreateSupplierRequest: React.FC = () => {
                 variant="outlined"
                 size="small"
                 onClick={() => navigate('/supplierRequests')}
-                sx={{ textTransform: 'none' }}
+                //sx={{ textTransform: 'none' }}
+                className='common-button-nonfill'
               >
                 Cancel
               </Button>
@@ -322,7 +324,8 @@ const CreateSupplierRequest: React.FC = () => {
                 size="small"
                 onClick={handleReset}
                 disabled={submitted}
-                sx={{ textTransform: 'none' }}
+                //sx={{ textTransform: 'none' }}
+                className='common-button-nonfill'
               >
                 Reset
               </Button>
@@ -331,7 +334,8 @@ const CreateSupplierRequest: React.FC = () => {
                 variant="contained"
                 size="small"
                 disabled={submitted}
-                sx={{ textTransform: 'none', fontWeight: 700 }}
+                //sx={{ textTransform: 'none', fontWeight: 700 }}
+                className='common-button-fill'
               >
                 Save Request
               </Button>
