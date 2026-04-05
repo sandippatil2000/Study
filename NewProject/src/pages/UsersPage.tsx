@@ -1,12 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import { Box, Typography, Card, CardContent, Avatar, Table, TableHead, TableRow, TableCell, TableBody, Chip, TableContainer, Button, CircularProgress, IconButton, Tooltip, TextField, InputAdornment, Grid, Stack, MenuItem } from '@mui/material';
-import { Add as AddIcon, CheckCircle as CheckCircleIcon, Cancel as CancelIcon, HourglassEmpty as HourglassEmptyIcon, Search as SearchIcon, FilterList as FilterListIcon, Clear as ClearIcon } from '@mui/icons-material';
+import { Add as AddIcon, Search as SearchIcon, FilterList as FilterListIcon, Clear as ClearIcon } from '@mui/icons-material';
 import { userApi } from '../api/UserApi';
 import type { IUser } from '../models/User';
 import { Role } from '../models/Role';
 import VisibilityIcon from '@mui/icons-material/Visibility';
-import PersonOffIcon from '@mui/icons-material/PersonOff';
-import PersonAddIcon from '@mui/icons-material/PersonAdd';
 import { useNavigate } from 'react-router-dom';
 import '../styles/CommonStyles.css';
 
