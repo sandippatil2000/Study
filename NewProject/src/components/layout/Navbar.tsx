@@ -178,7 +178,7 @@ const Navbar: React.FC<NavbarProps> = ({ onMenuToggle, sidebarWidth }) => {
             sx={{
               width: 3,
               height: 18,
-              borderRadius: 4,
+              borderRadius: 0,
               background: 'linear-gradient(180deg, #C62828 0%, #FF6B6B 100%)',
               flexShrink: 0,
             }}
@@ -239,9 +239,9 @@ const Navbar: React.FC<NavbarProps> = ({ onMenuToggle, sidebarWidth }) => {
                   fontWeight: isActive ? 700 : 500,
                   color: isActive ? '#fff' : 'text.secondary',
                   background: isActive
-                    ? 'linear-gradient(135deg, #C62828 0%, #E53935 100%)'
+                    ? 'linear-gradient(135deg, #C62828 0%, #f5524fff 100%)'
                     : 'transparent',
-                  borderRadius: 5,
+                  borderRadius: 0,
                   px: 1.25,
                   py: 0.4,
                   minWidth: 0,
@@ -275,7 +275,7 @@ const Navbar: React.FC<NavbarProps> = ({ onMenuToggle, sidebarWidth }) => {
           PaperProps={{
             elevation: 0,
             sx: {
-              borderRadius: 2,
+              borderRadius: 0,
               mt: 1,
               minWidth: 155,
               border: '1px solid rgba(0,0,0,0.08)',
@@ -309,7 +309,7 @@ const Navbar: React.FC<NavbarProps> = ({ onMenuToggle, sidebarWidth }) => {
                 fontSize: '0.73rem',
                 py: 0.85,
                 mx: 0.5,
-                borderRadius: 1.5,
+                borderRadius: 0,
                 mb: 0.25,
                 fontWeight: location.pathname === child.path ? 600 : 400,
                 '&.Mui-selected': {
