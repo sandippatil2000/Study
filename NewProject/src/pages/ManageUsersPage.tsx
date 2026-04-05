@@ -10,7 +10,7 @@ import PersonAddIcon from '@mui/icons-material/PersonAdd';
 import { useNavigate } from 'react-router-dom';
 import '../styles/CommonStyles.css';
 
-const UsersPage: React.FC = () => {
+const ManageUsersPage: React.FC = () => {
   const navigate = useNavigate();
   const [users, setUsers] = useState<IUser[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
@@ -43,7 +43,25 @@ const UsersPage: React.FC = () => {
     return true;
   });
 
+  const handleApprovalToggle = async (user: IUser) => {
+    try {
+      const newStatus = user.Approved === 'Approved' ? 'Rejected' : 'Approved';
+      const updatedUser = await userApi.UpdateUser(user.UserId, { Approved: newStatus });
+      setUsers(prev => prev.map(u => u.UserId === user.UserId ? updatedUser : u));
+    } catch (error) {
+      console.error('Failed to update user approval:', error);
+    }
+  };
 
+  const handleToggleStatus = async (user: IUser) => {
+    try {
+      const newStatus = user.Status === 'Active' ? 'Inactive' : 'Active';
+      const updatedUser = await userApi.UpdateUser(user.UserId, { Status: newStatus });
+      setUsers(prev => prev.map(u => u.UserId === user.UserId ? updatedUser : u));
+    } catch (error) {
+      console.error('Failed to update user status:', error);
+    }
+  };
 
   useEffect(() => {
     const fetchUsers = async () => {
@@ -65,9 +83,6 @@ const UsersPage: React.FC = () => {
         <Box>
           <Typography variant="h4" fontWeight={700}>Users</Typography>
         </Box>
-        <Button variant="contained" size="small" startIcon={<AddIcon />} sx={{ background: 'linear-gradient(135deg, #C62828, #8E0000)' }}>
-          Add User
-        </Button>
       </Box>
       <Card>
         <CardContent>
@@ -177,6 +192,7 @@ const UsersPage: React.FC = () => {
                   <TableCell>Email</TableCell>
                   <TableCell>Role</TableCell>
                   <TableCell>Status</TableCell>
+                  <TableCell align="center">Approved</TableCell>
                   <TableCell align="center">Action</TableCell>
                 </TableRow>
               </TableHead>
@@ -220,13 +236,39 @@ const UsersPage: React.FC = () => {
                           sx={{ fontWeight: 600, fontSize: '0.68rem', height: 20 }}
                         />
                       </TableCell>
-
+                      <TableCell align="center">
+                        <Tooltip title={user.Approved === 'Approved' ? 'Reject User' : 'Approve User'}>
+                          <IconButton size="small" onClick={() => handleApprovalToggle(user)}>
+                            {user.Approved === 'Approved' ? (
+                              <CheckCircleIcon color="success" fontSize="small" />
+                            ) : user.Approved === 'Rejected' ? (
+                              <CancelIcon color="error" fontSize="small" />
+                            ) : (
+                              <HourglassEmptyIcon color="action" fontSize="small" />
+                            )}
+                          </IconButton>
+                        </Tooltip>
+                      </TableCell>
                       <TableCell align="center">
                         <Tooltip title="View User">
                           <IconButton size="small" onClick={() => navigate(`/users/view/${user.UserId}`)}>
                             <VisibilityIcon fontSize="small" />
                           </IconButton>
                         </Tooltip>
+                        {user.Status === 'Active' ? (
+                          <Tooltip title="Deactivate">
+                            <IconButton size="small" onClick={() => handleToggleStatus(user)}>
+                              <PersonOffIcon fontSize="small" />
+                            </IconButton>
+                          </Tooltip>
+                        ) : (
+                          <Tooltip title="Activate">
+                            <IconButton size="small" onClick={() => handleToggleStatus(user)}>
+                              <PersonAddIcon fontSize="small" />
+                            </IconButton>
+                          </Tooltip>
+                        )}
+
                       </TableCell>
                     </TableRow>
                   ))
@@ -246,4 +288,4 @@ const UsersPage: React.FC = () => {
   );
 };
 
-export default UsersPage;
+export default ManageUsersPage;

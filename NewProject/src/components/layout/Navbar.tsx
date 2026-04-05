@@ -48,7 +48,7 @@ const navMenuItems: NavMenuItem[] = [
     icon: <PeopleIcon sx={{ fontSize: 14 }} />,
     children: [
       { label: 'All Users', path: '/users' },
-      { label: 'Add User', path: '/users/add' },
+      { label: 'Manage Users', path: '/users/ManageUsers' },
     ],
   },
   {

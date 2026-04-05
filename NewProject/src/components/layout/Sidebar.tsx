@@ -51,7 +51,7 @@ const navItems: NavItem[] = [
     icon: <PeopleIcon sx={{ fontSize: 16 }} />,
     children: [
       { label: 'All Users', path: '/users' },
-      { label: 'Add User', path: '/users/add' },
+      { label: 'Manage Users', path: '/users/ManageUsers' },
     ],
   },
   {
