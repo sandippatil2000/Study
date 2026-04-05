@@ -16,9 +16,7 @@ const UsersPage: React.FC = () => {
   const [filters, setFilters] = useState({ search: '', role: 'All', status: 'All' });
   const [applied, setApplied] = useState({ search: '', role: 'All', status: 'All' });
 
-  const handleApply = () => {
-    setApplied({ ...filters });
-  };
+  const handleApply = () => setApplied({ ...filters });
 
   const handleClear = () => {
     setFilters({ search: '', role: 'All', status: 'All' });
@@ -26,19 +24,14 @@ const UsersPage: React.FC = () => {
   };
 
   const filteredUsers = users.filter((user) => {
-    // Status filter
     if (applied.status !== 'All' && user.Status !== applied.status) return false;
-
-    // Role filter
     if (applied.role !== 'All' && user.Role !== applied.role) return false;
-
     const query = applied.search.toLowerCase();
     if (query) {
       const fullName = `${user.FirstName} ${user.LastName}`.toLowerCase();
       const email = user.Email.toLowerCase();
       if (!fullName.includes(query) && !email.includes(query)) return false;
     }
-
     return true;
   });
 
@@ -76,35 +69,153 @@ const UsersPage: React.FC = () => {
     fetchUsers();
   }, []);
 
+  /* ── shared sx for filter fields — mirrors ViewUserPage readonlySx ── */
+  const filterFieldSx = {
+    '& .MuiOutlinedInput-root': {
+      borderRadius: 1.5,
+      background: 'rgba(255,255,255,0.7)',
+      backdropFilter: 'blur(4px)',
+      fontSize: '0.78rem',
+      '& fieldset': { borderColor: 'rgba(198,40,40,0.18)' },
+      '&:hover fieldset': { borderColor: 'rgba(198,40,40,0.4)' },
+      '&.Mui-focused fieldset': {
+        borderColor: '#C62828',
+        boxShadow: '0 0 0 3px rgba(198,40,40,0.1)',
+      },
+    },
+    '& .MuiInputLabel-root': { fontSize: '0.75rem', color: 'text.secondary' },
+    '& .MuiInputLabel-root.Mui-focused': { color: '#C62828' },
+    '& .MuiInputAdornment-root svg': { fontSize: 14, color: 'rgba(198,40,40,0.6)' },
+  };
+
+  /* ── shared icon button sx ── */
+  const iconBtnSx = {
+    p: 0.5,
+    borderRadius: 1.5,
+    transition: 'all 0.2s',
+    '&:hover': { background: 'rgba(198,40,40,0.08)', color: '#C62828', transform: 'translateY(-1px)' },
+  };
+
   return (
     <Box>
+      {/* ── Page Header ── */}
       <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', mb: 3 }}>
-        <Box>
-          <Typography variant="h4" fontWeight={700}>Users</Typography>
+        <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
+          {/* Vertical accent bar — mirrors Navbar page-title bar */}
+          <Box
+            sx={{
+              width: 3,
+              height: 22,
+              borderRadius: 4,
+              background: 'linear-gradient(180deg, #C62828 0%, #FF6B6B 100%)',
+              flexShrink: 0,
+            }}
+          />
+          <Typography
+            variant="h6"
+            fontWeight={700}
+            sx={{
+              fontSize: '0.95rem',
+              background: 'linear-gradient(135deg, #C62828 0%, #B71C1C 100%)',
+              WebkitBackgroundClip: 'text',
+              WebkitTextFillColor: 'transparent',
+              backgroundClip: 'text',
+              letterSpacing: 0.2,
+            }}
+          >
+            Users
+          </Typography>
         </Box>
-        <Button variant="contained" size="small" startIcon={<AddIcon />} sx={{ background: 'linear-gradient(135deg, #C62828, #8E0000)' }}>
+
+        {/* Add User — gradient filled pill (matches Navbar active nav-button) */}
+        <Button
+          size="small"
+          startIcon={<AddIcon sx={{ fontSize: '14px !important' }} />}
+          onClick={() => navigate('/users/add')}
+          sx={{
+            fontSize: '0.72rem',
+            fontWeight: 600,
+            color: '#fff',
+            background: 'linear-gradient(135deg, #C62828 0%, #E53935 100%)',
+            borderRadius: 5,
+            px: 2,
+            py: 0.6,
+            textTransform: 'none',
+            lineHeight: 1.4,
+            boxShadow: '0 2px 8px rgba(198,40,40,0.35)',
+            transition: 'all 0.2s ease',
+            '&:hover': {
+              background: 'linear-gradient(135deg, #B71C1C 0%, #C62828 100%)',
+              transform: 'translateY(-1px)',
+              boxShadow: '0 4px 12px rgba(198,40,40,0.45)',
+            },
+          }}
+        >
           Add User
         </Button>
       </Box>
-      <Card>
-        <CardContent>
-          {/* ---- Filter Bar ---- */}
+
+      {/* ── Main Card — glassmorphism, mirrors ViewUserPage card ── */}
+      <Card
+        sx={{
+          borderRadius: 2.5,
+          background: 'rgba(255,255,255,0.85)',
+          backdropFilter: 'blur(16px)',
+          WebkitBackdropFilter: 'blur(16px)',
+          border: '1px solid rgba(198,40,40,0.1)',
+          boxShadow: '0 12px 36px rgba(0,0,0,0.10)',
+          position: 'relative',
+          overflow: 'hidden',
+          /* animated gradient accent line — mirrors Navbar ::after */
+          '&::after': {
+            content: '""',
+            position: 'absolute',
+            top: 0,
+            left: 0,
+            right: 0,
+            height: '0px',
+            background: 'linear-gradient(90deg, #C62828 0%, #FF6B6B 40%, #C62828 70%, #8E0000 100%)',
+            backgroundSize: '200% 100%',
+            animation: 'gradientShift 3s ease infinite',
+          },
+          '@keyframes gradientShift': {
+            '0%': { backgroundPosition: '0% 50%' },
+            '50%': { backgroundPosition: '100% 50%' },
+            '100%': { backgroundPosition: '0% 50%' },
+          },
+        }}
+      >
+        <CardContent sx={{ p: { xs: 2, sm: 3 } }}>
+
+          {/* ── Filter Bar ── */}
           <Box
             sx={{
               mb: 3,
               p: 2,
               borderRadius: 2,
-              border: '1px solid',
-              borderColor: 'divider',
-              bgcolor: 'background.default',
+              background: 'rgba(198,40,40,0.03)',
+              border: '1px solid rgba(198,40,40,0.12)',
             }}
           >
-            <Stack direction="row" alignItems="center" spacing={1} sx={{ mb: 1.5 }}>
-              <FilterListIcon fontSize="small" color="action" />
-              <Typography variant="subtitle2" fontWeight={600} color="text.secondary">
+            <Stack direction="row" alignItems="center" spacing={0.75} sx={{ mb: 1.5 }}>
+              <FilterListIcon sx={{ fontSize: 14, color: '#C62828' }} />
+              <Typography
+                variant="subtitle2"
+                fontWeight={700}
+                sx={{
+                  fontSize: '0.72rem',
+                  background: 'linear-gradient(135deg, #C62828 0%, #B71C1C 100%)',
+                  WebkitBackgroundClip: 'text',
+                  WebkitTextFillColor: 'transparent',
+                  backgroundClip: 'text',
+                  letterSpacing: 0.3,
+                  textTransform: 'uppercase',
+                }}
+              >
                 Filters
               </Typography>
             </Stack>
+
             <Grid container spacing={2} alignItems="flex-end">
               <Grid size={{ xs: 12, sm: 4, md: 3 }}>
                 <TextField
@@ -114,6 +225,7 @@ const UsersPage: React.FC = () => {
                   placeholder="Search by User or Email..."
                   value={filters.search}
                   onChange={(e) => setFilters(prev => ({ ...prev, search: e.target.value }))}
+                  sx={filterFieldSx}
                   slotProps={{
                     input: {
                       startAdornment: (
@@ -133,10 +245,11 @@ const UsersPage: React.FC = () => {
                   fullWidth
                   value={filters.role}
                   onChange={(e) => setFilters(prev => ({ ...prev, role: e.target.value }))}
+                  sx={filterFieldSx}
                 >
-                  <MenuItem value="All">All</MenuItem>
+                  <MenuItem value="All" sx={{ fontSize: '0.78rem' }}>All</MenuItem>
                   {Object.values(Role).map((r) => (
-                    <MenuItem key={r} value={r}>{r}</MenuItem>
+                    <MenuItem key={r} value={r} sx={{ fontSize: '0.78rem' }}>{r}</MenuItem>
                   ))}
                 </TextField>
               </Grid>
@@ -148,28 +261,63 @@ const UsersPage: React.FC = () => {
                   fullWidth
                   value={filters.status}
                   onChange={(e) => setFilters(prev => ({ ...prev, status: e.target.value }))}
+                  sx={filterFieldSx}
                 >
                   {['All', 'Active', 'Pending', 'Inactive'].map((s) => (
-                    <MenuItem key={s} value={s}>{s}</MenuItem>
+                    <MenuItem key={s} value={s} sx={{ fontSize: '0.78rem' }}>{s}</MenuItem>
                   ))}
                 </TextField>
               </Grid>
               <Grid size={{ xs: 12, sm: 'auto' }}>
                 <Stack direction="row" spacing={1}>
+                  {/* Apply — gradient filled pill */}
                   <Button
-                    variant="contained"
                     size="small"
                     onClick={handleApply}
-                    sx={{ textTransform: 'none', fontWeight: 600 }}
+                    sx={{
+                      fontSize: '0.72rem',
+                      fontWeight: 600,
+                      color: '#fff',
+                      background: 'linear-gradient(135deg, #C62828 0%, #E53935 100%)',
+                      borderRadius: 5,
+                      px: 1.75,
+                      py: 0.55,
+                      textTransform: 'none',
+                      lineHeight: 1.4,
+                      boxShadow: '0 2px 8px rgba(198,40,40,0.3)',
+                      transition: 'all 0.2s ease',
+                      '&:hover': {
+                        background: 'linear-gradient(135deg, #B71C1C 0%, #C62828 100%)',
+                        transform: 'translateY(-1px)',
+                        boxShadow: '0 4px 12px rgba(198,40,40,0.45)',
+                      },
+                    }}
                   >
                     Apply
                   </Button>
+                  {/* Clear — outlined ghost pill */}
                   <Button
-                    variant="outlined"
                     size="small"
                     onClick={handleClear}
-                    startIcon={<ClearIcon />}
-                    sx={{ textTransform: 'none' }}
+                    startIcon={<ClearIcon sx={{ fontSize: '13px !important' }} />}
+                    sx={{
+                      fontSize: '0.72rem',
+                      fontWeight: 600,
+                      color: '#C62828',
+                      border: '1px solid rgba(198,40,40,0.4)',
+                      borderRadius: 5,
+                      px: 1.75,
+                      py: 0.55,
+                      textTransform: 'none',
+                      lineHeight: 1.4,
+                      background: 'transparent',
+                      transition: 'all 0.2s ease',
+                      '&:hover': {
+                        background: 'rgba(198,40,40,0.07)',
+                        borderColor: '#C62828',
+                        transform: 'translateY(-1px)',
+                      },
+                    }}
                   >
                     Clear
                   </Button>
@@ -177,17 +325,47 @@ const UsersPage: React.FC = () => {
               </Grid>
             </Grid>
           </Box>
-          <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', mb: 2 }}>
-            <Box>
-              <Typography variant="body2" color="text.secondary">
-                {filteredUsers.length} result{filteredUsers.length !== 1 ? 's' : ''} found
-              </Typography>
-            </Box>
+
+          {/* ── Results chip ── */}
+          <Box sx={{ display: 'flex', justifyContent: 'flex-end', mb: 1.5 }}>
+            <Chip
+              label={`${filteredUsers.length} result${filteredUsers.length !== 1 ? 's' : ''}`}
+              size="small"
+              sx={{
+                fontSize: '0.68rem',
+                fontWeight: 600,
+                height: 20,
+                bgcolor: 'rgba(198,40,40,0.08)',
+                color: '#C62828',
+                border: '1px solid rgba(198,40,40,0.2)',
+              }}
+            />
           </Box>
-          <TableContainer>
+
+          {/* ── Table ── */}
+          <TableContainer
+            sx={{
+              borderRadius: 2,
+              border: '1px solid rgba(198,40,40,0.1)',
+              overflow: 'hidden',
+            }}
+          >
             <Table size="small">
               <TableHead>
-                <TableRow sx={{ '& th': { fontWeight: 700, fontSize: 12, color: 'text.secondary' } }}>
+                <TableRow
+                  sx={{
+                    background: 'linear-gradient(135deg, rgba(198,40,40,0.08) 0%, rgba(229,57,53,0.05) 100%)',
+                    '& th': {
+                      fontWeight: 700,
+                      fontSize: '0.7rem',
+                      color: '#C62828',
+                      letterSpacing: 0.4,
+                      textTransform: 'uppercase',
+                      borderBottom: '2px solid rgba(198,40,40,0.15)',
+                      py: 1.2,
+                    },
+                  }}
+                >
                   <TableCell>User</TableCell>
                   <TableCell>Email</TableCell>
                   <TableCell>Role</TableCell>
@@ -199,75 +377,108 @@ const UsersPage: React.FC = () => {
               <TableBody>
                 {loading ? (
                   <TableRow>
-                    <TableCell colSpan={6} align="center" sx={{ py: 3 }}>
+                    <TableCell colSpan={6} align="center" sx={{ py: 4 }}>
                       <CircularProgress size={24} sx={{ color: '#C62828' }} />
                     </TableCell>
                   </TableRow>
                 ) : filteredUsers.length > 0 ? (
-                  filteredUsers.map((user) => (
-                    <TableRow key={user.UserId} hover>
+                  filteredUsers.map((user, index) => (
+                    <TableRow
+                      key={user.UserId}
+                      hover
+                      sx={{
+                        backgroundColor: index % 2 === 0 ? 'rgba(255,255,255,0.6)' : 'rgba(198,40,40,0.02)',
+                        transition: 'background 0.15s ease',
+                        '&:hover': { backgroundColor: 'rgba(198,40,40,0.05) !important' },
+                        '& td': {
+                          borderBottom: '1px solid rgba(198,40,40,0.07)',
+                          fontSize: '0.78rem',
+                          py: 1,
+                        },
+                      }}
+                    >
+                      {/* User cell */}
                       <TableCell>
-                        <Box sx={{ display: 'flex', alignItems: 'center', gap: 1.5 }}>
-                          <Avatar sx={{ width: 32, height: 32, bgcolor: '#C62828', fontSize: 13 }}>{user.Avatar}</Avatar>
-                          <Typography variant="body2" fontWeight={600}>{user.FirstName} {user.LastName}</Typography>
+                        <Box sx={{ display: 'flex', alignItems: 'center', gap: 1.25 }}>
+                          <Avatar
+                            sx={{
+                              width: 30,
+                              height: 30,
+                              background: 'linear-gradient(135deg, #C62828 0%, #E53935 100%)',
+                              fontSize: 12,
+                              fontWeight: 700,
+                              boxShadow: '0 2px 8px rgba(198,40,40,0.35)',
+                            }}
+                          >
+                            {user.Avatar}
+                          </Avatar>
+                          <Typography variant="body2" fontWeight={600} sx={{ fontSize: '0.78rem' }}>
+                            {user.FirstName} {user.LastName}
+                          </Typography>
                         </Box>
                       </TableCell>
-                      <TableCell sx={{ fontSize: 13 }}>{user.Email}</TableCell>
-                      <TableCell sx={{ fontSize: 13 }}>{user.Role}</TableCell>
+                      <TableCell sx={{ color: 'text.secondary' }}>{user.Email}</TableCell>
+                      <TableCell>{user.Role}</TableCell>
                       <TableCell>
                         <Chip
                           label={user.Status}
                           size="small"
                           color={user.Status === 'Active' ? 'success' : user.Status === 'Pending' ? 'warning' : 'default'}
-                          sx={{ fontWeight: 600, fontSize: 11 }}
+                          sx={{ fontWeight: 600, fontSize: '0.68rem', height: 20 }}
                         />
                       </TableCell>
+                      {/* Approved toggle */}
                       <TableCell align="center">
                         <Tooltip title={user.Approved === 'Approved' ? 'Reject User' : 'Approve User'}>
-                          <IconButton size="small" onClick={() => handleApprovalToggle(user)}>
+                          <IconButton size="small" onClick={() => handleApprovalToggle(user)} sx={iconBtnSx}>
                             {user.Approved === 'Approved' ? (
-                              <CheckCircleIcon color="success" fontSize="small" />
+                              <CheckCircleIcon color="success" sx={{ fontSize: 17 }} />
                             ) : user.Approved === 'Rejected' ? (
-                              <CancelIcon color="error" fontSize="small" />
+                              <CancelIcon color="error" sx={{ fontSize: 17 }} />
                             ) : (
-                              <HourglassEmptyIcon color="action" fontSize="small" />
+                              <HourglassEmptyIcon color="action" sx={{ fontSize: 17 }} />
                             )}
                           </IconButton>
                         </Tooltip>
                       </TableCell>
+                      {/* Actions */}
                       <TableCell align="center">
-                        <Tooltip title="View User">
-                          <IconButton size="small" onClick={() => navigate(`/users/view/${user.UserId}`)}>
-                            <VisibilityIcon fontSize="small" />
-                          </IconButton>
-                        </Tooltip>
-                        {user.Status === 'Active' ? (
-                          <Tooltip title="Deactivate">
-                            <IconButton size="small" onClick={() => handleToggleStatus(user)}>
-                              <PersonOffIcon fontSize="small" />
+                        <Stack direction="row" justifyContent="center" spacing={0.25}>
+                          <Tooltip title="View User">
+                            <IconButton size="small" onClick={() => navigate(`/users/view/${user.UserId}`)} sx={iconBtnSx}>
+                              <VisibilityIcon sx={{ fontSize: 16 }} />
                             </IconButton>
                           </Tooltip>
-                        ) : (
-                          <Tooltip title="Activate">
-                            <IconButton size="small" onClick={() => handleToggleStatus(user)}>
-                              <PersonAddIcon fontSize="small" />
-                            </IconButton>
-                          </Tooltip>
-                        )}
-
+                          {user.Status === 'Active' ? (
+                            <Tooltip title="Deactivate">
+                              <IconButton size="small" onClick={() => handleToggleStatus(user)} sx={iconBtnSx}>
+                                <PersonOffIcon sx={{ fontSize: 16 }} />
+                              </IconButton>
+                            </Tooltip>
+                          ) : (
+                            <Tooltip title="Activate">
+                              <IconButton size="small" onClick={() => handleToggleStatus(user)} sx={iconBtnSx}>
+                                <PersonAddIcon sx={{ fontSize: 16 }} />
+                              </IconButton>
+                            </Tooltip>
+                          )}
+                        </Stack>
                       </TableCell>
                     </TableRow>
                   ))
                 ) : (
                   <TableRow>
-                    <TableCell colSpan={6} align="center" sx={{ py: 3 }}>
-                      <Typography variant="body2" color="text.secondary">No users found.</Typography>
+                    <TableCell colSpan={6} align="center" sx={{ py: 4 }}>
+                      <Typography variant="body2" color="text.secondary" sx={{ fontSize: '0.78rem' }}>
+                        No users found.
+                      </Typography>
                     </TableCell>
                   </TableRow>
                 )}
               </TableBody>
             </Table>
           </TableContainer>
+
         </CardContent>
       </Card>
     </Box>

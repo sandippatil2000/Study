@@ -226,7 +226,24 @@ const ValidationRequests: React.FC = () => {
                         variant="contained"
                         size="small"
                         onClick={handleApply}
-                        sx={{ textTransform: 'none', fontWeight: 600 }}
+                        sx={{
+                          fontSize: '0.72rem',
+                          fontWeight: 600,
+                          color: '#fff',
+                          background: 'linear-gradient(135deg, #C62828 0%, #E53935 100%)',
+                          borderRadius: 5,
+                          px: 1.75,
+                          py: 0.55,
+                          textTransform: 'none',
+                          lineHeight: 1.4,
+                          boxShadow: '0 2px 8px rgba(198,40,40,0.3)',
+                          transition: 'all 0.2s ease',
+                          '&:hover': {
+                            background: 'linear-gradient(135deg, #B71C1C 0%, #C62828 100%)',
+                            transform: 'translateY(-1px)',
+                            boxShadow: '0 4px 12px rgba(198,40,40,0.45)',
+                          },
+                        }}
                       >
                         Apply
                       </Button>
@@ -235,7 +252,24 @@ const ValidationRequests: React.FC = () => {
                         size="small"
                         onClick={handleClear}
                         startIcon={<ClearIcon />}
-                        sx={{ textTransform: 'none' }}
+                        sx={{
+                          fontSize: '0.72rem',
+                          fontWeight: 600,
+                          color: '#C62828',
+                          border: '1px solid rgba(198,40,40,0.4)',
+                          borderRadius: 5,
+                          px: 1.75,
+                          py: 0.55,
+                          textTransform: 'none',
+                          lineHeight: 1.4,
+                          background: 'transparent',
+                          transition: 'all 0.2s ease',
+                          '&:hover': {
+                            background: 'rgba(198,40,40,0.07)',
+                            borderColor: '#C62828',
+                            transform: 'translateY(-1px)',
+                          },
+                        }}
                       >
                         Clear
                       </Button>
